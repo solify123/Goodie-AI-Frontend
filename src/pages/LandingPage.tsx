@@ -5,17 +5,17 @@ import CharacterGrid from '../components/CharacterGrid'
 
 const LandingPage = () => {
   return (
-    <div className="min-h-screen bg-[#0f0f0f] flex">
-      {/* Sidebar */}
+    <div className="min-h-screen bg-[#0f0f0f]">
+      {/* Fixed Sidebar */}
       <Sidebar />
       
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Header */}
+      {/* Main Content with Fixed Header */}
+      <div className="ml-64 flex flex-col min-h-screen">
+        {/* Fixed Header */}
         <Header />
 
-        {/* Main Content Area */}
-        <main className="flex-1 p-6 lg:p-8 max-w-[1800px] mx-auto w-full">
+        {/* Scrollable Main Content Area */}
+        <main className="flex-1 overflow-y-auto p-6 lg:p-8 max-w-[1800px] mx-auto w-full pt-20">
           {/* Hero Banner */}
           <HeroBanner />
 

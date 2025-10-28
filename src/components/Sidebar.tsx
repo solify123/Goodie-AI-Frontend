@@ -19,7 +19,15 @@ const Sidebar = () => {
   ]
 
   return (
-    <aside className="w-64 bg-[#1a1a1a] border-r border-gray-800 flex flex-col h-screen">
+    <aside className="fixed left-0 top-0 w-64 bg-[#1a1a1a] border-r border-gray-800 flex flex-col h-screen z-40">
+      {/* Logo */}
+      <div className="p-4 border-b border-gray-800" style={{ padding: '18px' }}>
+        <div className="flex items-center space-x-2 justify-center">
+          <span className="text-white text-xl font-bold">Goodie</span>
+          <span className="text-pink-500 text-xl font-bold">.ai</span>
+        </div>
+      </div>
+
       {/* Main Features */}
       <div className="p-4 space-y-1 mt-2">
         {mainFeatures.map((feature, index) => {
@@ -27,32 +35,30 @@ const Sidebar = () => {
           return (
             <button
               key={index}
-              className={`w-full flex items-center space-x-3 text-white px-3 py-2.5 rounded-lg transition-all duration-200 ${
-                feature.active 
-                  ? 'bg-[#2a2a2a]' 
+              className={`w-full flex items-center space-x-3 text-white px-3 py-2.5 rounded-lg transition-all duration-200 ${feature.active
+                  ? 'bg-[#2a2a2a]'
                   : 'hover:bg-[#2a2a2a]'
-              }`}
+                }`}
             >
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                feature.active ? 'bg-white/10' : 'bg-transparent'
-              }`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${feature.active ? 'bg-white/10' : 'bg-transparent'
+                }`}>
                 <Icon className="w-4 h-4" />
               </div>
               <span className="text-sm font-medium">{feature.name}</span>
             </button>
           )
         })}
-        
+
         {/* Premium Button */}
         <button className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-pink-500 to-pink-600 text-white px-4 py-2.5 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 mt-4 shadow-lg shadow-pink-500/30">
           <Diamond className="w-4 h-4" />
           <span className="text-sm">Become Premium</span>
         </button>
       </div>
-      
+
       {/* Divider */}
       <div className="border-t border-gray-800 mx-4 my-2"></div>
-      
+
       {/* Support Links */}
       <div className="p-4 space-y-1 flex-1">
         {supportLinks.map((link, index) => {
@@ -70,7 +76,7 @@ const Sidebar = () => {
           )
         })}
       </div>
-      
+
       {/* Footer Links */}
       <div className="p-4 border-t border-gray-800">
         <div className="space-y-2 text-xs text-gray-500">

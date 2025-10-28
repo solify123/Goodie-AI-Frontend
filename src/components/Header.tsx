@@ -11,20 +11,14 @@ const Header = () => {
   ]
 
   return (
-    <header className="bg-[#0f0f0f] border-b border-gray-800 sticky top-0 z-50">
+    <header className="bg-[#0f0f0f] border-b border-gray-800 fixed top-0 left-64 right-0 z-30">
       <div className="flex items-center justify-between px-4 lg:px-6 py-3">
-        {/* Left Section: Menu + Logo + Tabs */}
+        {/* Left Section: Menu + Tabs */}
         <div className="flex items-center space-x-6">
           {/* Mobile Menu */}
           <button className="lg:hidden text-white hover:text-pink-500 transition-colors">
             <Menu className="w-6 h-6" />
           </button>
-          
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <span className="text-white text-xl font-bold">goodie</span>
-            <span className="text-pink-500 text-xl font-bold">.ai</span>
-          </div>
           
           {/* Category Tabs */}
           <nav className="hidden md:flex items-center space-x-1">

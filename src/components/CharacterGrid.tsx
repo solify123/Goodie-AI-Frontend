@@ -80,14 +80,38 @@ const CharacterGrid = () => {
   ]
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
-      {characters.map((character, index) => (
-        <CharacterCard 
-          key={index} 
-          character={character} 
-          isNew={index === 0}
-        />
-      ))}
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+        {characters.map((character, index) => (
+          <CharacterCard
+            key={index}
+            character={character}
+            isNew={index === 0}
+          />
+        ))}
+      </div>
+      
+      {/* Additional content to demonstrate scrolling */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+        {characters.map((character, index) => (
+          <CharacterCard
+            key={`second-${index}`}
+            character={character}
+            isNew={false}
+          />
+        ))}
+      </div>
+      
+      {/* More content for scrolling demonstration */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+        {characters.map((character, index) => (
+          <CharacterCard
+            key={`third-${index}`}
+            character={character}
+            isNew={false}
+          />
+        ))}
+      </div>
     </div>
   )
 }
