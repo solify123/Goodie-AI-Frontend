@@ -1,24 +1,25 @@
 const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: boolean }) => {
   return (
-    <div className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200 cursor-pointer">
+    <div className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-pink-500/10 transition-all duration-300 cursor-pointer group">
       {/* Image Area */}
-      <div className="relative h-40 lg:h-48">
+      <div className="relative h-56 lg:h-64 overflow-hidden">
         <div 
-          className={`w-full h-full ${character.gradientClass} backdrop-blur-sm`}
+          className={`w-full h-full ${character.gradientClass} group-hover:scale-110 transition-transform duration-500`}
         ></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
         {isNew && (
-          <div className="absolute top-3 right-3 bg-pink-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+          <div className="absolute top-3 right-3 bg-gradient-to-r from-pink-500 to-pink-600 text-white text-xs px-3 py-1 rounded-full font-medium shadow-lg">
             New
           </div>
         )}
       </div>
       
       {/* Text Area */}
-      <div className="p-3 lg:p-4">
-        <h3 className="text-white font-bold text-base lg:text-lg mb-2">
-          {character.name} {character.age}
+      <div className="p-4">
+        <h3 className="text-white font-bold text-lg mb-1">
+          {character.name} <span className="text-gray-400 font-normal">{character.age}</span>
         </h3>
-        <p className="text-gray-400 text-xs lg:text-sm leading-relaxed">
+        <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">
           {character.description}
         </p>
       </div>
@@ -79,14 +80,38 @@ const CharacterGrid = () => {
   ]
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
-      {characters.map((character, index) => (
-        <CharacterCard 
-          key={index} 
-          character={character} 
-          isNew={index === 0}
-        />
-      ))}
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+        {characters.map((character, index) => (
+          <CharacterCard
+            key={index}
+            character={character}
+            isNew={index === 0}
+          />
+        ))}
+      </div>
+      
+      {/* Additional content to demonstrate scrolling */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+        {characters.map((character, index) => (
+          <CharacterCard
+            key={`second-${index}`}
+            character={character}
+            isNew={false}
+          />
+        ))}
+      </div>
+      
+      {/* More content for scrolling demonstration */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+        {characters.map((character, index) => (
+          <CharacterCard
+            key={`third-${index}`}
+            character={character}
+            isNew={false}
+          />
+        ))}
+      </div>
     </div>
   )
 }
