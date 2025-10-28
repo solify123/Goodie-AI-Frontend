@@ -1,18 +1,59 @@
+import { Menu, Venus, Sparkles, Mars } from 'lucide-react'
+import { useState } from 'react'
+
 const Header = () => {
+  const [activeTab, setActiveTab] = useState('girls')
+
+  const tabs = [
+    { id: 'girls', name: 'Girls', icon: Venus },
+    { id: 'anime', name: 'Anime', icon: Sparkles },
+    { id: 'guys', name: 'Guys', icon: Mars }
+  ]
+
   return (
-    <header className="bg-gray-800 border-b border-gray-700 px-4 lg:px-6 py-4">
-      <div className="flex items-center justify-between">
-        {/* Logo */}
-        <div className="text-white text-xl font-bold">
-          GirlsAnimeGuys
+    <header className="bg-[#0f0f0f] border-b border-gray-800 sticky top-0 z-50">
+      <div className="flex items-center justify-between px-4 lg:px-6 py-3">
+        {/* Left Section: Menu + Logo + Tabs */}
+        <div className="flex items-center space-x-6">
+          {/* Mobile Menu */}
+          <button className="lg:hidden text-white hover:text-pink-500 transition-colors">
+            <Menu className="w-6 h-6" />
+          </button>
+          
+          {/* Logo */}
+          <div className="flex items-center space-x-2">
+            <span className="text-white text-xl font-bold">goodie</span>
+            <span className="text-pink-500 text-xl font-bold">.ai</span>
+          </div>
+          
+          {/* Category Tabs */}
+          <nav className="hidden md:flex items-center space-x-1">
+            {tabs.map((tab) => {
+              const Icon = tab.icon
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                    activeTab === tab.id
+                      ? 'text-pink-500 bg-pink-500/10'
+                      : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="font-medium">{tab.name}</span>
+                </button>
+              )
+            })}
+          </nav>
         </div>
         
-        {/* Action Buttons */}
-        <div className="flex space-x-2 lg:space-x-4">
-          <button className="bg-pink-500 text-white px-3 lg:px-6 py-2 rounded-lg font-medium hover:bg-pink-600 transition-colors text-sm lg:text-base">
+        {/* Right Section: Action Buttons */}
+        <div className="flex items-center space-x-3">
+          <button className="bg-gradient-to-r from-pink-500 to-pink-600 text-white px-4 lg:px-6 py-2 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 text-sm shadow-lg shadow-pink-500/20">
             Create Free Account
           </button>
-          <button className="border border-pink-500 text-white px-3 lg:px-6 py-2 rounded-lg font-medium hover:bg-pink-500 hover:text-white transition-colors text-sm lg:text-base">
+          <button className="border border-pink-500/50 text-white px-4 lg:px-6 py-2 rounded-lg font-medium hover:bg-pink-500/10 hover:border-pink-500 transition-all duration-200 text-sm">
             Login
           </button>
         </div>

@@ -5,7 +5,7 @@ import CharacterGrid from '../components/CharacterGrid'
 
 const LandingPage = () => {
   return (
-    <div className="min-h-screen bg-gray-900 flex">
+    <div className="min-h-screen bg-[#0f0f0f] flex">
       {/* Sidebar */}
       <Sidebar />
       
@@ -15,19 +15,15 @@ const LandingPage = () => {
         <Header />
 
         {/* Main Content Area */}
-        <main className="flex-1 p-6 lg:p-8">
-          {/* Padding Test - Remove this after verification */}
-          <div className="bg-red-500 p-4 mb-4 text-white">
-            Padding Test: If you can see red space around this text, padding is working!
-          </div>
-          
+        <main className="flex-1 p-6 lg:p-8 max-w-[1800px] mx-auto w-full">
           {/* Hero Banner */}
           <HeroBanner />
 
           {/* Section Title */}
-          <div className="mt-8 lg:mt-10 mb-6 lg:mb-8">
-            <h1 className="text-3xl lg:text-4xl font-bold text-white">
-              AI Boyfriend Characters
+          <div className="mt-10 lg:mt-12 mb-6 lg:mb-8">
+            <h1 className="text-3xl lg:text-4xl font-bold">
+              <span className="text-pink-500">AI Boyfriend</span>
+              <span className="text-white"> Characters</span>
             </h1>
           </div>
 
