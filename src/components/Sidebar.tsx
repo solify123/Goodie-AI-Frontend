@@ -17,7 +17,7 @@ const Sidebar = () => {
   ]
 
   return (
-    <aside className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col h-screen">
+    <aside className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col h-full">
       {/* Main Features */}
       <div className="p-6 space-y-3">
         {mainFeatures.map((feature, index) => (

@@ -1,11 +1,21 @@
 const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: boolean }) => {
   return (
     <div className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200 cursor-pointer">
-      {/* Image Area */}
-      <div className="relative h-40 lg:h-48">
-        <div 
-          className={`w-full h-full ${character.gradientClass} backdrop-blur-sm`}
-        ></div>
+      {/* Image Area with Character Portrait */}
+      <div className="relative h-48 lg:h-56">
+        {/* Character Image with Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-500">
+          {/* Character Portrait Placeholder - In a real app, this would be an actual character image */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center">
+            <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
+              <span className="text-gray-600 font-bold text-lg">{character.name[0]}</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Gradient Overlay */}
+        <div className={`absolute inset-0 ${character.gradientClass} opacity-60`}></div>
+        
         {isNew && (
           <div className="absolute top-3 right-3 bg-pink-500 text-white text-xs px-2 py-1 rounded-full font-medium">
             New
@@ -14,11 +24,11 @@ const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: b
       </div>
       
       {/* Text Area */}
-      <div className="p-3 lg:p-4">
-        <h3 className="text-white font-bold text-base lg:text-lg mb-2">
+      <div className="p-4">
+        <h3 className="text-white font-bold text-lg mb-2">
           {character.name} {character.age}
         </h3>
-        <p className="text-gray-400 text-xs lg:text-sm leading-relaxed">
+        <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
           {character.description}
         </p>
       </div>
@@ -53,26 +63,26 @@ const CharacterGrid = () => {
       gradientClass: "bg-gradient-to-br from-gray-400 to-gray-600"
     },
     {
-      name: "Alex",
-      age: 32,
+      name: "Ethan",
+      age: 25,
       description: "Creative photographer with a passion for capturing life's moments...",
       gradientClass: "bg-gradient-to-br from-pink-400 to-purple-600"
     },
     {
-      name: "Marcus",
-      age: 28,
+      name: "Victor",
+      age: 29,
       description: "Chef and restaurant owner who creates culinary masterpieces...",
       gradientClass: "bg-gradient-to-br from-indigo-500 to-purple-700"
     },
     {
-      name: "David",
-      age: 35,
+      name: "Jin",
+      age: 32,
       description: "Architect with a modern vision and love for sustainable design...",
       gradientClass: "bg-gradient-to-br from-rose-400 to-pink-600"
     },
     {
-      name: "Ryan",
-      age: 26,
+      name: "Kenji",
+      age: 33,
       description: "Musician and songwriter who writes heartfelt melodies...",
       gradientClass: "bg-gradient-to-br from-teal-400 to-green-600"
     }
