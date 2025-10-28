@@ -35,7 +35,7 @@ const Sidebar = () => {
           return (
             <button
               key={index}
-              className={`w-full flex items-center space-x-3 text-white px-3 py-2.5 rounded-lg transition-all duration-200 ${feature.active
+              className={`w-full flex cursor-pointer items-center space-x-3 text-white px-3 py-2.5 rounded-lg transition-all duration-200 ${feature.active
                   ? 'bg-[#2a2a2a]'
                   : 'hover:bg-[#2a2a2a]'
                 }`}
@@ -50,7 +50,7 @@ const Sidebar = () => {
         })}
 
         {/* Premium Button */}
-        <button className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-pink-500 to-pink-600 text-white px-4 py-2.5 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 mt-4 shadow-lg shadow-pink-500/30">
+        <button className="w-full cursor-pointer flex items-center justify-center space-x-2 bg-gradient-to-r from-pink-500 to-pink-600 text-white px-4 py-2.5 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 mt-4 shadow-lg shadow-pink-500/30">
           <Diamond className="w-4 h-4" />
           <span className="text-sm">Become Premium</span>
         </button>
@@ -66,7 +66,7 @@ const Sidebar = () => {
           return (
             <button
               key={index}
-              className="w-full flex items-center space-x-3 text-gray-400 px-3 py-2.5 rounded-lg hover:bg-[#2a2a2a] hover:text-white transition-all duration-200"
+              className="w-full cursor-pointer flex items-center space-x-3 text-gray-400 px-3 py-2.5 rounded-lg hover:bg-[#2a2a2a] hover:text-white transition-all duration-200"
             >
               <div className="w-8 h-8 rounded-full flex items-center justify-center">
                 <Icon className="w-4 h-4" />

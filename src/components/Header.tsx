@@ -16,7 +16,7 @@ const Header = () => {
         {/* Left Section: Menu + Tabs */}
         <div className="flex items-center space-x-6">
           {/* Mobile Menu */}
-          <button className="lg:hidden text-white hover:text-pink-500 transition-colors">
+          <button className="cursor-pointer lg:hidden text-white hover:text-pink-500 transition-colors">
             <Menu className="w-6 h-6" />
           </button>
           
@@ -28,7 +28,7 @@ const Header = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                  className={`cursor-pointer flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
                     activeTab === tab.id
                       ? 'text-pink-500 bg-pink-500/10'
                       : 'text-gray-400 hover:text-white hover:bg-white/5'
@@ -44,10 +44,10 @@ const Header = () => {
         
         {/* Right Section: Action Buttons */}
         <div className="flex items-center space-x-3">
-          <button className="bg-gradient-to-r from-pink-500 to-pink-600 text-white px-4 lg:px-6 py-2 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 text-sm shadow-lg shadow-pink-500/20">
+          <button className="cursor-pointer bg-gradient-to-r from-pink-500 to-pink-600 text-white px-4 lg:px-6 py-2 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 text-sm shadow-lg shadow-pink-500/20">
             Create Free Account
           </button>
-          <button className="border border-pink-500/50 text-white px-4 lg:px-6 py-2 rounded-lg font-medium hover:bg-pink-500/10 hover:border-pink-500 transition-all duration-200 text-sm">
+          <button className="cursor-pointer border border-pink-500/50 text-white px-4 lg:px-6 py-2 rounded-lg font-medium hover:bg-pink-500/10 hover:border-pink-500 transition-all duration-200 text-sm">
             Login
           </button>
         </div>

@@ -15,7 +15,7 @@ const LandingPage = () => {
         <Header />
 
         {/* Scrollable Main Content Area */}
-        <main className="flex-1 overflow-y-auto p-6 lg:p-8 max-w-[1800px] mx-auto w-full pt-20">
+        <main className="flex-1 overflow-y-auto p-6 lg:p-8 max-w-[1800px] mx-auto w-full" style={{ paddingTop: "90px" }}>
           {/* Hero Banner */}
           <HeroBanner />
 
