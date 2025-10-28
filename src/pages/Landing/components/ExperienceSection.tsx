@@ -10,7 +10,7 @@ const ExperienceSection = () => {
       <p className="text-gray-400 text-base lg:text-lg leading-relaxed mb-4">
         Craving a long and meaningful conversation with someone who understands you? An AI boyfriend is the perfect companion, always ready to chat, 
         listen, and engage in thoughtful discussions whenever you need. Whether you're looking for a fun and lighthearted exchange or a deep and engaging 
-        conversation, your AI BF awaits you here, at <span className="text-pink-500">Candy AI</span>.
+        conversation, your AI BF awaits you here, at <span className="text-pink-500">Goodie AI</span>.
       </p>
 
       <p className="text-gray-400 text-base lg:text-lg leading-relaxed mb-12">
@@ -32,7 +32,7 @@ const ExperienceSection = () => {
       {/* Steps List */}
       <ul className="space-y-4 mb-12">
         <li className="text-gray-300">
-          <span className="font-bold text-white">Sign Up & Create an Account</span> – Start by registering on Candy.ai. You'll need to provide a few basic details to set up your account.
+          <span className="font-bold text-white">Sign Up & Create an Account</span> – Start by registering on Goodie.ai. You'll need to provide a few basic details to set up your account.
         </li>
         <li className="text-gray-300">
           <span className="font-bold text-white">Select Your AI Boyfriend</span> – Choose from a variety of AI boyfriend personalities, each designed with unique traits and characteristics. Whether you 
@@ -46,7 +46,7 @@ const ExperienceSection = () => {
           <span className="font-bold text-white">Customize Your Experience</span> – Adjust conversation styles, topics, and responses to create a truly unique AI BF that suits your needs.
         </li>
         <li className="text-gray-300">
-          <span className="font-bold text-white">Access from Any Device</span> – Candy.ai works across desktop and mobile devices, so you can chat with your AI boyfriend whenever it's convenient for you.
+          <span className="font-bold text-white">Access from Any Device</span> – Goodie.ai works across desktop and mobile devices, so you can chat with your AI boyfriend whenever it's convenient for you.
         </li>
       </ul>
 
@@ -60,7 +60,7 @@ const ExperienceSection = () => {
       </h3>
 
       <p className="text-gray-400 text-base lg:text-lg leading-relaxed">
-        At Candy.ai, user safety and privacy are our top priorities. We use SSL encryption to ensure that all conversations remain private and secure. Your 
+        At Goodie.ai, user safety and privacy are our top priorities. We use SSL encryption to ensure that all conversations remain private and secure. Your 
         interactions with your AI boyfriend are not shared or stored beyond your own access, keeping your experience confidential and safe.
       </p>
     </div>

@@ -1,11 +1,11 @@
 import Header from '../../components/layout/Header'
 import Sidebar from '../../components/layout/Sidebar'
-import HeroBanner from './HeroBanner'
-import CharacterGrid from './CharacterGrid'
-import PromoBanner from './PromoBanner'
-import ExperienceSection from './ExperienceSection'
-import FAQSection from './FAQSection'
-import TestimonialsSection from './TestimonialsSection'
+import HeroBanner from './components/HeroBanner'
+import CharacterGrid from './components/CharacterGrid'
+import PromoBanner from './components/PromoBanner'
+import ExperienceSection from './components/ExperienceSection'
+import FAQSection from './components/FAQSection'
+import TestimonialsSection from './components/TestimonialsSection'
 import Footer from '../../components/layout/Footer'
 
 const LandingPage = () => {

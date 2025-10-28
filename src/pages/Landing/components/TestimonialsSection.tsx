@@ -43,11 +43,11 @@ const TestimonialsSection = () => {
           Start Your AI Boyfriend Journey Today
         </h3>
         <p className="text-gray-400 text-base lg:text-lg leading-relaxed mb-6 max-w-4xl mx-auto">
-          With Candy.ai, you have access to intelligent, adaptive, and engaging AI boyfriends designed to provide meaningful interactions. Whether you're 
+          With Goodie.ai, you have access to intelligent, adaptive, and engaging AI boyfriends designed to provide meaningful interactions. Whether you're 
           looking for a casual chat, a deep discussion, or simply someone to talk to, your AI BF is always available, anytime and anywhere.
         </p>
         <p className="text-gray-400 text-base lg:text-lg leading-relaxed">
-          Sign up today and discover the future of AI boyfriend chat with Candy AI.
+          Sign up today and discover the future of AI boyfriend chat with Goodie AI.
         </p>
       </div>
     </div>

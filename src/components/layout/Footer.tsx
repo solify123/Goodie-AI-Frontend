@@ -10,7 +10,7 @@ const Footer = () => {
   ]
 
   const popular = [
-    'Candy AI',
+    'Goodie AI',
     'AI Girlfriend',
     'AI Anime',
     'AI Boyfriend'
@@ -38,7 +38,7 @@ const Footer = () => {
               <span className="text-gray-500 text-sm">®</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Candy AI powers immersive experiences that feel real, allowing users to generate images and create AI characters.
+              Goodie AI powers immersive experiences that feel real, allowing users to generate images and create AI characters.
             </p>
             
             {/* Contacts */}
@@ -145,7 +145,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Copyright */}
           <div className="text-gray-500 text-sm">
-            © 2025 Candy.ai. All Rights Reserved - <a href="#" className="hover:text-pink-500 transition-colors">Sitemap</a>
+            © 2025 Goodie.ai. All Rights Reserved - <a href="#" className="hover:text-pink-500 transition-colors">Sitemap</a>
           </div>
 
           {/* Payment Methods */}
