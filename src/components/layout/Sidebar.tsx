@@ -1,22 +1,37 @@
 import { Compass, MessageCircle, FolderHeart, Image, UserPlus, Sparkles, Globe, MessageSquare, HelpCircle, Mail, Award, Diamond } from 'lucide-react'
+import { useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import LanguageSelectionPopup from './LanguageSelectionPopup'
+
 
 const Sidebar = () => {
+  const [showLanguagePopup, setShowLanguagePopup] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const mainFeatures = [
-    { name: 'Explore', icon: Compass, active: true },
-    { name: 'Chat', icon: MessageCircle },
-    { name: 'Collection', icon: FolderHeart },
-    { name: 'Generate Image', icon: Image },
-    { name: 'Create Character', icon: UserPlus },
-    { name: 'My AI', icon: Sparkles }
+    { name: 'Explore', icon: Compass, path: '/' },
+    { name: 'Chat', icon: MessageCircle, path: '/chat' },
+    { name: 'Collection', icon: FolderHeart, path: '/collection' },
+    { name: 'Generate Image', icon: Image, path: '/generate' },
+    { name: 'Create Character', icon: UserPlus, path: '/create' },
+    { name: 'My AI', icon: Sparkles, path: '/my-ai' }
   ]
 
+
   const supportLinks = [
-    { name: 'English', icon: Globe },
+    { name: 'English', icon: Globe, isLanguageButton: true },
     { name: 'Discord', icon: MessageSquare },
     { name: 'Help Center', icon: HelpCircle },
     { name: 'Contact Us', icon: Mail },
     { name: 'Affiliate', icon: Award }
   ]
+
+
+  const handleLanguageSelect = (language: any) => {
+    console.log('Language selected:', language.name)
+    setShowLanguagePopup(false)
+  }
 
   return (
     <aside className="fixed left-0 top-0 w-64 bg-[#1a1a1a] border-r border-gray-800 flex flex-col h-screen z-40">
@@ -32,15 +47,17 @@ const Sidebar = () => {
       <div className="p-4 space-y-1 mt-2">
         {mainFeatures.map((feature, index) => {
           const Icon = feature.icon
+          const isActive = location.pathname === feature.path
           return (
             <button
               key={index}
-              className={`w-full flex cursor-pointer items-center space-x-3 text-white px-3 py-2.5 rounded-lg transition-all duration-200 ${feature.active
-                  ? 'bg-[#2a2a2a]'
-                  : 'hover:bg-[#2a2a2a]'
+              onClick={() => navigate(feature.path)}
+              className={`w-full flex cursor-pointer items-center space-x-3 text-white px-3 py-2.5 rounded-lg transition-all duration-200 ${isActive
+                ? 'bg-[#2a2a2a]'
+                : 'hover:bg-[#2a2a2a]'
                 }`}
             >
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${feature.active ? 'bg-white/10' : 'bg-transparent'
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isActive ? 'bg-white/10' : 'bg-transparent'
                 }`}>
                 <Icon className="w-4 h-4" />
               </div>
@@ -66,6 +83,7 @@ const Sidebar = () => {
           return (
             <button
               key={index}
+              onClick={() => link.isLanguageButton && setShowLanguagePopup(true)}
               className="w-full cursor-pointer flex items-center space-x-3 text-gray-400 px-3 py-2.5 rounded-lg hover:bg-[#2a2a2a] hover:text-white transition-all duration-200"
             >
               <div className="w-8 h-8 rounded-full flex items-center justify-center">
@@ -89,8 +107,16 @@ const Sidebar = () => {
           </a>
         </div>
       </div>
+
+      {/* Language Selection Popup */}
+      <LanguageSelectionPopup
+        isOpen={showLanguagePopup}
+        onClose={() => setShowLanguagePopup(false)}
+        onLanguageSelect={handleLanguageSelect}
+      />
     </aside>
   )
+
 }
 
 export default Sidebar

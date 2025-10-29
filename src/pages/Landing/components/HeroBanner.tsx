@@ -40,7 +40,7 @@ const HeroBanner = () => {
         <p className="text-lg lg:text-xl text-gray-200 max-w-2xl transition-all duration-500">
           {slides[currentSlide].subtitle}
         </p>
-        <button className="mt-6 bg-gradient-to-r from-pink-500 to-pink-600 text-white px-8 py-3 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 shadow-lg shadow-pink-500/30">
+        <button className="cursor-pointer mt-6 bg-gradient-to-r from-pink-500 to-pink-600 text-white px-8 py-3 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 shadow-lg shadow-pink-500/30">
           Get Started
         </button>
       </div>
@@ -48,13 +48,13 @@ const HeroBanner = () => {
       {/* Navigation Arrows */}
       <button 
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
+        className="cursor-pointer absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
       <button 
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
+        className="cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
       >
         <ChevronRight className="w-6 h-6" />
       </button>
@@ -65,7 +65,7 @@ const HeroBanner = () => {
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+            className={`cursor-pointer w-2 h-2 rounded-full transition-all duration-300 ${
               index === currentSlide ? 'bg-pink-500 w-8' : 'bg-gray-400 hover:bg-gray-300'
             }`}
           />
