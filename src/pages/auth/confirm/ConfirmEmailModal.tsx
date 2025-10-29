@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { X, ChevronLeft, RefreshCw, Mail, Loader2 } from 'lucide-react'
 import authService from '../../../services/auth.service'
+import { toast } from 'sonner'
 
 interface ConfirmEmailModalProps {
   isOpen: boolean
@@ -53,11 +54,22 @@ const ConfirmEmailModal = ({ isOpen, onClose, onBack, onSwitchToLogin, email }: 
         setMessage('Confirmation email sent successfully!')
         setCountdown(60)
         setCanResend(false)
+        toast.success('Email sent!', {
+          description: 'Confirmation email has been resent successfully.',
+        })
       } else {
-        setError(response.message || 'Failed to resend confirmation email')
+        const errorMsg = response.message || 'Failed to resend confirmation email'
+        setError(errorMsg)
+        toast.error('Resend failed', {
+          description: errorMsg,
+        })
       }
     } catch (err: any) {
-      setError(err.message || 'An error occurred')
+      const errorMsg = err.message || 'An error occurred'
+      setError(errorMsg)
+      toast.error('Error', {
+        description: errorMsg,
+      })
     } finally {
       setLoading(false)
     }
@@ -95,7 +107,7 @@ const ConfirmEmailModal = ({ isOpen, onClose, onBack, onSwitchToLogin, email }: 
               {onBack && (
                 <button
                   onClick={onBack}
-                  className="flex items-center space-x-2 text-white hover:text-pink-500 transition-colors"
+                  className="cursor-pointer flex items-center space-x-2 text-white hover:text-pink-500 transition-colors"
                 >
                   <ChevronLeft className="w-5 h-5" />
                   <span className="font-medium">Back</span>
@@ -105,7 +117,7 @@ const ConfirmEmailModal = ({ isOpen, onClose, onBack, onSwitchToLogin, email }: 
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="ml-auto text-gray-400 hover:text-white transition-colors"
+                className="cursor-pointer ml-auto text-gray-400 hover:text-white transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -196,7 +208,7 @@ const ConfirmEmailModal = ({ isOpen, onClose, onBack, onSwitchToLogin, email }: 
                   Already have an account?{' '}
                   <button
                     onClick={onSwitchToLogin}
-                    className="text-pink-500 hover:text-pink-400 transition-colors font-medium"
+                    className="cursor-pointer text-pink-500 hover:text-pink-400 transition-colors font-medium"
                   >
                     Sign in
                   </button>

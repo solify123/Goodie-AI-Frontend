@@ -51,10 +51,10 @@ const Footer = () => {
             </div>
 
             {/* Language Selector */}
-            <div className="flex items-center space-x-2 text-gray-400 hover:text-white cursor-pointer transition-colors">
+            <button className="flex items-center space-x-2 text-gray-400 hover:text-white cursor-pointer transition-colors">
               <Globe className="w-4 h-4" />
               <span className="text-sm">English</span>
-            </div>
+            </button>
           </div>
 
           {/* Features Column */}
@@ -63,7 +63,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {features.map((item, index) => (
                 <li key={index}>
-                  <a href="#" className="text-gray-400 text-sm hover:text-pink-500 transition-colors">
+                  <a href="#" className="cursor-pointer text-gray-400 text-sm hover:text-pink-500 transition-colors">
                     {item}
                   </a>
                 </li>
@@ -77,7 +77,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {popular.map((item, index) => (
                 <li key={index}>
-                  <a href="#" className="text-gray-400 text-sm hover:text-pink-500 transition-colors">
+                  <a href="#" className="cursor-pointer text-gray-400 text-sm hover:text-pink-500 transition-colors">
                     {item}
                   </a>
                 </li>
@@ -91,7 +91,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {legalSupport.map((item, index) => (
                 <li key={index}>
-                  <a href="#" className="text-gray-400 text-sm hover:text-pink-500 transition-colors">
+                  <a href="#" className="cursor-pointer text-gray-400 text-sm hover:text-pink-500 transition-colors">
                     {item}
                   </a>
                 </li>
@@ -105,7 +105,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {company.map((item, index) => (
                 <li key={index}>
-                  <a href="#" className="text-gray-400 text-sm hover:text-pink-500 transition-colors">
+                  <a href="#" className="cursor-pointer text-gray-400 text-sm hover:text-pink-500 transition-colors">
                     {item}
                   </a>
                 </li>
@@ -119,7 +119,7 @@ const Footer = () => {
                 {/* Discord */}
                 <a 
                   href="#" 
-                  className="w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center hover:bg-pink-600 transition-colors"
+                  className="cursor-pointer w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center hover:bg-pink-600 transition-colors"
                   aria-label="Discord"
                 >
                   <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -129,7 +129,7 @@ const Footer = () => {
                 {/* X (Twitter) */}
                 <a 
                   href="#" 
-                  className="w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center hover:bg-pink-600 transition-colors"
+                  className="cursor-pointer w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center hover:bg-pink-600 transition-colors"
                   aria-label="X (Twitter)"
                 >
                   <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -145,7 +145,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Copyright */}
           <div className="text-gray-500 text-sm">
-            © 2025 Goodie.ai. All Rights Reserved - <a href="#" className="hover:text-pink-500 transition-colors">Sitemap</a>
+            © 2025 Goodie.ai. All Rights Reserved - <a href="#" className="cursor-pointer hover:text-pink-500 transition-colors">Sitemap</a>
           </div>
 
           {/* Payment Methods */}

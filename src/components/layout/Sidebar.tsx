@@ -1,6 +1,9 @@
 import { Compass, MessageCircle, FolderHeart, Image, UserPlus, Sparkles, Globe, MessageSquare, HelpCircle, Mail, Award, Diamond } from 'lucide-react'
+import { useState } from 'react'
+import LanguageSelectionPopup from './LanguageSelectionPopup'
 
 const Sidebar = () => {
+  const [showLanguagePopup, setShowLanguagePopup] = useState(false)
   const mainFeatures = [
     { name: 'Explore', icon: Compass, active: true },
     { name: 'Chat', icon: MessageCircle },
@@ -11,12 +14,17 @@ const Sidebar = () => {
   ]
 
   const supportLinks = [
-    { name: 'English', icon: Globe },
+    { name: 'English', icon: Globe, isLanguageButton: true },
     { name: 'Discord', icon: MessageSquare },
     { name: 'Help Center', icon: HelpCircle },
     { name: 'Contact Us', icon: Mail },
     { name: 'Affiliate', icon: Award }
   ]
+
+  const handleLanguageSelect = (language: any) => {
+    console.log('Language selected:', language.name)
+    setShowLanguagePopup(false)
+  }
 
   return (
     <aside className="fixed left-0 top-0 w-64 bg-[#1a1a1a] border-r border-gray-800 flex flex-col h-screen z-40">
@@ -66,6 +74,7 @@ const Sidebar = () => {
           return (
             <button
               key={index}
+              onClick={() => link.isLanguageButton && setShowLanguagePopup(true)}
               className="w-full cursor-pointer flex items-center space-x-3 text-gray-400 px-3 py-2.5 rounded-lg hover:bg-[#2a2a2a] hover:text-white transition-all duration-200"
             >
               <div className="w-8 h-8 rounded-full flex items-center justify-center">
@@ -80,15 +89,22 @@ const Sidebar = () => {
       {/* Footer Links */}
       <div className="p-4 border-t border-gray-800">
         <div className="space-y-2 text-xs text-gray-500">
-          <a href="#" className="block hover:text-gray-300 transition-colors">
+          <a href="#" className="block cursor-pointer hover:text-gray-300 transition-colors">
             Privacy Notice
           </a>
           <span className="text-gray-700">•</span>
-          <a href="#" className="inline hover:text-gray-300 transition-colors ml-1">
+          <a href="#" className="inline cursor-pointer hover:text-gray-300 transition-colors ml-1">
             Terms of Service
           </a>
         </div>
       </div>
+
+      {/* Language Selection Popup */}
+      <LanguageSelectionPopup
+        isOpen={showLanguagePopup}
+        onClose={() => setShowLanguagePopup(false)}
+        onLanguageSelect={handleLanguageSelect}
+      />
     </aside>
   )
 }

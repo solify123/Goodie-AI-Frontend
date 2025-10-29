@@ -45,7 +45,7 @@ const FAQSection = () => {
             {/* Question */}
             <button
               onClick={() => toggleFAQ(index)}
-              className="w-full flex items-center justify-between p-5 lg:p-6 text-left"
+              className="cursor-pointer w-full flex items-center justify-between p-5 lg:p-6 text-left"
             >
               <span className="text-white text-base lg:text-lg font-medium pr-4">
                 {faq.question}
