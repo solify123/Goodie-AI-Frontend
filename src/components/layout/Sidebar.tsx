@@ -1,17 +1,23 @@
 import { Compass, MessageCircle, FolderHeart, Image, UserPlus, Sparkles, Globe, MessageSquare, HelpCircle, Mail, Award, Diamond } from 'lucide-react'
 import { useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import LanguageSelectionPopup from './LanguageSelectionPopup'
+
 
 const Sidebar = () => {
   const [showLanguagePopup, setShowLanguagePopup] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const mainFeatures = [
-    { name: 'Explore', icon: Compass, active: true },
-    { name: 'Chat', icon: MessageCircle },
-    { name: 'Collection', icon: FolderHeart },
-    { name: 'Generate Image', icon: Image },
-    { name: 'Create Character', icon: UserPlus },
-    { name: 'My AI', icon: Sparkles }
+    { name: 'Explore', icon: Compass, path: '/' },
+    { name: 'Chat', icon: MessageCircle, path: '/chat' },
+    { name: 'Collection', icon: FolderHeart, path: '/collection' },
+    { name: 'Generate Image', icon: Image, path: '/generate' },
+    { name: 'Create Character', icon: UserPlus, path: '/create' },
+    { name: 'My AI', icon: Sparkles, path: '/my-ai' }
   ]
+
 
   const supportLinks = [
     { name: 'English', icon: Globe, isLanguageButton: true },
@@ -20,6 +26,7 @@ const Sidebar = () => {
     { name: 'Contact Us', icon: Mail },
     { name: 'Affiliate', icon: Award }
   ]
+
 
   const handleLanguageSelect = (language: any) => {
     console.log('Language selected:', language.name)
@@ -40,15 +47,17 @@ const Sidebar = () => {
       <div className="p-4 space-y-1 mt-2">
         {mainFeatures.map((feature, index) => {
           const Icon = feature.icon
+          const isActive = location.pathname === feature.path
           return (
             <button
               key={index}
-              className={`w-full flex cursor-pointer items-center space-x-3 text-white px-3 py-2.5 rounded-lg transition-all duration-200 ${feature.active
-                  ? 'bg-[#2a2a2a]'
-                  : 'hover:bg-[#2a2a2a]'
+              onClick={() => navigate(feature.path)}
+              className={`w-full flex cursor-pointer items-center space-x-3 text-white px-3 py-2.5 rounded-lg transition-all duration-200 ${isActive
+                ? 'bg-[#2a2a2a]'
+                : 'hover:bg-[#2a2a2a]'
                 }`}
             >
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${feature.active ? 'bg-white/10' : 'bg-transparent'
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isActive ? 'bg-white/10' : 'bg-transparent'
                 }`}>
                 <Icon className="w-4 h-4" />
               </div>
@@ -89,11 +98,11 @@ const Sidebar = () => {
       {/* Footer Links */}
       <div className="p-4 border-t border-gray-800">
         <div className="space-y-2 text-xs text-gray-500">
-          <a href="#" className="block cursor-pointer hover:text-gray-300 transition-colors">
+          <a href="#" className="block hover:text-gray-300 transition-colors">
             Privacy Notice
           </a>
           <span className="text-gray-700">•</span>
-          <a href="#" className="inline cursor-pointer hover:text-gray-300 transition-colors ml-1">
+          <a href="#" className="inline hover:text-gray-300 transition-colors ml-1">
             Terms of Service
           </a>
         </div>
@@ -107,6 +116,7 @@ const Sidebar = () => {
       />
     </aside>
   )
+
 }
 
 export default Sidebar

@@ -1,12 +1,19 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import LandingPage from './pages/Landing'
 import { Toaster } from 'sonner'
+import CollectionPage from './pages/Collection'
+import GenerateImagePage from './pages/GenerateImage'
 
 function App() {
   return (
-    <>
-      <LandingPage />
-      <Toaster 
-        position="top-right" 
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/collection" element={<CollectionPage />} />
+        <Route path="/generate" element={<GenerateImagePage />} />
+      </Routes>
+      <Toaster
+        position="top-right"
         theme="dark"
         richColors
         closeButton
@@ -19,8 +26,7 @@ function App() {
           className: 'sonner-toast',
         }}
       />
-    </>
+    </Router>
   )
 }
-
 export default App
