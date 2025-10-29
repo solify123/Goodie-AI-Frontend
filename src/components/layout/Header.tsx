@@ -2,11 +2,14 @@ import { Menu, Venus, Sparkles, Mars } from 'lucide-react'
 import { useState } from 'react'
 import { RegisterModal } from '../../pages/auth/register'
 import { LoginModal } from '../../pages/auth/login'
+import { ConfirmEmailModal } from '../../pages/auth/confirm'
 
 const Header = () => {
   const [activeTab, setActiveTab] = useState('girls')
   const [showRegisterModal, setShowRegisterModal] = useState(false)
   const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [registeredEmail, setRegisteredEmail] = useState('')
 
   const tabs = [
     { id: 'girls', name: 'Girls', icon: Venus },
@@ -16,12 +19,31 @@ const Header = () => {
 
   const handleSwitchToLogin = () => {
     setShowRegisterModal(false)
+    setShowConfirmModal(false)
     setShowLoginModal(true)
   }
 
   const handleSwitchToRegister = () => {
     setShowLoginModal(false)
+    setShowConfirmModal(false)
     setShowRegisterModal(true)
+  }
+
+  const handleRegistrationSuccess = (email: string) => {
+    setRegisteredEmail(email)
+    setShowRegisterModal(false)
+    setShowConfirmModal(true)
+  }
+
+  const handleBackToRegister = () => {
+    setShowConfirmModal(false)
+    setShowRegisterModal(true)
+  }
+
+  const handleCloseAll = () => {
+    setShowRegisterModal(false)
+    setShowLoginModal(false)
+    setShowConfirmModal(false)
   }
 
   return (
@@ -78,15 +100,25 @@ const Header = () => {
       {/* Register Modal */}
       <RegisterModal 
         isOpen={showRegisterModal} 
-        onClose={() => setShowRegisterModal(false)}
+        onClose={handleCloseAll}
         onSwitchToLogin={handleSwitchToLogin}
+        onRegistrationSuccess={handleRegistrationSuccess}
       />
 
       {/* Login Modal */}
       <LoginModal 
         isOpen={showLoginModal} 
-        onClose={() => setShowLoginModal(false)}
+        onClose={handleCloseAll}
         onSwitchToRegister={handleSwitchToRegister}
+      />
+
+      {/* Confirm Email Modal */}
+      <ConfirmEmailModal 
+        isOpen={showConfirmModal} 
+        onClose={handleCloseAll}
+        onBack={handleBackToRegister}
+        onSwitchToLogin={handleSwitchToLogin}
+        email={registeredEmail}
       />
     </>
   )

@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { X, Mail, Lock, Eye, EyeOff } from 'lucide-react'
+import { X, Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react'
+import authService from '../../../services/auth.service'
 
 interface LoginModalProps {
   isOpen: boolean
@@ -11,28 +12,46 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   if (!isOpen) return null
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Implement login logic
-    console.log('Login with:', { email, password })
+    setError('')
+    setLoading(true)
+
+    try {
+      const response = await authService.login({ email, password })
+      
+      if (response.success) {
+        // Close modal and reload or redirect
+        onClose()
+        window.location.reload() // or navigate to dashboard
+      } else {
+        setError(response.message || 'Login failed')
+      }
+    } catch (err: any) {
+      setError(err.message || 'An error occurred during login')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleGoogleSignIn = () => {
-    // TODO: Implement Google sign-in
-    console.log('Sign in with Google')
+    const oauthUrl = authService.getOAuthUrl('google')
+    window.location.href = oauthUrl
   }
 
   const handleDiscordSignIn = () => {
-    // TODO: Implement Discord sign-in
-    console.log('Sign in with Discord')
+    const oauthUrl = authService.getOAuthUrl('discord')
+    window.location.href = oauthUrl
   }
 
   const handleXSignIn = () => {
-    // TODO: Implement X sign-in
-    console.log('Sign in with X')
+    const oauthUrl = authService.getOAuthUrl('twitter')
+    window.location.href = oauthUrl
   }
 
   return (
@@ -114,12 +133,21 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
                   </div>
                 </div>
 
+                {/* Error Message */}
+                {error && (
+                  <div className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-lg text-sm">
+                    {error}
+                  </div>
+                )}
+
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-pink-500 to-pink-600 text-white py-3 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 shadow-lg shadow-pink-500/30"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-pink-500 to-pink-600 text-white py-3 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 shadow-lg shadow-pink-500/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 >
-                  Sign In
+                  {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+                  <span>{loading ? 'Signing In...' : 'Sign In'}</span>
                 </button>
               </form>
 
