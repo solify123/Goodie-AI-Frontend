@@ -1,13 +1,13 @@
-import { Menu, Venus, Sparkles, Mars, ChevronDown, User, CreditCard, Settings, LogOut } from 'lucide-react'
+import { ChevronDown, User, CreditCard, Settings, LogOut, Menu, Diamond } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { RegisterModal } from '../../pages/auth/register'
 import { LoginModal } from '../../pages/auth/login'
 import { ConfirmEmailModal } from '../../pages/auth/confirm'
 import { useAuth } from '../../hooks/useAuth'
+import { useSidebar } from '../../contexts/SidebarContext'
 import { toast } from 'sonner'
 
 const Header = () => {
-  const [activeTab, setActiveTab] = useState('girls')
   const [showRegisterModal, setShowRegisterModal] = useState(false)
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
@@ -16,12 +16,7 @@ const Header = () => {
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const { user, isAuthenticated, logout } = useAuth()
-
-  const tabs = [
-    { id: 'girls', name: 'Girls', icon: Venus },
-    { id: 'anime', name: 'Anime', icon: Sparkles },
-    { id: 'guys', name: 'Guys', icon: Mars }
-  ]
+  const { toggleSidebar } = useSidebar()
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -87,45 +82,33 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-[#0f0f0f] border-b border-gray-800 fixed top-0 left-64 right-0 z-30">
+      <header className="bg-[#0f0f0f] border-b border-gray-800 fixed top-0 left-0 right-0 z-30">
         <div className="flex items-center justify-between px-4 lg:px-6 py-3">
-          {/* Left Section: Menu + Tabs */}
-          <div className="flex items-center space-x-6">
-            {/* Mobile Menu */}
-            <button className="cursor-pointer lg:hidden text-white hover:text-pink-500 transition-colors">
+          {/* Left Section: Hamburger Menu + Logo */}
+          <div className="flex items-center space-x-4">
+            {/* Sidebar Toggle Button */}
+            <button 
+              onClick={toggleSidebar}
+              className="cursor-pointer text-white hover:text-pink-500 transition-colors"
+            >
               <Menu className="w-6 h-6" />
             </button>
             
-            {/* Category Tabs */}
-            <nav className="hidden md:flex items-center space-x-1">
-              {tabs.map((tab) => {
-                const Icon = tab.icon
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`cursor-pointer flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
-                      activeTab === tab.id
-                        ? 'text-pink-500 bg-pink-500/10'
-                        : 'text-gray-400 hover:text-white hover:bg-white/5'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span className="font-medium">{tab.name}</span>
-                  </button>
-                )
-              })}
-            </nav>
+            {/* Logo */}
+            <div className="flex items-center space-x-1">
+              <span className="text-white text-xl font-semibold">candy</span>
+              <span className="text-white text-xl font-bold">.ai</span>
+            </div>
           </div>
           
-          {/* Right Section: Auth Buttons or Profile Dropdown */}
+          {/* Right Section: Premium Badge + Profile */}
           <div className="flex items-center space-x-3">
             {isAuthenticated && user ? (
               <>
                 {/* Premium Badge */}
                 <button className="cursor-pointer hidden lg:flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-sm">
-                  <Sparkles className="w-4 h-4" />
-                  <span>Premium 70% Off</span>
+                  <Diamond className="w-4 h-4" />
+                  <span>Premium 70% OFF</span>
                 </button>
 
                 {/* Profile Dropdown */}

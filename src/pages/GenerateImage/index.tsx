@@ -1,8 +1,10 @@
 import Header from '../../components/layout/Header'
 import Sidebar from '../../components/layout/Sidebar'
+import { useSidebar } from '../../contexts/SidebarContext'
 import { ChevronLeft, Sparkles, Heart, Circle } from 'lucide-react'
 
 const GenerateImagePage = () => {
+  const { isCollapsed } = useSidebar()
   const characters = [
     {
       id: 1,
@@ -56,70 +58,75 @@ const GenerateImagePage = () => {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
+      {/* Fixed Header */}
+      <Header />
+      
       {/* Fixed Sidebar */}
       <Sidebar />
       
-      {/* Main Content with Fixed Header */}
-      <div className="ml-64 flex flex-col min-h-screen">
-        {/* Fixed Header */}
-        <Header />
+      {/* Main Content */}
+      <div className={`flex flex-col min-h-screen transition-all duration-500 ease-in-out ${isCollapsed ? 'ml-16' : 'ml-64'}`} style={{ paddingTop: '60px' }}>
+        {/* Top Navigation Bar */}
+        <div className="bg-[#1a1a1a] border-b border-gray-800 px-6 py-4">
+          <div className="max-w-5xl mx-auto">
+            <div className="flex items-center justify-between">
+              {/* Left side - Back button and category filters */}
+              <div className="flex items-center space-x-4">
+                <button className="text-white hover:text-gray-300 transition-colors">
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                
+                {/* Category buttons */}
+                <div className="flex items-center space-x-2">
+                  <button className="flex items-center space-x-2 bg-[#2a2a2a] rounded-lg px-4 py-2 text-white hover:bg-[#3a3a3a] transition-colors">
+                    <span className="text-lg">♀</span>
+                    <span className="text-sm">Girls</span>
+                  </button>
+                  <button className="flex items-center space-x-2 bg-[#2a2a2a] rounded-lg px-4 py-2 text-white hover:bg-[#3a3a3a] transition-colors">
+                    <span className="text-lg">👁</span>
+                    <span className="text-sm">Anime</span>
+                  </button>
+                  <button className="flex items-center space-x-2 bg-purple-600 rounded-lg px-4 py-2 text-white hover:bg-purple-700 transition-colors">
+                    <span className="text-lg">♂</span>
+                    <span className="text-sm">Guys</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Center - Title */}
+              <div className="flex flex-col items-center">
+                <h1 className="text-2xl font-bold text-white">Generate Image</h1>
+                <p className="text-gray-400 text-sm">Choose character</p>
+              </div>
+
+              {/* Right side - Discovery, My AI's, and sparkle icons */}
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <Sparkles className="w-4 h-4 text-gray-400" />
+                  <button className="flex items-center space-x-2 bg-purple-600 rounded-lg px-4 py-2 text-white hover:bg-purple-700 transition-colors">
+                    <Circle className="w-2 h-2 fill-white" />
+                    <span className="text-sm">Discovery</span>
+                  </button>
+                  <button className="flex items-center space-x-2 bg-[#2a2a2a] rounded-lg px-4 py-2 text-white hover:bg-[#3a3a3a] transition-colors">
+                    <Heart className="w-4 h-4" />
+                    <span className="text-sm">My AI's</span>
+                  </button>
+                  <Sparkles className="w-4 h-4 text-gray-400" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Scrollable Main Content Area */}
-        <main className="flex-1 overflow-y-auto" style={{ paddingTop: "90px" }}>
-          <div className="p-6 lg:p-8 max-w-[1800px] mx-auto w-full">
-            {/* Top Controls */}
-            <div className="flex items-center justify-between mb-8">
-              {/* Left side - Back button */}
-              <button className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-
-              {/* Center - Category buttons */}
-              <div className="flex items-center space-x-4">
-                <button className="flex items-center space-x-2 bg-[#1a1a1a] border border-gray-700 rounded-lg px-4 py-2 text-white hover:bg-[#2a2a2a] transition-colors">
-                  <span className="text-lg">♀</span>
-                  <span className="text-sm">Girls</span>
-                </button>
-                <button className="flex items-center space-x-2 bg-[#1a1a1a] border border-gray-700 rounded-lg px-4 py-2 text-white hover:bg-[#2a2a2a] transition-colors">
-                  <span className="text-lg">👁</span>
-                  <span className="text-sm">Anime</span>
-                </button>
-                <button className="flex items-center space-x-2 bg-purple-600 border border-purple-600 rounded-lg px-4 py-2 text-white hover:bg-purple-700 transition-colors">
-                  <span className="text-lg">♂</span>
-                  <span className="text-sm">Guys</span>
-                </button>
-              </div>
-
-              {/* Right side - Sparkle icon */}
-              <Sparkles className="w-6 h-6 text-gray-400" />
-            </div>
-
-            {/* Page Title and Navigation */}
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center space-x-4">
-                <h1 className="text-3xl lg:text-4xl font-bold text-white">Generate Image</h1>
-                <p className="text-gray-400 text-lg">Choose character.</p>
-              </div>
-              
-              <div className="flex items-center space-x-4">
-                <button className="flex items-center space-x-2 bg-purple-600 border border-purple-600 rounded-lg px-4 py-2 text-white hover:bg-purple-700 transition-colors">
-                  <Circle className="w-3 h-3 fill-white" />
-                  <span className="text-sm">Discovery</span>
-                </button>
-                <button className="flex items-center space-x-2 bg-[#1a1a1a] border border-gray-700 rounded-lg px-4 py-2 text-white hover:bg-[#2a2a2a] transition-colors">
-                  <Heart className="w-4 h-4" />
-                  <span className="text-sm">My AI's</span>
-                </button>
-                <Sparkles className="w-6 h-6 text-gray-400" />
-              </div>
-            </div>
-
+        <main className="flex-1 overflow-y-auto">
+          <div className="max-w-5xl mx-auto px-2 py-6">
             {/* Character Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-4 gap-4">
               {characters.map((character) => (
                 <div key={character.id} className="relative group cursor-pointer">
                   {/* Character Image */}
-                  <div className="aspect-[3/4] relative rounded-lg overflow-hidden">
+                  <div className="aspect-[3/4] relative rounded-[1.2rem] overflow-hidden">
                     <img 
                       src={character.image}
                       alt={character.name}
@@ -127,7 +134,7 @@ const GenerateImagePage = () => {
                     />
                     
                     {/* Character Name Overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm">
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/70">
                       <div className="p-3">
                         <h3 className="text-white font-medium text-sm text-center">
                           {character.name}
