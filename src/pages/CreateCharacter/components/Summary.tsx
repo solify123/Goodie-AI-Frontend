@@ -1,19 +1,13 @@
 import { 
   User, 
-  Globe, 
-  Calendar, 
   Eye, 
   Scissors, 
-  Palette, 
   Activity, 
   Heart, 
   Volume2, 
   Briefcase, 
   Gamepad2, 
-  Shirt,
-  Ruler,
-  Droplets,
-  Star
+  Shirt
 } from 'lucide-react'
 
 interface SummaryProps {
@@ -94,19 +88,19 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
     </div>
   }
 
-  const getHairStyleImage = (hairStyle: string) => {
+  const getHairStyleImage = () => {
     return <div className="w-16 h-16 bg-gradient-to-br from-amber-200 to-amber-400 rounded-lg flex items-center justify-center">
       <Scissors className="w-8 h-8 text-amber-800" />
     </div>
   }
 
-  const getBodyTypeImage = (bodyType: string) => {
+  const getBodyTypeImage = () => {
     return <div className="w-16 h-16 bg-gradient-to-br from-orange-200 to-orange-400 rounded-lg flex items-center justify-center">
       <Activity className="w-8 h-8 text-orange-800" />
     </div>
   }
 
-  const getPersonalityIcon = (personality: string) => {
+  const getPersonalityIcon = () => {
     return <div className="w-16 h-16 bg-gradient-to-br from-pink-200 to-pink-400 rounded-lg flex items-center justify-center">
       <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center">
         <Heart className="w-4 h-4 text-white" />
@@ -114,7 +108,7 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
     </div>
   }
 
-  const getRelationshipIcon = (relationship: string) => {
+  const getRelationshipIcon = () => {
     return <div className="w-16 h-16 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-lg flex items-center justify-center">
       <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
         <Heart className="w-4 h-4 text-white" />
@@ -122,7 +116,7 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
     </div>
   }
 
-  const getVoiceIcon = (voice: string) => {
+  const getVoiceIcon = () => {
     return <div className="w-16 h-16 bg-gradient-to-br from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
       <Volume2 className="w-8 h-8 text-gray-800" />
     </div>
@@ -159,7 +153,7 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
     {
       label: 'Hair Style',
       value: characterData.hairStyle,
-      image: getHairStyleImage(characterData.hairStyle),
+      image: getHairStyleImage(),
       displayValue: characterData.hairStyle.charAt(0).toUpperCase() + characterData.hairStyle.slice(1)
     },
     {
@@ -173,25 +167,25 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
     {
       label: 'Body Type',
       value: characterData.bodyType,
-      image: getBodyTypeImage(characterData.bodyType),
+      image: getBodyTypeImage(),
       displayValue: characterData.bodyType.charAt(0).toUpperCase() + characterData.bodyType.slice(1)
     },
     {
       label: 'Personality',
       value: characterData.personality,
-      image: getPersonalityIcon(characterData.personality),
+      image: getPersonalityIcon(),
       displayValue: characterData.personality.charAt(0).toUpperCase() + characterData.personality.slice(1)
     },
     {
       label: 'Relationship',
       value: characterData.relationship,
-      image: getRelationshipIcon(characterData.relationship),
+      image: getRelationshipIcon(),
       displayValue: characterData.relationship.charAt(0).toUpperCase() + characterData.relationship.slice(1).replace('_', ' ')
     },
     {
       label: 'Voice',
       value: characterData.voice,
-      image: getVoiceIcon(characterData.voice),
+      image: getVoiceIcon(),
       displayValue: characterData.voice.charAt(0).toUpperCase() + characterData.voice.slice(1)
     },
     {
