@@ -1,5 +1,6 @@
 import Header from '../../components/layout/Header'
 import Sidebar from '../../components/layout/Sidebar'
+import { useSidebar } from '../../contexts/SidebarContext'
 import HeroBanner from './components/HeroBanner'
 import CharacterGrid from './components/CharacterGrid'
 import PromoBanner from './components/PromoBanner'
@@ -9,18 +10,20 @@ import TestimonialsSection from './components/TestimonialsSection'
 import Footer from '../../components/layout/Footer'
 
 const LandingPage = () => {
+  const { isCollapsed } = useSidebar()
+  
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
+      {/* Fixed Header */}
+      <Header />
+      
       {/* Fixed Sidebar */}
       <Sidebar />
       
-      {/* Main Content with Fixed Header */}
-      <div className="ml-64 flex flex-col min-h-screen">
-        {/* Fixed Header */}
-        <Header />
-
+      {/* Main Content */}
+      <div className={`flex flex-col min-h-screen transition-all duration-500 ease-in-out ${isCollapsed ? 'ml-16' : 'ml-64'}`} style={{ paddingTop: '60px' }}>
         {/* Scrollable Main Content Area */}
-        <main className="flex-1 overflow-y-auto" style={{ paddingTop: "90px" }}>
+        <main className="flex-1 overflow-y-auto">
           <div className="p-6 lg:p-8 max-w-[1800px] mx-auto w-full">
             {/* Hero Banner */}
             <HeroBanner />

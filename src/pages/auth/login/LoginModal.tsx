@@ -111,7 +111,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
                     placeholder="E-mail"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full h-12 bg-[#2C2C2C] border border-gray-600 rounded-lg pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-pink-500 transition-colors text-sm"
+                    className="w-full h-12 bg-[#252525] border border-gray-600 rounded-lg pl-12 pr-4 text-white placeholder-white focus:outline-none focus:border-pink-500 transition-colors text-sm"
                     required
                   />
                 </div>
@@ -125,7 +125,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
                       placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full h-12 bg-[#2C2C2C] border border-gray-600 rounded-lg pl-12 pr-12 text-white placeholder-gray-400 focus:outline-none focus:border-pink-500 transition-colors text-sm"
+                      className="w-full h-12 bg-[#252525] border border-gray-600 rounded-lg pl-12 pr-12 text-white placeholder-white focus:outline-none focus:border-pink-500 transition-colors text-sm"
                       required
                     />
                     <button
