@@ -1,4 +1,4 @@
-import { Search, Phone, MoreVertical, Menu } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { useState } from 'react'
 
 const ChatList = () => {
