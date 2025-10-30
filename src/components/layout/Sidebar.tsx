@@ -16,7 +16,7 @@ const Sidebar = () => {
     { name: 'Chat', icon: MessageCircle, path: '/chat' },
     { name: 'Collection', icon: FolderHeart, path: '/collection' },
     { name: 'Generate Image', icon: Image, path: '/generate' },
-    { name: 'Create Character', icon: UserPlus, path: '/create' },
+    { name: 'Create Character', icon: UserPlus, path: '/create-character' },
     { name: 'My AI', icon: Sparkles, path: '/my-ai' }
   ]
 
