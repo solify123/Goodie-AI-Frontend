@@ -4,6 +4,7 @@ import LandingPage from './pages/Landing'
 import { Toaster } from 'sonner'
 import CollectionPage from './pages/Collection'
 import GenerateImagePage from './pages/GenerateImage'
+import ChatPage from './pages/Chat'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/chat" element={<ChatPage />} />
           <Route path="/collection" element={<CollectionPage />} />
           <Route path="/generate" element={<GenerateImagePage />} />
         </Routes>

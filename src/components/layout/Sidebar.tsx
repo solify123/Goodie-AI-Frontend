@@ -47,7 +47,7 @@ const Sidebar = () => {
             <button
               key={index}
               onClick={() => navigate(feature.path)}
-              className={`w-full flex cursor-pointer items-center text-white rounded-lg transition-all duration-300 ${isActive
+              className={`w-full flex cursor-pointer items-center text-white rounded-lg transition-all duration-200 ${isActive
                 ? 'bg-[#2a2a2a]'
                 : 'hover:bg-[#2a2a2a]'
                 } ${isCollapsed ? 'justify-center px-2 py-2.5' : 'space-x-3 px-3 py-2.5'}`}
@@ -57,18 +57,18 @@ const Sidebar = () => {
                 }`}>
                 <Icon className="w-4 h-4" />
               </div>
-              <span className={`text-sm font-medium transition-all duration-300 whitespace-nowrap ${isCollapsed ? 'opacity-0 w-0 overflow-hidden delay-100' : 'opacity-100 delay-75'}`}>{feature.name}</span>
+              <span className={`text-sm font-medium whitespace-nowrap transition-opacity duration-200 ${isCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>{feature.name}</span>
             </button>
           )
         })}
 
         {/* Premium Button */}
         <button
-          className={`w-full cursor-pointer flex items-center bg-gradient-to-r from-pink-500 to-pink-600 text-white py-2.5 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-300 mt-4 shadow-lg shadow-pink-500/30 ${isCollapsed ? 'justify-center px-2' : 'justify-center space-x-2 px-4'}`}
+          className={`w-full cursor-pointer flex items-center bg-gradient-to-r from-pink-500 to-pink-600 text-white py-2.5 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 mt-4 shadow-lg shadow-pink-500/30 ${isCollapsed ? 'justify-center px-2' : 'justify-center space-x-2 px-4'}`}
           title={isCollapsed ? 'Become Premium' : undefined}
         >
           <Diamond className="w-4 h-4" />
-          <span className={`text-sm transition-all duration-300 whitespace-nowrap ${isCollapsed ? 'opacity-0 w-0 overflow-hidden delay-100' : 'opacity-100 delay-75'}`}>Become Premium</span>
+          <span className={`text-sm whitespace-nowrap transition-opacity duration-200 ${isCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>Become Premium</span>
         </button>
       </div>
 
@@ -83,13 +83,13 @@ const Sidebar = () => {
             <button
               key={index}
               onClick={() => link.isLanguageButton && setShowLanguagePopup(true)}
-              className={`w-full cursor-pointer flex items-center text-gray-400 rounded-lg hover:bg-[#2a2a2a] hover:text-white transition-all duration-300 ${isCollapsed ? 'justify-center px-2 py-2.5' : 'space-x-3 px-3 py-2.5'}`}
+              className={`w-full cursor-pointer flex items-center text-gray-400 rounded-lg hover:bg-[#2a2a2a] hover:text-white transition-all duration-200 ${isCollapsed ? 'justify-center px-2 py-2.5' : 'space-x-3 px-3 py-2.5'}`}
               title={isCollapsed ? link.name : undefined}
             >
               <div className="w-8 h-8 rounded-full flex items-center justify-center">
                 <Icon className="w-4 h-4" />
               </div>
-              <span className={`text-sm font-medium transition-all duration-300 whitespace-nowrap ${isCollapsed ? 'opacity-0 w-0 overflow-hidden delay-100' : 'opacity-100 delay-75'}`}>{link.name}</span>
+              <span className={`text-sm font-medium whitespace-nowrap transition-opacity duration-200 ${isCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>{link.name}</span>
             </button>
           )
         })}
