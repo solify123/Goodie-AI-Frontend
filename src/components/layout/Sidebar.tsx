@@ -3,10 +3,12 @@ import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSidebar } from '../../contexts/SidebarContext'
 import LanguageSelectionPopup from './LanguageSelectionPopup'
+import ContactUsModal from './ContactUsModal'
 
 
 const Sidebar = () => {
   const [showLanguagePopup, setShowLanguagePopup] = useState(false)
+  const [showContactModal, setShowContactModal] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
   const { isCollapsed } = useSidebar()
@@ -25,7 +27,7 @@ const Sidebar = () => {
     { name: 'English', icon: Globe, isLanguageButton: true },
     { name: 'Discord', icon: MessageSquare },
     { name: 'Help Center', icon: HelpCircle },
-    { name: 'Contact Us', icon: Mail },
+    { name: 'Contact Us', icon: Mail, isContactButton: true },
     { name: 'Affiliate', icon: Award }
   ]
 
@@ -33,6 +35,10 @@ const Sidebar = () => {
   const handleLanguageSelect = (language: any) => {
     console.log('Language selected:', language.name)
     setShowLanguagePopup(false)
+  }
+
+  const handleContactUs = () => {
+    setShowContactModal(true)
   }
 
   return (
@@ -82,7 +88,13 @@ const Sidebar = () => {
           return (
             <button
               key={index}
-              onClick={() => link.isLanguageButton && setShowLanguagePopup(true)}
+              onClick={() => {
+                if (link.isLanguageButton) {
+                  setShowLanguagePopup(true)
+                } else if (link.isContactButton) {
+                  handleContactUs()
+                }
+              }}
               className={`w-full cursor-pointer flex items-center text-gray-400 rounded-lg hover:bg-[#2a2a2a] hover:text-white transition-all duration-200 ${isCollapsed ? 'justify-center px-2 py-2.5' : 'space-x-3 px-3 py-2.5'}`}
               title={isCollapsed ? link.name : undefined}
             >
@@ -115,6 +127,12 @@ const Sidebar = () => {
         isOpen={showLanguagePopup}
         onClose={() => setShowLanguagePopup(false)}
         onLanguageSelect={handleLanguageSelect}
+      />
+
+      {/* Contact Us Modal */}
+      <ContactUsModal
+        isOpen={showContactModal}
+        onClose={() => setShowContactModal(false)}
       />
     </aside>
   )
