@@ -6,6 +6,7 @@ import CollectionPage from './pages/Collection'
 import GenerateImagePage from './pages/GenerateImage'
 import ChatPage from './pages/Chat'
 import CreateCharacterPage from './pages/CreateCharacter'
+import MyAIPage from './pages/MyAI'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/collection" element={<CollectionPage />} />
           <Route path="/generate" element={<GenerateImagePage />} />
           <Route path="/create-character" element={<CreateCharacterPage />} />
+          <Route path="/my-ai" element={<MyAIPage />} />
         </Routes>
         <Toaster
           position="top-right"
