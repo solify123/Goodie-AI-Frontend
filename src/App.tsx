@@ -5,6 +5,7 @@ import { Toaster } from 'sonner'
 import CollectionPage from './pages/Collection'
 import GenerateImagePage from './pages/GenerateImage'
 import ChatPage from './pages/Chat'
+import CreateCharacterPage from './pages/CreateCharacter'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/collection" element={<CollectionPage />} />
           <Route path="/generate" element={<GenerateImagePage />} />
+          <Route path="/create-character" element={<CreateCharacterPage />} />
         </Routes>
         <Toaster
           position="top-right"
