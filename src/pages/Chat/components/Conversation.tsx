@@ -1,4 +1,4 @@
-import { Phone, MoreVertical, Menu, Send, ChevronDown, ArrowLeft, Image as ImageIcon } from 'lucide-react'
+import { Phone, MoreVertical, Menu, ChevronDown, ArrowLeft, Image as ImageIcon } from 'lucide-react'
 import { useState } from 'react'
 
 interface ConversationProps {
@@ -8,7 +8,7 @@ interface ConversationProps {
 
 const Conversation = ({ onBack, selectedChatId }: ConversationProps) => {
   const [message, setMessage] = useState('')
-
+  console.log(selectedChatId)
   const messages = [
     {
       id: 1,
