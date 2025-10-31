@@ -1,10 +1,7 @@
-import Header from '../../components/layout/Header'
-import Sidebar from '../../components/layout/Sidebar'
-import { useSidebar } from '../../contexts/SidebarContext'
+import Layout from '../../components/layout'
 import { ChevronLeft, Sparkles, Heart, Circle } from 'lucide-react'
 
 const GenerateImagePage = () => {
-  const { isCollapsed } = useSidebar()
   const characters = [
     {
       id: 1,
@@ -57,15 +54,8 @@ const GenerateImagePage = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f]">
-      {/* Fixed Header */}
-      <Header />
-      
-      {/* Fixed Sidebar */}
-      <Sidebar />
-      
-      {/* Main Content */}
-      <div className={`flex flex-col min-h-screen transition-all duration-500 ease-in-out ${isCollapsed ? 'ml-16' : 'ml-64'}`} style={{ paddingTop: '60px' }}>
+    <Layout>
+      <div className="generate-image-page w-full">
         {/* Top Navigation Bar */}
         <div className="bg-[#1a1a1a] border-b border-gray-800 px-6 py-4">
           <div className="max-w-5xl mx-auto">
@@ -75,7 +65,7 @@ const GenerateImagePage = () => {
                 <button className="text-white hover:text-gray-300 transition-colors">
                   <ChevronLeft className="w-6 h-6" />
                 </button>
-                
+
                 {/* Category buttons */}
                 <div className="flex items-center space-x-2">
                   <button className="flex items-center space-x-2 bg-[#2a2a2a] rounded-lg px-4 py-2 text-white hover:bg-[#3a3a3a] transition-colors">
@@ -127,12 +117,12 @@ const GenerateImagePage = () => {
                 <div key={character.id} className="relative group cursor-pointer">
                   {/* Character Image */}
                   <div className="aspect-[3/4] relative rounded-[1.2rem] overflow-hidden">
-                    <img 
+                    <img
                       src={character.image}
                       alt={character.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    
+
                     {/* Character Name Overlay */}
                     <div className="absolute bottom-0 left-0 right-0 bg-black/70">
                       <div className="p-3">
@@ -148,7 +138,7 @@ const GenerateImagePage = () => {
           </div>
         </main>
       </div>
-    </div>
+    </Layout>
   )
 }
 

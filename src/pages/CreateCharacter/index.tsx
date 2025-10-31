@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import Header from '../../components/layout/Header'
-import Sidebar from '../../components/layout/Sidebar'
-import { useSidebar } from '../../contexts/SidebarContext'
+import Layout from '../../components/layout'
 import { Edit } from 'lucide-react'
 import ProgressStepper from './components/ProgressStepper'
 import StyleSelection from './components/StyleSelection'
@@ -20,7 +18,6 @@ import ClothingSelection from './components/ClothingSelection'
 import Summary from './components/Summary'
 
 const CreateCharacterPage = () => {
-  const { isCollapsed } = useSidebar()
   const [currentStep, setCurrentStep] = useState(1)
   const [characterData, setCharacterData] = useState({
     style: '',
@@ -256,72 +253,60 @@ const CreateCharacterPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f]">
-      {/* Fixed Header */}
-      <Header />
-
-      {/* Fixed Sidebar */}
-      <Sidebar />
-
-      {/* Main Content */}
-      <div className={`flex flex-col min-h-screen transition-all duration-500 ease-in-out ${isCollapsed ? 'ml-16' : 'ml-64'}`} style={{ paddingTop: '60px' }}>
-        {/* Scrollable Main Content Area */}
-        <main className="flex-1 overflow-y-auto">
-          <div className="flex flex-col items-center min-h-screen p-6">
-            {/* Page Header - OUTSIDE the card */}
-            <div className="flex items-center justify-center space-x-3 mb-8">
-              <div className="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center">
-                <Edit className="w-4 h-4 text-pink-500" />
-              </div>
-              <h1 className="text-2xl font-bold text-white">Create my AI</h1>
-            </div>
-
-            {/* Progress Stepper - OUTSIDE the card */}
-            <div className="mb-12">
-              <ProgressStepper currentStep={currentStep} totalSteps={totalSteps} />
-            </div>
-
-            {/* Character Creation Form - INSIDE the card */}
-            <div className="w-[800px] bg-[#1a1a1a] rounded-[1rem] p-8">
-              {renderStepContent()}
-
-              {/* Navigation Buttons - Only show for steps 1-8 */}
-              {currentStep !== 9 && (
-                <div className="flex items-center justify-between pt-6 border-t border-gray-800">
-                  <button
-                    onClick={handlePrevious}
-                    disabled={currentStep === 1}
-                    className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all ${currentStep === 1
-                        ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                        : 'bg-gray-700 text-white hover:bg-gray-600'
-                      }`}
-                  >
-                    <span>←</span>
-                    <span>Previous</span>
-                  </button>
-
-                  <div className="text-sm text-gray-400">
-                    Step {currentStep} of {totalSteps}
-                  </div>
-
-                  <button
-                    onClick={handleNext}
-                    disabled={!canProceed()}
-                    className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all ${!canProceed()
-                        ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-pink-500 to-pink-600 text-white hover:from-pink-600 hover:to-pink-700'
-                      }`}
-                  >
-                    <span>Next</span>
-                    <span>→</span>
-                  </button>
-                </div>
-              )}
-            </div>
+    <Layout>
+      <div className="flex flex-col items-center min-h-screen p-6 w-full">
+        {/* Page Header - OUTSIDE the card */}
+        <div className="flex items-center justify-center space-x-3 mb-8">
+          <div className="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center">
+            <Edit className="w-4 h-4 text-pink-500" />
           </div>
-        </main>
+          <h1 className="text-2xl font-bold text-white">Create my AI</h1>
+        </div>
+
+        {/* Progress Stepper - OUTSIDE the card */}
+        <div className="mb-12">
+          <ProgressStepper currentStep={currentStep} totalSteps={totalSteps} />
+        </div>
+
+        {/* Character Creation Form - INSIDE the card */}
+        <div className="w-[800px] bg-[#1a1a1a] rounded-[1rem] p-8">
+          {renderStepContent()}
+
+          {/* Navigation Buttons - Only show for steps 1-8 */}
+          {currentStep !== 9 && (
+            <div className="flex items-center justify-between pt-6 border-t border-gray-800">
+              <button
+                onClick={handlePrevious}
+                disabled={currentStep === 1}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all ${currentStep === 1
+                  ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
+                  : 'bg-gray-700 text-white hover:bg-gray-600'
+                  }`}
+              >
+                <span>←</span>
+                <span>Previous</span>
+              </button>
+
+              <div className="text-sm text-gray-400">
+                Step {currentStep} of {totalSteps}
+              </div>
+
+              <button
+                onClick={handleNext}
+                disabled={!canProceed()}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all ${!canProceed()
+                  ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-pink-500 to-pink-600 text-white hover:from-pink-600 hover:to-pink-700'
+                  }`}
+              >
+                <span>Next</span>
+                <span>→</span>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 
