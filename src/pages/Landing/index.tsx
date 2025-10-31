@@ -21,16 +21,16 @@ const LandingPage = () => {
       <Sidebar />
       
       {/* Main Content */}
-      <div className={`flex flex-col min-h-screen transition-all duration-500 ease-in-out ${isCollapsed ? 'ml-16' : 'ml-64'}`} style={{ paddingTop: '60px' }}>
+      <div className={`flex flex-col min-h-screen transition-all duration-500 ease-in-out ml-0 ${isCollapsed ? 'md:ml-16' : 'md:ml-64'}`} style={{ paddingTop: '60px' }}>
         {/* Scrollable Main Content Area */}
         <main className="flex-1 overflow-y-auto">
-          <div className="p-6 lg:p-8 max-w-[1800px] mx-auto w-full">
+          <div className="px-4 sm:px-6 lg:p-8 py-6 max-w-[1800px] mx-auto w-full">
             {/* Hero Banner */}
             <HeroBanner />
 
             {/* Section Title */}
-            <div className="mt-10 lg:mt-12 mb-6 lg:mb-8">
-              <h1 className="text-3xl lg:text-4xl font-bold">
+            <div className="mt-8 lg:mt-12 mb-4 lg:mb-8">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
                 <span className="text-pink-500">AI Boyfriend</span>
                 <span className="text-white"> Characters</span>
               </h1>

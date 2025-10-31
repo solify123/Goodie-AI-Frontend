@@ -26,7 +26,7 @@ const CreateNewAICard = () => {
   return (
     <div 
       onClick={handleCreateNew}
-      className="cursor-pointer w-80 h-96 bg-gradient-to-b from-pink-200 to-pink-400 rounded-2xl flex flex-col items-center justify-center hover:from-pink-300 hover:to-pink-500 transition-all duration-300 shadow-lg hover:shadow-xl"
+      className="cursor-pointer w-full max-w-xs sm:max-w-sm md:max-w-[18rem] h-[22rem] sm:h-[24rem] bg-gradient-to-b from-pink-200 to-pink-400 rounded-2xl flex flex-col items-center justify-center hover:from-pink-300 hover:to-pink-500 transition-all duration-300 shadow-lg hover:shadow-xl"
     >
       <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-lg">
         <Plus className="w-8 h-8 text-pink-500" />
@@ -44,7 +44,7 @@ const AICharacterCard = ({ ai }: { ai: typeof sampleAIs[0] }) => {
   }
 
   return (
-    <div className="relative w-80 h-96 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+    <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-[18rem] h-[22rem] sm:h-[24rem] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
       {/* Character Image */}
       <div className="relative w-full h-full">
         <img 
@@ -86,15 +86,15 @@ const MyAIPage = () => {
       <Sidebar />
       
       {/* Main Content */}
-      <div className={`transition-all duration-500 ease-in-out ${isCollapsed ? 'ml-16' : 'ml-64'}`} style={{ paddingTop: '60px' }}>
-        <div className="container mx-auto px-6 py-8">
+      <div className={`transition-all duration-500 ease-in-out ml-0 ${isCollapsed ? 'md:ml-16' : 'md:ml-64'}`} style={{ paddingTop: '60px' }}>
+        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
           {/* Header */}
-          <div className="mb-12">
-            <h1 className="text-4xl font-bold text-pink-500">My AI</h1>
+          <div className="mb-6 sm:mb-10">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-pink-500">My AI</h1>
           </div>
 
-          {/* Cards Grid - positioned to the left with space on the right */}
-          <div className="flex gap-8 justify-start">
+          {/* Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 items-start">
             <CreateNewAICard />
             {sampleAIs.map((ai) => (
               <AICharacterCard key={ai.id} ai={ai} />

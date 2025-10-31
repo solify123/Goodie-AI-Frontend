@@ -79,7 +79,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
             <div className="relative w-full h-full flex items-end p-8">
               <div className="text-left">
                 <h1 className="text-4xl font-bold">
-                  <span className="text-white">candy</span>
+                  <span className="text-white">Goodie</span>
                   <span className="text-pink-500">.ai</span>
                 </h1>
               </div>
