@@ -50,16 +50,16 @@ const HairColorSelection = ({ selected, onSelect }: HairColorSelectionProps) => 
 
   return (
     <div>
-      <h3 className="text-white text-xl font-semibold mb-6">
+      <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
         Choose Hair Color<span className="text-pink-500">*</span>
       </h3>
       
-      <div className="grid grid-cols-4 gap-3 max-w-2xl">
+      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3 max-w-2xl mx-auto">
         {hairColors.map((color) => (
           <button
             key={color.value}
             onClick={() => onSelect(color.value)}
-            className={`px-4 py-3 rounded-lg font-medium transition-all duration-300 ${
+            className={`px-2 sm:px-3 md:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm ${
               selected === color.value
                 ? 'bg-pink-500 text-white ring-2 ring-pink-300'
                 : 'bg-gray-700 text-white hover:bg-gray-600'

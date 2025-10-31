@@ -14,14 +14,14 @@ const AgeSlider = ({ value, onChange }: AgeSliderProps) => {
 
   return (
     <div>
-      <h3 className="text-white text-xl font-semibold mb-6">
+      <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
         Choose Age
       </h3>
       
-      <div className="px-4">
+      <div className="px-2 sm:px-4">
         {/* Current Value Display */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-gradient-to-r from-pink-500 to-pink-600 text-white px-8 py-4 rounded-lg font-bold text-3xl min-w-[100px] text-center shadow-lg shadow-pink-500/30">
+        <div className="flex justify-center mb-6 sm:mb-8">
+          <div className="bg-gradient-to-r from-pink-500 to-pink-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-2xl sm:text-3xl min-w-[80px] sm:min-w-[100px] text-center shadow-lg shadow-pink-500/30">
             {value}
           </div>
         </div>
@@ -41,7 +41,7 @@ const AgeSlider = ({ value, onChange }: AgeSliderProps) => {
           />
           
           {/* Min and Max Labels */}
-          <div className="flex justify-between mt-4 text-gray-400 text-sm">
+          <div className="flex justify-between mt-3 sm:mt-4 text-gray-400 text-xs sm:text-sm">
             <span>{minAge}</span>
             <span>{maxAge}</span>
           </div>
@@ -51,8 +51,8 @@ const AgeSlider = ({ value, onChange }: AgeSliderProps) => {
       <style>{`
         .slider::-webkit-slider-thumb {
           appearance: none;
-          width: 24px;
-          height: 24px;
+          width: 20px;
+          height: 20px;
           border-radius: 50%;
           background: #ec4899;
           cursor: pointer;
@@ -60,13 +60,25 @@ const AgeSlider = ({ value, onChange }: AgeSliderProps) => {
         }
         
         .slider::-moz-range-thumb {
-          width: 24px;
-          height: 24px;
+          width: 20px;
+          height: 20px;
           border-radius: 50%;
           background: #ec4899;
           cursor: pointer;
           border: none;
           box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+        }
+        
+        @media (min-width: 640px) {
+          .slider::-webkit-slider-thumb {
+            width: 24px;
+            height: 24px;
+          }
+          
+          .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+          }
         }
       `}</style>
     </div>

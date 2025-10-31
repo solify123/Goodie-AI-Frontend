@@ -1,4 +1,4 @@
-import { ChevronDown, User, CreditCard, Settings, LogOut, Menu, Diamond } from 'lucide-react'
+import { ChevronDown, User, CreditCard, LogOut, Menu, Diamond } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { RegisterModal } from '../../pages/auth/register'
 import { LoginModal } from '../../pages/auth/login'
@@ -6,8 +6,10 @@ import { ConfirmEmailModal } from '../../pages/auth/confirm'
 import { useAuth } from '../../hooks/useAuth'
 import { useSidebar } from '../../contexts/SidebarContext'
 import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
+  const navigate = useNavigate()
   const [showRegisterModal, setShowRegisterModal] = useState(false)
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
@@ -83,30 +85,30 @@ const Header = () => {
   return (
     <>
       <header className="bg-[#0f0f0f] border-b border-gray-800 fixed top-0 left-0 right-0 z-30">
-        <div className="flex items-center justify-between px-3 sm:px-4 lg:px-6 py-2.5 sm:py-3">
+        <div className="flex items-center justify-between px-3 py-2.5">
           {/* Left Section: Hamburger Menu + Logo */}
-          <div className="flex items-center space-x-2 sm:space-x-4 min-w-0">
+          <div className="flex items-center space-x-2 min-w-0">
             {/* Sidebar Toggle Button */}
             <button 
               onClick={toggleSidebar}
               className="cursor-pointer text-white hover:text-pink-500 transition-colors flex-shrink-0"
             >
-              <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
+              <Menu className="w-5 h-5" />
             </button>
             
             {/* Logo */}
             <div className="flex items-center space-x-1 min-w-0">
-              <span className="text-white text-lg sm:text-xl font-semibold truncate">Goodie</span>
-              <span className="text-white text-lg sm:text-xl font-bold">.ai</span>
+              <span className="text-white text-lg font-semibold truncate">Goodie</span>
+              <span className="text-white text-lg font-bold">.ai</span>
             </div>
           </div>
           
           {/* Right Section: Premium Badge + Profile */}
-          <div className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3 flex-shrink-0">
+          <div className="flex items-center space-x-1.5 flex-shrink-0">
             {isAuthenticated && user ? (
               <>
                 {/* Premium Badge */}
-                <button className="cursor-pointer hidden lg:flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-sm">
+                <button className="cursor-pointer hidden lg:flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200">
                   <Diamond className="w-4 h-4" />
                   <span>Premium 70% OFF</span>
                 </button>
@@ -131,12 +133,12 @@ const Header = () => {
                       <button
                         onClick={() => {
                           setShowProfileMenu(false)
-                          // Navigate to profile
+                          navigate('/profile')
                         }}
                         className="cursor-pointer w-full flex items-center space-x-3 px-4 py-3 text-white hover:bg-[#2a2a2a] transition-colors"
                       >
                         <User className="w-5 h-5 text-pink-500" />
-                        <span>My Profile</span>
+                        <span>Settings</span>
                       </button>
 
                       <button
@@ -148,17 +150,6 @@ const Header = () => {
                       >
                         <CreditCard className="w-5 h-5 text-pink-500" />
                         <span>Subscription</span>
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          setShowProfileMenu(false)
-                          // Navigate to settings
-                        }}
-                        className="cursor-pointer w-full flex items-center space-x-3 px-4 py-3 text-white hover:bg-[#2a2a2a] transition-colors"
-                      >
-                        <Settings className="w-5 h-5 text-pink-500" />
-                        <span>Settings</span>
                       </button>
 
                       <div className="border-t border-gray-800 my-2"></div>
@@ -180,7 +171,7 @@ const Header = () => {
                 <button 
                   onClick={() => setShowRegisterModal(true)}
                   className="cursor-pointer bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-[0.3rem] font-semibold shadow-lg shadow-pink-500/20 transition-all duration-200
-                  px-2.5 py-1.5 text-[10px] leading-tight sm:px-3 sm:py-1.5 sm:text-xs md:px-4 md:py-2 md:text-sm lg:px-6
+                  px-2.5 py-1.5 leading-tight px-6 text-sm
                   hover:from-pink-600 hover:to-pink-700 whitespace-nowrap"
                 >
                   <span className="hidden sm:inline">Create Free Account</span>
@@ -190,7 +181,7 @@ const Header = () => {
                   onClick={() => setShowLoginModal(true)}
                   className="cursor-pointer rounded-[0.3rem] font-semibold transition-all duration-200
                   bg-[#1f1f1f] text-white border border-gray-700 hover:border-gray-600 hover:bg-[#272727]
-                  px-2.5 py-1.5 text-[10px] leading-tight sm:px-3 sm:py-1.5 sm:text-xs md:px-4 md:py-2 md:text-sm lg:px-6
+                  px-2.5 py-1.5 leading-tight px-6 text-sm
                   whitespace-nowrap"
                 >
                   Login

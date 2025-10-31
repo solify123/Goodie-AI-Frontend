@@ -41,10 +41,10 @@ const HobbiesSelection = ({ selected, onSelect }: HobbiesSelectionProps) => {
 
   return (
     <div className="flex flex-col items-center">
-      <h3 className="text-white text-xl font-semibold mb-2 text-center">
+      <h3 className="text-white text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-center">
         Choose Hobbies<span className="text-pink-500">*</span>
       </h3>
-      <p className="text-gray-400 text-sm text-center mb-6">
+      <p className="text-gray-400 text-xs sm:text-sm text-center mb-4 sm:mb-6">
         You can choose up to 3 variants
       </p>
       
@@ -58,7 +58,7 @@ const HobbiesSelection = ({ selected, onSelect }: HobbiesSelectionProps) => {
               key={hobby.value}
               onClick={() => handleToggleHobby(hobby.value)}
               disabled={isDisabled}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
                 isSelected
                   ? 'bg-pink-500 text-white'
                   : isDisabled
@@ -73,8 +73,8 @@ const HobbiesSelection = ({ selected, onSelect }: HobbiesSelectionProps) => {
       </div>
       
       {/* Selection counter */}
-      <div className="text-center mt-4">
-        <span className="text-gray-400 text-sm">
+      <div className="text-center mt-3 sm:mt-4">
+        <span className="text-gray-400 text-xs sm:text-sm">
           {selected.length}/3 selected
         </span>
       </div>

@@ -83,16 +83,16 @@ const ClothingSelection = ({ selected, onSelect }: ClothingSelectionProps) => {
 
   return (
     <div className="flex flex-col items-center">
-      <h3 className="text-white text-2xl font-bold mb-8 text-center">
+      <h3 className="text-white text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6 md:mb-8 text-center">
         Choose Clothing<span className="text-pink-500">*</span>
       </h3>
       
-      <div className="flex flex-wrap justify-center gap-3 max-w-5xl">
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-5xl">
         {clothingOptions.map((option) => (
           <button
             key={option.value}
             onClick={() => onSelect(option.value)}
-            className={`px-4 py-2 rounded-lg border transition-all duration-300 ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border transition-all duration-300 text-xs sm:text-sm ${
               selected === option.value
                 ? 'bg-pink-500 text-white border-pink-500'
                 : 'bg-[#2a2d3a] text-white border-gray-600 hover:border-gray-500 hover:bg-[#3a3d4a]'
