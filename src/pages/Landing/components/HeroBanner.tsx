@@ -26,21 +26,21 @@ const HeroBanner = () => {
   }
 
   return (
-    <div className="relative w-full h-64 lg:h-80 rounded-xl overflow-hidden group">
+    <div className="relative w-full h-56 sm:h-64 lg:h-80 rounded-xl overflow-hidden group">
       {/* Animated Gradient Background */}
       <div className={`absolute inset-0 bg-gradient-to-br ${slides[currentSlide].gradient} transition-all duration-700`}>
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 via-pink-900/20 to-blue-900/20 backdrop-blur-sm"></div>
       </div>
       
       {/* Content */}
-      <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
-        <h2 className="text-3xl lg:text-5xl font-bold text-white mb-4 transition-all duration-500">
+      <div className="relative h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
+        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 transition-all duration-500">
           {slides[currentSlide].title}
         </h2>
-        <p className="text-lg lg:text-xl text-gray-200 max-w-2xl transition-all duration-500">
+        <p className="text-sm sm:text-lg lg:text-xl text-gray-200 max-w-2xl transition-all duration-500">
           {slides[currentSlide].subtitle}
         </p>
-        <button className="cursor-pointer mt-6 bg-gradient-to-r from-pink-500 to-pink-600 text-white px-8 py-3 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 shadow-lg shadow-pink-500/30">
+        <button className="hidden sm:inline-flex cursor-pointer mt-4 sm:mt-6 bg-gradient-to-r from-pink-500 to-pink-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 shadow-lg shadow-pink-500/30">
           Get Started
         </button>
       </div>

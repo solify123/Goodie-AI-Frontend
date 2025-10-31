@@ -83,26 +83,26 @@ const Header = () => {
   return (
     <>
       <header className="bg-[#0f0f0f] border-b border-gray-800 fixed top-0 left-0 right-0 z-30">
-        <div className="flex items-center justify-between px-4 lg:px-6 py-3">
+        <div className="flex items-center justify-between px-3 sm:px-4 lg:px-6 py-2.5 sm:py-3">
           {/* Left Section: Hamburger Menu + Logo */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4 min-w-0">
             {/* Sidebar Toggle Button */}
             <button 
               onClick={toggleSidebar}
-              className="cursor-pointer text-white hover:text-pink-500 transition-colors"
+              className="cursor-pointer text-white hover:text-pink-500 transition-colors flex-shrink-0"
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
             
             {/* Logo */}
-            <div className="flex items-center space-x-1">
-              <span className="text-white text-xl font-semibold">candy</span>
-              <span className="text-white text-xl font-bold">.ai</span>
+            <div className="flex items-center space-x-1 min-w-0">
+              <span className="text-white text-lg sm:text-xl font-semibold truncate">Goodie</span>
+              <span className="text-white text-lg sm:text-xl font-bold">.ai</span>
             </div>
           </div>
           
           {/* Right Section: Premium Badge + Profile */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3 flex-shrink-0">
             {isAuthenticated && user ? (
               <>
                 {/* Premium Badge */}
@@ -179,13 +179,19 @@ const Header = () => {
                 {/* Auth Buttons - Show when not authenticated */}
                 <button 
                   onClick={() => setShowRegisterModal(true)}
-                  className="cursor-pointer bg-gradient-to-r from-pink-500 to-pink-600 text-white px-4 lg:px-6 py-2 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 text-sm shadow-lg shadow-pink-500/20"
+                  className="cursor-pointer bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-[0.3rem] font-semibold shadow-lg shadow-pink-500/20 transition-all duration-200
+                  px-2.5 py-1.5 text-[10px] leading-tight sm:px-3 sm:py-1.5 sm:text-xs md:px-4 md:py-2 md:text-sm lg:px-6
+                  hover:from-pink-600 hover:to-pink-700 whitespace-nowrap"
                 >
-                  Create Free Account
+                  <span className="hidden sm:inline">Create Free Account</span>
+                  <span className="sm:hidden">Sign Up</span>
                 </button>
                 <button 
                   onClick={() => setShowLoginModal(true)}
-                  className="cursor-pointer border border-pink-500/50 text-white px-4 lg:px-6 py-2 rounded-lg font-medium hover:bg-pink-500/10 hover:border-pink-500 transition-all duration-200 text-sm"
+                  className="cursor-pointer rounded-[0.3rem] font-semibold transition-all duration-200
+                  bg-[#1f1f1f] text-white border border-gray-700 hover:border-gray-600 hover:bg-[#272727]
+                  px-2.5 py-1.5 text-[10px] leading-tight sm:px-3 sm:py-1.5 sm:text-xs md:px-4 md:py-2 md:text-sm lg:px-6
+                  whitespace-nowrap"
                 >
                   Login
                 </button>

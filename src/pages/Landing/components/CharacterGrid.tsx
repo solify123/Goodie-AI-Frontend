@@ -2,7 +2,7 @@ const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: b
   return (
     <div className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-pink-500/10 transition-all duration-300 cursor-pointer group">
       {/* Image Area */}
-      <div className="relative h-56 lg:h-64 overflow-hidden">
+      <div className="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
         <div 
           className={`w-full h-full ${character.gradientClass} group-hover:scale-110 transition-transform duration-500`}
         ></div>
@@ -15,11 +15,11 @@ const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: b
       </div>
       
       {/* Text Area */}
-      <div className="p-4">
-        <h3 className="text-white font-bold text-lg mb-1">
+      <div className="p-3 sm:p-4">
+        <h3 className="text-white font-bold text-base sm:text-lg mb-1">
           {character.name} <span className="text-gray-400 font-normal">{character.age}</span>
         </h3>
-        <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">
+        <p className="text-gray-400 text-xs sm:text-sm leading-relaxed line-clamp-2">
           {character.description}
         </p>
       </div>
