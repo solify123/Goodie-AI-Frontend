@@ -12,7 +12,7 @@ const CollectionPage = () => {
 
           {/* Sort Dropdown */}
           <div className="flex items-center space-x-2">
-            <span className="text-gray-400 text-sm xd:block hidden">Sort by</span>
+            <span className="text-gray-400 text-sm sm:block hidden">Sort by</span>
             <button className="flex items-center space-x-2 bg-[#1a1a1a] border border-gray-700 rounded-lg px-3 py-2 text-white hover:bg-[#2a2a2a] transition-colors">
               <span className="text-sm">Latest</span>
               <ChevronDown className="w-4 h-4" />

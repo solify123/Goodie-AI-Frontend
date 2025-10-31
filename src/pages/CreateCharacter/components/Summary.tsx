@@ -38,16 +38,16 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
   const getStyleImage = (style: string) => {
     switch (style.toLowerCase()) {
       case 'realistic':
-        return <div className="w-16 h-16 bg-gradient-to-br from-amber-200 to-amber-400 rounded-lg flex items-center justify-center">
-          <User className="w-8 h-8 text-amber-800" />
+        return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-amber-200 to-amber-400 rounded-lg flex items-center justify-center">
+          <User className="w-6 h-6 sm:w-8 sm:h-8 text-amber-800" />
         </div>
       case 'cartoon':
-        return <div className="w-16 h-16 bg-gradient-to-br from-blue-200 to-blue-400 rounded-lg flex items-center justify-center">
-          <User className="w-8 h-8 text-blue-800" />
+        return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-200 to-blue-400 rounded-lg flex items-center justify-center">
+          <User className="w-6 h-6 sm:w-8 sm:h-8 text-blue-800" />
         </div>
       default:
-        return <div className="w-16 h-16 bg-gradient-to-br from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
-          <User className="w-8 h-8 text-gray-800" />
+        return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
+          <User className="w-6 h-6 sm:w-8 sm:h-8 text-gray-800" />
         </div>
     }
   }
@@ -55,20 +55,20 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
   const getEthnicityImage = (ethnicity: string) => {
     switch (ethnicity.toLowerCase()) {
       case 'asian':
-        return <div className="w-16 h-16 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-lg flex items-center justify-center">
-          <User className="w-8 h-8 text-yellow-800" />
+        return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-lg flex items-center justify-center">
+          <User className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-800" />
         </div>
       case 'caucasian':
-        return <div className="w-16 h-16 bg-gradient-to-br from-pink-200 to-pink-400 rounded-lg flex items-center justify-center">
-          <User className="w-8 h-8 text-pink-800" />
+        return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-pink-200 to-pink-400 rounded-lg flex items-center justify-center">
+          <User className="w-6 h-6 sm:w-8 sm:h-8 text-pink-800" />
         </div>
       case 'african':
-        return <div className="w-16 h-16 bg-gradient-to-br from-amber-200 to-amber-400 rounded-lg flex items-center justify-center">
-          <User className="w-8 h-8 text-amber-800" />
+        return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-amber-200 to-amber-400 rounded-lg flex items-center justify-center">
+          <User className="w-6 h-6 sm:w-8 sm:h-8 text-amber-800" />
         </div>
       default:
-        return <div className="w-16 h-16 bg-gradient-to-br from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
-          <User className="w-8 h-8 text-gray-800" />
+        return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
+          <User className="w-6 h-6 sm:w-8 sm:h-8 text-gray-800" />
         </div>
     }
   }
@@ -83,42 +83,42 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
     }
     const gradient = colorMap[eyeColor.toLowerCase()] || 'from-gray-200 to-gray-400'
     
-    return <div className={`w-16 h-16 bg-gradient-to-br ${gradient} rounded-lg flex items-center justify-center`}>
-      <Eye className="w-8 h-8 text-gray-800" />
+    return <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br ${gradient} rounded-lg flex items-center justify-center`}>
+      <Eye className="w-6 h-6 sm:w-8 sm:h-8 text-gray-800" />
     </div>
   }
 
   const getHairStyleImage = () => {
-    return <div className="w-16 h-16 bg-gradient-to-br from-amber-200 to-amber-400 rounded-lg flex items-center justify-center">
-      <Scissors className="w-8 h-8 text-amber-800" />
+    return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-amber-200 to-amber-400 rounded-lg flex items-center justify-center">
+      <Scissors className="w-6 h-6 sm:w-8 sm:h-8 text-amber-800" />
     </div>
   }
 
   const getBodyTypeImage = () => {
-    return <div className="w-16 h-16 bg-gradient-to-br from-orange-200 to-orange-400 rounded-lg flex items-center justify-center">
-      <Activity className="w-8 h-8 text-orange-800" />
+    return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-200 to-orange-400 rounded-lg flex items-center justify-center">
+      <Activity className="w-6 h-6 sm:w-8 sm:h-8 text-orange-800" />
     </div>
   }
 
   const getPersonalityIcon = () => {
-    return <div className="w-16 h-16 bg-gradient-to-br from-pink-200 to-pink-400 rounded-lg flex items-center justify-center">
-      <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center">
-        <Heart className="w-4 h-4 text-white" />
+    return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-pink-200 to-pink-400 rounded-lg flex items-center justify-center">
+      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-pink-500 rounded-full flex items-center justify-center">
+        <Heart className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
       </div>
     </div>
   }
 
   const getRelationshipIcon = () => {
-    return <div className="w-16 h-16 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-lg flex items-center justify-center">
-      <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
-        <Heart className="w-4 h-4 text-white" />
+    return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-lg flex items-center justify-center">
+      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+        <Heart className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
       </div>
     </div>
   }
 
   const getVoiceIcon = () => {
-    return <div className="w-16 h-16 bg-gradient-to-br from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
-      <Volume2 className="w-8 h-8 text-gray-800" />
+    return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
+      <Volume2 className="w-6 h-6 sm:w-8 sm:h-8 text-gray-800" />
     </div>
   }
 
@@ -138,9 +138,9 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
     {
       label: 'Age',
       value: characterData.age.toString(),
-      image: <div className="w-16 h-16 bg-gradient-to-br from-blue-200 to-blue-400 rounded-lg flex flex-col items-center justify-center">
-        <span className="text-2xl font-bold text-blue-800">{characterData.age}</span>
-        <span className="text-xs text-blue-600 font-medium">YEARS</span>
+      image: <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-200 to-blue-400 rounded-lg flex flex-col items-center justify-center">
+        <span className="text-lg sm:text-2xl font-bold text-blue-800">{characterData.age}</span>
+        <span className="text-[10px] sm:text-xs text-blue-600 font-medium">YEARS</span>
       </div>,
       displayValue: `${characterData.age} YEARS`
     },
@@ -159,8 +159,8 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
     {
       label: 'Hair Color',
       value: characterData.hairColor,
-      image: <div className="w-16 h-16 bg-black rounded-lg flex items-center justify-center">
-        <div className="w-12 h-12 bg-black rounded-full"></div>
+      image: <div className="w-12 h-12 sm:w-16 sm:h-16 bg-black rounded-lg flex items-center justify-center">
+        <div className="w-8 h-8 sm:w-12 sm:h-12 bg-black rounded-full"></div>
       </div>,
       displayValue: characterData.hairColor.charAt(0).toUpperCase() + characterData.hairColor.slice(1)
     },
@@ -191,24 +191,24 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
     {
       label: 'Occupation',
       value: characterData.occupation,
-      image: <div className="w-16 h-16 bg-gradient-to-br from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
-        <Briefcase className="w-8 h-8 text-gray-800" />
+      image: <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-gray-200 to-gray-400 rounded-lg flex items-center justify-center">
+        <Briefcase className="w-6 h-6 sm:w-8 sm:h-8 text-gray-800" />
       </div>,
       displayValue: characterData.occupation.charAt(0).toUpperCase() + characterData.occupation.slice(1)
     },
     {
       label: 'Hobbies',
       value: characterData.hobbies.join(', '),
-      image: <div className="w-16 h-16 bg-gradient-to-br from-green-200 to-green-400 rounded-lg flex items-center justify-center">
-        <Gamepad2 className="w-8 h-8 text-green-800" />
+      image: <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-green-200 to-green-400 rounded-lg flex items-center justify-center">
+        <Gamepad2 className="w-6 h-6 sm:w-8 sm:h-8 text-green-800" />
       </div>,
       displayValue: characterData.hobbies.length > 0 ? characterData.hobbies.join(', ') : 'None selected'
     },
     {
       label: 'Clothing',
       value: characterData.clothing,
-      image: <div className="w-16 h-16 bg-gradient-to-br from-orange-200 to-orange-400 rounded-lg flex items-center justify-center">
-        <Shirt className="w-8 h-8 text-orange-800" />
+      image: <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-200 to-orange-400 rounded-lg flex items-center justify-center">
+        <Shirt className="w-6 h-6 sm:w-8 sm:h-8 text-orange-800" />
       </div>,
       displayValue: characterData.clothing.charAt(0).toUpperCase() + characterData.clothing.slice(1).replace('_', ' ')
     }
@@ -216,21 +216,21 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
 
   return (
     <div className="flex flex-col items-center text-white">
-      <div className="w-full max-w-6xl mx-auto px-6 py-8">
-        <h3 className="text-white text-3xl font-bold mb-12 text-center">
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <h3 className="text-white text-2xl sm:text-3xl font-bold mb-6 sm:mb-12 text-center">
           Summary
         </h3>
         
-        {/* First Row - 5 columns */}
-        <div className="grid grid-cols-5 gap-6 mb-6">
+        {/* First Row - Responsive columns */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6">
           {summaryItems.slice(0, 5).map((item, index) => (
             <div key={index} className="flex flex-col items-center">
-              <span className="text-gray-400 text-sm font-medium mb-3">{item.label}</span>
-              <div className="bg-[#2a2d3a] rounded-xl p-4 w-full flex flex-col items-center">
-                <div className="mb-3">
+              <span className="text-gray-400 text-xs sm:text-sm font-medium mb-2 sm:mb-3">{item.label}</span>
+              <div className="bg-[#2a2d3a] rounded-xl p-2 sm:p-3 md:p-4 w-full flex flex-col items-center">
+                <div className="mb-2 sm:mb-3">
                   {item.image}
                 </div>
-                <div className="text-white font-semibold text-center">
+                <div className="text-white font-semibold text-center text-xs sm:text-sm">
                   {item.displayValue}
                 </div>
               </div>
@@ -238,16 +238,16 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
           ))}
         </div>
 
-        {/* Second Row - 5 columns */}
-        <div className="grid grid-cols-5 gap-6 mb-6">
+        {/* Second Row - Responsive columns */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6">
           {summaryItems.slice(5, 10).map((item, index) => (
             <div key={index + 5} className="flex flex-col items-center">
-              <span className="text-gray-400 text-sm font-medium mb-3">{item.label}</span>
-              <div className="bg-[#2a2d3a] rounded-xl p-4 w-full flex flex-col items-center">
-                <div className="mb-3">
+              <span className="text-gray-400 text-xs sm:text-sm font-medium mb-2 sm:mb-3">{item.label}</span>
+              <div className="bg-[#2a2d3a] rounded-xl p-2 sm:p-3 md:p-4 w-full flex flex-col items-center">
+                <div className="mb-2 sm:mb-3">
                   {item.image}
                 </div>
-                <div className="text-white font-semibold text-center">
+                <div className="text-white font-semibold text-center text-xs sm:text-sm">
                   {item.displayValue}
                 </div>
               </div>
@@ -255,16 +255,16 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
           ))}
         </div>
 
-        {/* Third Row - 3 columns */}
-        <div className="grid grid-cols-3 gap-6 mb-12 max-w-3xl mx-auto">
+        {/* Third Row - Responsive columns */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-8 sm:mb-12 max-w-3xl mx-auto">
           {summaryItems.slice(10, 13).map((item, index) => (
             <div key={index + 10} className="flex flex-col items-center">
-              <span className="text-gray-400 text-sm font-medium mb-3">{item.label}</span>
-              <div className="bg-[#2a2d3a] rounded-xl p-4 w-full flex flex-col items-center">
-                <div className="mb-3">
+              <span className="text-gray-400 text-xs sm:text-sm font-medium mb-2 sm:mb-3">{item.label}</span>
+              <div className="bg-[#2a2d3a] rounded-xl p-2 sm:p-3 md:p-4 w-full flex flex-col items-center">
+                <div className="mb-2 sm:mb-3">
                   {item.image}
                 </div>
-                <div className="text-white font-semibold text-center">
+                <div className="text-white font-semibold text-center text-xs sm:text-sm">
                   {item.displayValue}
                 </div>
               </div>
@@ -272,25 +272,25 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
           ))}
         </div>
         
-        <div className="flex justify-between items-center max-w-2xl mx-auto">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 max-w-2xl mx-auto">
           <button 
             onClick={onPrevious}
-            className="flex items-center gap-2 px-6 py-3 bg-[#2a2d3a] text-white rounded-xl border border-gray-600 hover:bg-[#3a3d4a] transition-all duration-300"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-[#2a2d3a] text-white rounded-xl border border-gray-600 hover:bg-[#3a3d4a] transition-all duration-300 text-sm sm:text-base"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             Previous
           </button>
           <button 
             onClick={onComplete}
-            className="relative flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl hover:from-pink-600 hover:to-purple-700 transition-all duration-300 text-lg font-medium"
+            className="w-full sm:w-auto relative flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl hover:from-pink-600 hover:to-purple-700 transition-all duration-300 text-base sm:text-lg font-medium"
           >
-            <span className="text-xs bg-pink-700 text-pink-200 px-2 py-1 rounded absolute -top-2 -right-2">
+            <span className="text-[10px] sm:text-xs bg-pink-700 text-pink-200 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded absolute -top-2 -right-2">
               Free Trial
             </span>
             Bring my AI to life
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>

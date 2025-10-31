@@ -105,16 +105,16 @@ const RelationshipSelection = ({ selected, onSelect }: RelationshipSelectionProp
 
   return (
     <div className="flex flex-col items-center">
-      <h3 className="text-white text-xl font-semibold mb-6 text-center">
+      <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
         Choose Relationship<span className="text-pink-500">*</span>
       </h3>
       
-      <div className="flex flex-wrap justify-center gap-3 max-w-4xl">
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-4xl">
         {relationships.map((relationship) => (
           <button
             key={relationship.value}
             onClick={() => onSelect(relationship.value)}
-            className={`w-28 h-28 flex flex-col items-center justify-center gap-2 rounded-lg transition-all duration-300 ${
+            className={`w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex flex-col items-center justify-center gap-1 sm:gap-2 rounded-lg transition-all duration-300 ${
               selected === relationship.value
                 ? 'bg-pink-500 text-white'
                 : 'bg-[#363b4a] text-white hover:bg-[#4a5063]'
@@ -123,7 +123,7 @@ const RelationshipSelection = ({ selected, onSelect }: RelationshipSelectionProp
             <div className="text-white flex items-center justify-center">
               {relationship.icon}
             </div>
-            <span className="text-xs font-medium text-center px-1">{relationship.label}</span>
+            <span className="text-[10px] sm:text-xs font-medium text-center px-1">{relationship.label}</span>
           </button>
         ))}
       </div>

@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from '
 interface SidebarContextType {
   isCollapsed: boolean
   toggleSidebar: () => void
+  setIsCollapsed: (isCollapsed: boolean) => void
 }
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
@@ -45,7 +46,7 @@ export const SidebarProvider = ({ children }: SidebarProviderProps) => {
   }, [])
 
   return (
-    <SidebarContext.Provider value={{ isCollapsed, toggleSidebar }}>
+    <SidebarContext.Provider value={{ isCollapsed, toggleSidebar, setIsCollapsed }}>
       {children}
     </SidebarContext.Provider>
   )

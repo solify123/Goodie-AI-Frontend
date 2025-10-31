@@ -30,11 +30,11 @@ const BodyTypeSelection = ({ selected, onSelect }: BodyTypeSelectionProps) => {
 
   return (
     <div>
-      <h3 className="text-white text-xl font-semibold mb-6 text-center">
+      <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
         Choose Body Type<span className="text-pink-500">*</span>
       </h3>
       
-      <div className="flex justify-center gap-6">
+      <div className="flex justify-center gap-3 sm:gap-4 md:gap-6 flex-wrap">
         {bodyTypes.map((bodyType) => (
           <button
             key={bodyType.value}
@@ -46,7 +46,7 @@ const BodyTypeSelection = ({ selected, onSelect }: BodyTypeSelectionProps) => {
             }`}
           >
             {/* Body Type Image */}
-            <div className="w-48 h-64 relative overflow-hidden rounded-lg">
+            <div className="w-32 h-44 sm:w-40 sm:h-52 md:w-48 md:h-64 relative overflow-hidden rounded-lg">
               <img
                 src={bodyType.image}
                 alt={bodyType.label}
@@ -57,8 +57,8 @@ const BodyTypeSelection = ({ selected, onSelect }: BodyTypeSelectionProps) => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               
               {/* Label */}
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <div className={`text-center px-4 py-2 rounded-lg font-medium transition-colors ${
+              <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 md:p-4">
+                <div className={`text-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-lg font-medium transition-colors text-xs sm:text-sm md:text-base ${
                   selected === bodyType.value
                     ? 'bg-pink-500 text-white'
                     : 'bg-gray-700/90 text-white group-hover:bg-gray-600'
@@ -69,13 +69,13 @@ const BodyTypeSelection = ({ selected, onSelect }: BodyTypeSelectionProps) => {
 
               {/* Selected Ring */}
               {selected === bodyType.value && (
-                <div className="absolute inset-0 rounded-lg ring-4 ring-pink-500"></div>
+                <div className="absolute inset-0 rounded-lg ring-2 sm:ring-4 ring-pink-500"></div>
               )}
 
               {/* Selected Check Icon */}
               {selected === bodyType.value && (
-                <div className="absolute top-2 right-2 bg-pink-500 rounded-full p-1">
-                  <svg className="w-4 h-4 text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-pink-500 rounded-full p-0.5 sm:p-1">
+                  <svg className="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M5 13l4 4L19 7"></path>
                   </svg>
                 </div>

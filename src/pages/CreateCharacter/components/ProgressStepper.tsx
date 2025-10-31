@@ -7,7 +7,7 @@ interface ProgressStepperProps {
 
 const ProgressStepper = ({ currentStep, totalSteps }: ProgressStepperProps) => {
   return (
-    <div className="flex items-center justify-center w-full max-w-4xl overflow-x-auto px-4">
+    <div className="flex items-center justify-center w-full max-w-4xl overflow-x-auto px-2 sm:px-4 mx-auto">
       {/* Progress Line with Steps */}
       <div className="flex items-center min-w-max">
         {Array.from({ length: totalSteps }, (_, index) => {
@@ -20,7 +20,7 @@ const ProgressStepper = ({ currentStep, totalSteps }: ProgressStepperProps) => {
               {/* Step Circle */}
               <div className="flex flex-col items-center">
                 <div
-                  className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 ${
+                  className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center transition-all duration-300 ${
                     isCompleted
                       ? 'bg-pink-500'
                       : isCurrent
@@ -29,10 +29,10 @@ const ProgressStepper = ({ currentStep, totalSteps }: ProgressStepperProps) => {
                   }`}
                 >
                   {isCompleted ? (
-                    <Check className="w-3.5 h-3.5 text-white" />
+                    <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
                   ) : (
                     <span
-                      className={`text-xs font-semibold ${
+                      className={`text-[10px] sm:text-xs font-semibold ${
                         isCurrent ? 'text-pink-500' : 'text-gray-600'
                       }`}
                     >
@@ -45,7 +45,7 @@ const ProgressStepper = ({ currentStep, totalSteps }: ProgressStepperProps) => {
               {/* Connecting Line */}
               {step < totalSteps && (
                 <div
-                  className={`h-[2px] w-8 transition-colors duration-300 ${
+                  className={`h-[2px] w-4 sm:w-6 md:w-8 transition-colors duration-300 ${
                     step < currentStep ? 'bg-pink-500' : 'bg-gray-600'
                   }`}
                 />

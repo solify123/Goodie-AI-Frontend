@@ -7,6 +7,7 @@ import GenerateImagePage from './pages/GenerateImage'
 import ChatPage from './pages/Chat'
 import CreateCharacterPage from './pages/CreateCharacter'
 import MyAIPage from './pages/MyAI'
+import ProfilePage from './pages/auth/profile'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/generate" element={<GenerateImagePage />} />
           <Route path="/create-character" element={<CreateCharacterPage />} />
           <Route path="/my-ai" element={<MyAIPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
         <Toaster
           position="top-right"

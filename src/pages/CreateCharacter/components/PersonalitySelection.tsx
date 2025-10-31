@@ -88,40 +88,40 @@ const PersonalitySelection = ({ selected, onSelect }: PersonalitySelectionProps)
 
   return (
     <div>
-      <h3 className="text-white text-xl font-semibold mb-6 text-center">
+      <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
         Choose Personality<span className="text-pink-500">*</span>
       </h3>
       
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
         {personalities.map((personality) => (
           <button
             key={personality.value}
             onClick={() => onSelect(personality.value)}
-            className={`group relative p-4 rounded-lg transition-all duration-300 ${
+            className={`group relative p-3 sm:p-4 rounded-lg transition-all duration-300 ${
               selected === personality.value
                 ? 'bg-pink-500/20 ring-2 ring-pink-500'
                 : 'bg-gray-700 hover:bg-gray-600'
             }`}
           >
             {/* Icon */}
-            <div className="text-3xl mb-3 text-center">
+            <div className="text-2xl sm:text-3xl mb-2 sm:mb-3 text-center">
               {personality.icon}
             </div>
             
             {/* Title */}
-            <div className="text-white font-semibold text-center mb-2">
+            <div className="text-white font-semibold text-center mb-1 sm:mb-2 text-sm sm:text-base">
               {personality.label}
             </div>
             
             {/* Description */}
-            <div className="text-gray-300 text-sm text-center leading-relaxed">
+            <div className="text-gray-300 text-xs sm:text-sm text-center leading-relaxed">
               {personality.description}
             </div>
 
             {/* Selected Check Icon */}
             {selected === personality.value && (
-              <div className="absolute top-2 right-2 bg-pink-500 rounded-full p-1">
-                <svg className="w-4 h-4 text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-pink-500 rounded-full p-0.5 sm:p-1">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" viewBox="0 0 24 24" stroke="currentColor">
                   <path d="M5 13l4 4L19 7"></path>
                 </svg>
               </div>

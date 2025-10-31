@@ -30,11 +30,11 @@ const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
 
   return (
     <div>
-      <h3 className="text-white text-xl font-semibold mb-6">
+      <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
         Choose Eye Color<span className="text-pink-500">*</span>
       </h3>
       
-      <div className="flex justify-center gap-8">
+      <div className="flex justify-center gap-4 sm:gap-6 md:gap-8">
         {eyeColors.map((color) => (
           <button
             key={color.value}
@@ -46,7 +46,7 @@ const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
             }`}
           >
             {/* Eye Color Display */}
-            <div className="w-32 h-20 relative">
+            <div className="w-20 h-12 sm:w-24 sm:h-15 md:w-32 md:h-20 relative">
               <div 
                 className="w-full h-full flex items-center justify-center rounded-xl"
                 style={{ 
@@ -55,7 +55,7 @@ const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
               >
                 {/* Eye Shape SVG */}
                 <svg 
-                  className="w-24 h-12" 
+                  className="w-16 h-8 sm:w-20 sm:h-10 md:w-24 md:h-12" 
                   viewBox="0 0 100 50"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -85,13 +85,13 @@ const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
               
               {/* Selected Ring */}
               {selected === color.value && (
-                <div className="absolute inset-0 rounded-xl ring-4 ring-pink-500"></div>
+                <div className="absolute inset-0 rounded-xl ring-2 sm:ring-4 ring-pink-500"></div>
               )}
             </div>
             
             {/* Label */}
-            <div className="mt-3 text-center">
-              <div className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+            <div className="mt-2 sm:mt-3 text-center">
+              <div className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                 selected === color.value
                   ? 'bg-pink-500 text-white'
                   : 'bg-gray-700 text-white group-hover:bg-gray-600'
