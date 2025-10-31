@@ -1,8 +1,6 @@
 import { Plus } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import Header from '../../components/layout/Header'
-import Sidebar from '../../components/layout/Sidebar'
-import { useSidebar } from '../../contexts/SidebarContext'
+import Layout from '../../components/layout'
 
 // Sample AI character data - in a real app this would come from an API
 const sampleAIs = [
@@ -24,7 +22,7 @@ const CreateNewAICard = () => {
   }
 
   return (
-    <div 
+    <div
       onClick={handleCreateNew}
       className="cursor-pointer w-full max-w-xs sm:max-w-sm md:max-w-[18rem] h-[22rem] sm:h-[24rem] bg-gradient-to-b from-pink-200 to-pink-400 rounded-2xl flex flex-col items-center justify-center hover:from-pink-300 hover:to-pink-500 transition-all duration-300 shadow-lg hover:shadow-xl"
     >
@@ -47,12 +45,12 @@ const AICharacterCard = ({ ai }: { ai: typeof sampleAIs[0] }) => {
     <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-[18rem] h-[22rem] sm:h-[24rem] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
       {/* Character Image */}
       <div className="relative w-full h-full">
-        <img 
-          src={ai.image} 
+        <img
+          src={ai.image}
           alt={ai.name}
           className="w-full h-full object-cover"
         />
-        
+
         {/* Chat Icon */}
         <button
           onClick={handleChat}
@@ -75,34 +73,23 @@ const AICharacterCard = ({ ai }: { ai: typeof sampleAIs[0] }) => {
 }
 
 const MyAIPage = () => {
-  const { isCollapsed } = useSidebar()
-
   return (
-    <div className="min-h-screen bg-[#0f0f0f]">
-      {/* Fixed Header */}
-      <Header />
-      
-      {/* Fixed Sidebar */}
-      <Sidebar />
-      
-      {/* Main Content */}
-      <div className={`transition-all duration-500 ease-in-out ml-0 ${isCollapsed ? 'md:ml-16' : 'md:ml-64'}`} style={{ paddingTop: '60px' }}>
-        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
-          {/* Header */}
-          <div className="mb-6 sm:mb-10">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-pink-500">My AI</h1>
-          </div>
+    <Layout>
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        {/* Header */}
+        <div className="mb-6 sm:mb-10">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-pink-500">My AI</h1>
+        </div>
 
-          {/* Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 items-start">
-            <CreateNewAICard />
-            {sampleAIs.map((ai) => (
-              <AICharacterCard key={ai.id} ai={ai} />
-            ))}
-          </div>
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 items-start">
+          <CreateNewAICard />
+          {sampleAIs.map((ai) => (
+            <AICharacterCard key={ai.id} ai={ai} />
+          ))}
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 
