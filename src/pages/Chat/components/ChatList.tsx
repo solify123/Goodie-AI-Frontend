@@ -21,7 +21,7 @@ const ChatList = ({ onChatSelect, onClose }: ChatListProps) => {
   ]
 
   return (
-    <div className="flex flex-col h-full" style={{ height: 'calc(100vh - 60px - 70px)' }}>
+    <div className="flex flex-col h-full" style={{ height: 'calc(100vh - 60px)' }}>
       {/* Header */}
       <div className="p-4 sm:p-4 border-b border-gray-800 flex items-center justify-between">
         <h2 className="text-white text-2xl sm:text-lg font-bold sm:font-semibold">Chat</h2>
