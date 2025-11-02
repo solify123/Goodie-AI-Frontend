@@ -1,3 +1,7 @@
+import slim from '../../../assets/images/body/1.jpg'
+import muscular from '../../../assets/images/body/2.jpg'
+import wide from '../../../assets/images/body/3.jpg'
+
 interface BodyTypeOption {
   value: string
   label: string
@@ -14,17 +18,17 @@ const BodyTypeSelection = ({ selected, onSelect }: BodyTypeSelectionProps) => {
     {
       value: 'slim',
       label: 'Slim',
-      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=400&fit=crop&crop=face'
+      image: slim
     },
     {
       value: 'muscular',
       label: 'Muscular',
-      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=400&fit=crop&crop=face'
+      image: muscular
     },
     {
       value: 'wide',
       label: 'Wide',
-      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=400&fit=crop&crop=face'
+      image: wide
     }
   ]
 
@@ -39,14 +43,14 @@ const BodyTypeSelection = ({ selected, onSelect }: BodyTypeSelectionProps) => {
           <button
             key={bodyType.value}
             onClick={() => onSelect(bodyType.value)}
-            className={`group relative transition-all duration-300 ${
+            className={`group relative transition-all duration-300 cursor-pointer ${
               selected === bodyType.value
                 ? 'scale-105'
                 : 'hover:scale-105'
             }`}
           >
             {/* Body Type Image */}
-            <div className="w-32 h-44 sm:w-40 sm:h-52 md:w-48 md:h-64 relative overflow-hidden rounded-lg">
+            <div className="w-full h-full relative overflow-hidden rounded-lg">
               <img
                 src={bodyType.image}
                 alt={bodyType.label}
@@ -57,11 +61,11 @@ const BodyTypeSelection = ({ selected, onSelect }: BodyTypeSelectionProps) => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               
               {/* Label */}
-              <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 md:p-4">
-                <div className={`text-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-lg font-medium transition-colors text-xs sm:text-sm md:text-base ${
+              <div className="absolute bottom-0 left-0 right-0 py-1 sm:py-1 md:py-2 w-fit mx-auto">
+                <div className={`text-center px-1.5 sm:px-2 md:px-3 py-1 rounded-full font-medium transition-colors text-xs sm:text-sm md:text-base ${
                   selected === bodyType.value
                     ? 'bg-pink-500 text-white'
-                    : 'bg-gray-700/90 text-white group-hover:bg-gray-600'
+                    : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
                 }`}>
                   {bodyType.label}
                 </div>

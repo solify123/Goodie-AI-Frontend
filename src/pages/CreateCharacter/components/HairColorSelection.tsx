@@ -59,10 +59,10 @@ const HairColorSelection = ({ selected, onSelect }: HairColorSelectionProps) => 
           <button
             key={color.value}
             onClick={() => onSelect(color.value)}
-            className={`px-2 sm:px-3 md:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm ${
+            className={`px-2 sm:px-3 md:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm cursor-pointer ${
               selected === color.value
                 ? 'bg-pink-500 text-white ring-2 ring-pink-300'
-                : 'bg-gray-700 text-white hover:bg-gray-600'
+                : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
             }`}
             style={{
               backgroundColor: selected === color.value ? '#ec4899' : color.color,

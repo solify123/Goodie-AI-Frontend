@@ -60,10 +60,10 @@ const OccupationSelection = ({ selected, onSelect }: OccupationSelectionProps) =
           <button
             key={occupation.value}
             onClick={() => onSelect(occupation.value)}
-            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer ${
               selected === occupation.value
                 ? 'bg-pink-500 text-white'
-                : 'bg-[#363b4a] text-white hover:bg-[#4a5063]'
+                : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
             }`}
           >
             {occupation.label}

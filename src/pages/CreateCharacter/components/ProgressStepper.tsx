@@ -1,4 +1,3 @@
-import { Check } from 'lucide-react'
 
 interface ProgressStepperProps {
   currentStep: number
@@ -24,18 +23,16 @@ const ProgressStepper = ({ currentStep, totalSteps }: ProgressStepperProps) => {
                     isCompleted
                       ? 'bg-pink-500'
                       : isCurrent
-                      ? 'bg-transparent border-2 border-pink-500'
-                      : 'bg-transparent border-2 border-gray-600'
+                      ? 'bg-pink-500'
+                      : 'bg-gray-700 border-2 border-gray-600'
                   }`}
                 >
-                  {isCompleted ? (
-                    <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
+                  {isCompleted || isCurrent ? (
+                    <span className="text-[10px] sm:text-xs font-semibold text-white">
+                      {step}
+                    </span>
                   ) : (
-                    <span
-                      className={`text-[10px] sm:text-xs font-semibold ${
-                        isCurrent ? 'text-pink-500' : 'text-gray-600'
-                      }`}
-                    >
+                    <span className="text-[10px] sm:text-xs font-semibold text-gray-400">
                       {step}
                     </span>
                   )}
@@ -45,7 +42,7 @@ const ProgressStepper = ({ currentStep, totalSteps }: ProgressStepperProps) => {
               {/* Connecting Line */}
               {step < totalSteps && (
                 <div
-                  className={`h-[2px] w-4 sm:w-6 md:w-8 transition-colors duration-300 ${
+                  className={`h-[2px] w-6 sm:w-8 md:w-12 transition-colors duration-300 ${
                     step < currentStep ? 'bg-pink-500' : 'bg-gray-600'
                   }`}
                 />

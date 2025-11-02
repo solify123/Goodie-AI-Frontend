@@ -92,10 +92,10 @@ const ClothingSelection = ({ selected, onSelect }: ClothingSelectionProps) => {
           <button
             key={option.value}
             onClick={() => onSelect(option.value)}
-            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border transition-all duration-300 text-xs sm:text-sm ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border transition-all duration-300 text-xs sm:text-sm cursor-pointer ${
               selected === option.value
                 ? 'bg-pink-500 text-white border-pink-500'
-                : 'bg-[#2a2d3a] text-white border-gray-600 hover:border-gray-500 hover:bg-[#3a3d4a]'
+                : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
             }`}
           >
             {option.label}

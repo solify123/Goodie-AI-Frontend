@@ -97,10 +97,10 @@ const PersonalitySelection = ({ selected, onSelect }: PersonalitySelectionProps)
           <button
             key={personality.value}
             onClick={() => onSelect(personality.value)}
-            className={`group relative p-3 sm:p-4 rounded-lg transition-all duration-300 ${
+            className={`group relative p-3 sm:p-4 rounded-lg transition-all duration-300 cursor-pointer ${
               selected === personality.value
                 ? 'bg-pink-500/20 ring-2 ring-pink-500'
-                : 'bg-gray-700 hover:bg-gray-600'
+                : 'hover:bg-black/40 outline outline-2 outline-white/20'
             }`}
           >
             {/* Icon */}

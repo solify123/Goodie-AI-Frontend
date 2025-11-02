@@ -32,10 +32,10 @@ const VoiceSelection = ({ selected, onSelect }: VoiceSelectionProps) => {
           <button
             key={voice.value}
             onClick={() => onSelect(voice.value)}
-            className={`flex items-center justify-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm ${
+            className={`flex cursor-pointer items-center justify-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm ${
               selected === voice.value
                 ? 'bg-pink-500 text-white ring-2 ring-pink-300'
-                : 'bg-gray-700 text-white hover:bg-gray-600'
+                : 'text-white border-2 border-white/20 hover:border-gray-600'
             }`}
           >
             {/* Speaker Icon */}

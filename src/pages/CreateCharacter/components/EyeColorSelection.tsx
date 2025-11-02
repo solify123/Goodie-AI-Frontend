@@ -1,7 +1,11 @@
+import eyeColorBrown from '../../../assets/images/eyes/eye-color-brown.png'
+import eyeColorBlue from '../../../assets/images/eyes/eye-color-blue.png'
+import eyeColorGreen from '../../../assets/images/eyes/eye-color-green.png'
+
 interface EyeColorOption {
   value: string
   label: string
-  color: string
+  image: string
 }
 
 interface EyeColorSelectionProps {
@@ -14,17 +18,17 @@ const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
     {
       value: 'brown',
       label: 'Brown',
-      color: '#8B4513'
+      image: eyeColorBrown
     },
     {
       value: 'blue',
       label: 'Blue',
-      color: '#4A90E2'
+      image: eyeColorBlue
     },
     {
       value: 'green',
       label: 'Green',
-      color: '#50C878'
+      image: eyeColorGreen
     }
   ]
 
@@ -39,64 +43,32 @@ const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
           <button
             key={color.value}
             onClick={() => onSelect(color.value)}
-            className={`group relative transition-all duration-300 ${
-              selected === color.value
-                ? 'scale-105'
-                : 'hover:scale-105'
-            }`}
+            className="group relative cursor-pointer transition-all duration-300"
           >
-            {/* Eye Color Display */}
-            <div className="w-20 h-12 sm:w-24 sm:h-15 md:w-32 md:h-20 relative">
-              <div 
-                className="w-full h-full flex items-center justify-center rounded-xl"
-                style={{ 
-                  background: `radial-gradient(circle, ${color.color} 0%, ${color.color}dd 50%, #2a2a2a 100%)`
-                }}
-              >
-                {/* Eye Shape SVG */}
-                <svg 
-                  className="w-16 h-8 sm:w-20 sm:h-10 md:w-24 md:h-12" 
-                  viewBox="0 0 100 50"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {/* Eye Outline */}
-                  <path
-                    d="M 20 25 Q 50 10 80 25 Q 50 40 20 25"
-                    fill={color.color}
-                    opacity="0.8"
-                  />
-                  {/* Pupil */}
-                  <circle
-                    cx="50"
-                    cy="25"
-                    r="8"
-                    fill="#000"
-                  />
-                  {/* Highlight */}
-                  <circle
-                    cx="52"
-                    cy="23"
-                    r="3"
-                    fill="#fff"
-                    opacity="0.6"
-                  />
-                </svg>
+            {/* Eye Color Display with Label */}
+            <div className="relative">
+              <div className="relative w-[126px] h-[56px] rounded-2xl overflow-hidden">
+                <img 
+                  src={color.image} 
+                  alt={color.label + " Eye Color"} 
+                  className="w-full h-full object-cover"
+                />
+                
+                {/* Selected Border */}
+                {selected === color.value && (
+                  <div className="absolute inset-0 rounded-2xl border-2 border-pink-500"></div>
+                )}
               </div>
               
-              {/* Selected Ring */}
-              {selected === color.value && (
-                <div className="absolute inset-0 rounded-xl ring-2 sm:ring-4 ring-pink-500"></div>
-              )}
-            </div>
-            
-            {/* Label */}
-            <div className="mt-2 sm:mt-3 text-center">
-              <div className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium transition-colors ${
-                selected === color.value
-                  ? 'bg-pink-500 text-white'
-                  : 'bg-gray-700 text-white group-hover:bg-gray-600'
-              }`}>
-                {color.label}
+              {/* Label - overlapping at bottom */}
+              <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
+                <div className={`bg-gray-500 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${
+                  selected === color.value
+                    ? 'bg-pink-500 text-white'
+                    : 'bg-gray-200 text-gray-500 text-white'
+                }`}>
+                  {color.label}
+                </div>
               </div>
             </div>
           </button>
