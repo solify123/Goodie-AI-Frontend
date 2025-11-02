@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Layout from '../../components/layout'
-import { PencilRuler } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import ProgressStepper from './components/ProgressStepper'
 import StyleSelection from './components/StyleSelection'
+import createCharacterBanner1 from '../../assets/images/create-character-banner1.png'
+import createCharacterBanner2 from '../../assets/images/create-character-banner2.png'
+import createCharacterBanner3 from '../../assets/images/create-character-banner3.png'
 import EthnicitySelection from './components/EthnicitySelection'
 import AgeSlider from './components/AgeSlider'
 import EyeColorSelection from './components/EyeColorSelection'
@@ -19,6 +22,40 @@ import Summary from './components/Summary'
 
 const CreateCharacterPage = () => {
   const [currentStep, setCurrentStep] = useState(1)
+  
+  // Countdown timer state
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 20,
+    minutes: 22,
+    seconds: 30
+  })
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        let { hours, minutes, seconds } = prev
+        
+        if (seconds > 0) {
+          seconds--
+        } else if (minutes > 0) {
+          minutes--
+          seconds = 59
+        } else if (hours > 0) {
+          hours--
+          minutes = 59
+          seconds = 59
+        } else {
+          // Timer ended
+          return { hours: 0, minutes: 0, seconds: 0 }
+        }
+        
+        return { hours, minutes, seconds }
+      })
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [])
+
   const [characterData, setCharacterData] = useState({
     style: '',
     ethnicity: '',
@@ -254,25 +291,92 @@ const CreateCharacterPage = () => {
 
   return (
     <Layout>
-      <div className="flex flex-col items-center min-h-screen px-2 sm:px-4 md:p-6 w-full pb-24 md:pb-6">
-        {/* Page Header - OUTSIDE the card */}
-        <div className="flex items-center justify-center gap-x-2 sm:gap-x-3 mx-auto mb-3 sm:mb-4 lg:mb-9 mt-2 sm:mt-5 md:mt-0">
-        <PencilRuler className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
-          <div className="relative">
-            <h1 className="text-center text-lg sm:text-xl md:text-[22px] text-white font-bold lg:text-[32px] lg:leading-[42px]">
-              Create my AI
-            </h1>
-            <span className="create-elipse hidden lg:block"></span>
+      <div className="flex flex-col min-h-screen w-full">
+        {/* Halloween Sale Banner - 4 Divs Structure */}
+        <div className="w-full mb-4 sm:mb-6 relative overflow-hidden" style={{ height: '56px', backgroundColor: '#1A0F33' }}>
+          {/* Red line at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-red-600 z-10"></div>
+          
+          {/* Div 1: Left - banner1 - 30% */}
+          <div className="absolute left-0 top-0 bottom-0 w-[15%] overflow-hidden z-0">
+            <img 
+              src={createCharacterBanner1} 
+              alt="Left Character" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Div 2: banner2 - 30% */}
+          <div className="absolute left-[30%] top-0 bottom-0 w-[60%] overflow-hidden z-0">
+            <img 
+              src={createCharacterBanner2} 
+              alt="Center Character" 
+              className="w-[] h-[90%] object-cover"
+            />
+          </div>
+
+          {/* Div 3: Timer - 10% */}
+          <div className="absolute left-[73%] top-0 bottom-0 w-[10%] flex items-center justify-center gap-1 z-20">
+            {/* Countdown Timer Section */}
+            <div className="flex items-center gap-1 sm:gap-2">
+              {/* Hours */}
+              <div className="flex flex-col items-center border-r border-white/20 pr-1 sm:pr-2">
+                <span className="text-white font-bold text-[15px] leading-none">
+                  {String(timeLeft.hours).padStart(2, '0')}
+                </span>
+                <span className="text-gray-400 text-[8px] sm:text-[10px] md:text-xs">Hrs</span>
+              </div>
+
+              {/* Minutes */}
+              <div className="flex flex-col items-center border-r border-white/20 pr-1 sm:pr-2">
+                <span className="text-white font-bold text-[15px] leading-none">
+                  {String(timeLeft.minutes).padStart(2, '0')}
+                </span>
+                <span className="text-gray-400 text-[8px] sm:text-[10px] md:text-xs">Min</span>
+              </div>
+
+              {/* Seconds */}
+              <div className="flex flex-col items-center">
+                <span className="text-white font-bold text-[15px] leading-none">
+                  {String(timeLeft.seconds).padStart(2, '0')}
+                </span>
+                <span className="text-gray-400 text-[8px] sm:text-[10px] md:text-xs">Sec</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Div 4: Right - banner4 - 30% */}
+          <div className="absolute left-[85%] top-0 bottom-0 w-[15%] overflow-hidden z-0">
+            <img 
+              src={createCharacterBanner3} 
+              alt="Right Character" 
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
 
-        {/* Progress Stepper - OUTSIDE the card */}
-        <div className="mb-4 sm:mb-6 md:mb-12 w-full">
-          <ProgressStepper currentStep={currentStep} totalSteps={totalSteps} />
-        </div>
+        <div className="flex flex-col items-center px-2 sm:px-4 md:p-6 w-full pb-24 md:pb-6">
+          {/* Page Header - OUTSIDE the card */}
+          <div className="flex items-center justify-center gap-x-2 sm:gap-x-3 mx-auto mb-3 sm:mb-4 lg:mb-6 mt-2 sm:mt-5 md:mt-0">
+            <img 
+              src="https://candy.ai/assets/sidebar-icons/edit-tools-bbf2bf2c112195dace08ca66624f3aaee6cdce6fb94e6712f6ec1ecf3e1576e0.svg" 
+              alt="Edit Tools" 
+              className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" 
+            />
+            <div className="relative">
+              <h1 className="text-center text-lg sm:text-xl md:text-[22px] text-white font-bold lg:text-[32px] lg:leading-[42px]">
+                Create my AI
+              </h1>
+            </div>
+          </div>
 
-        {/* Character Creation Form - INSIDE the card */}
-        <div className="w-full max-w-[800px] bg-[#1a1a1a] rounded-xl sm:rounded-[1rem] border-1 border-[#282828] p-3 sm:p-6 lg:p-8">
+          {/* Progress Stepper - OUTSIDE the card */}
+          <div className="mb-4 sm:mb-6 md:mb-8 w-full">
+            <ProgressStepper currentStep={currentStep} totalSteps={totalSteps} />
+          </div>
+
+          {/* Character Creation Form - INSIDE the card */}
+          <div className="w-full max-w-[800px] bg-[#1a1a1a] rounded-xl sm:rounded-[1rem] border border-[#282828] p-3 sm:p-6 lg:p-8">
           {renderStepContent()}
 
           {/* Navigation Buttons - Only show for steps 1-8 */}
@@ -297,16 +401,17 @@ const CreateCharacterPage = () => {
               <button
                 onClick={handleNext}
                 disabled={!canProceed()}
-                className={`flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all text-xs sm:text-base ${!canProceed()
+                className={`flex items-center space-x-2 px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-lg font-medium transition-all text-sm sm:text-base ${!canProceed()
                   ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-pink-500 to-pink-600 text-white hover:from-pink-600 hover:to-pink-700'
+                  : 'bg-gradient-to-r from-pink-500 to-pink-600 text-white hover:from-pink-600 hover:to-pink-700 shadow-lg shadow-pink-500/30'
                   }`}
               >
                 <span>Next</span>
-                <span>→</span>
+                <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           )}
+          </div>
         </div>
       </div>
     </Layout>
