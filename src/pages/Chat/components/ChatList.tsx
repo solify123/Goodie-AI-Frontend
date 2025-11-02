@@ -18,10 +18,10 @@ const ChatList = ({ onChatSelect, onClose, onShowResetModal }: ChatListProps) =>
     }
   ]
   return (
-    <div className="flex flex-col h-full" style={{ height: 'calc(100vh - 90px)' }}>
+    <div className="flex flex-col h-full" style={{ height: 'calc(100vh - 60px - 70px)' }}>
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-white text-2xl sm:text-1xl font-bold sm:font-semibold mb-3 mt-3">Chat</h2>
+      <div className="p-4 sm:p-4 border-b border-gray-800 flex items-center justify-between">
+        <h2 className="text-white text-2xl sm:text-lg font-bold sm:font-semibold">Chat</h2>
         {/* Close button - visible on mobile when chat list is open */}
         <button
           onClick={onClose}
@@ -31,7 +31,7 @@ const ChatList = ({ onChatSelect, onClose, onShowResetModal }: ChatListProps) =>
         </button>
       </div>
       {/* Search Bar */}
-      <div className="pb-4 pt-2">
+      <div className="px-4 pb-4 pt-2 sm:p-4">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <input

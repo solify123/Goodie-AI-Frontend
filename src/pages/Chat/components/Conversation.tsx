@@ -95,7 +95,7 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
     }
   }
   return (
-    <div className="flex flex-col h-full" style={{ height: 'calc(100vh - 65px)' }}>
+    <div className="flex flex-col h-full" style={{ height: 'calc(100vh - 60px - 70px)' }}>
       {/* Header */}
       <div className="p-3 sm:p-4 border-b border-gray-800 flex items-center justify-between bg-[#0f0f0f]">
         <div className="flex items-center space-x-2 sm:space-x-3 flex-1 min-w-0">
