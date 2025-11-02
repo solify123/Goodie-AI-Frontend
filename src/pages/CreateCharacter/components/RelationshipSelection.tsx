@@ -114,10 +114,10 @@ const RelationshipSelection = ({ selected, onSelect }: RelationshipSelectionProp
           <button
             key={relationship.value}
             onClick={() => onSelect(relationship.value)}
-            className={`w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex flex-col items-center justify-center gap-1 sm:gap-2 rounded-lg transition-all duration-300 ${
+            className={`w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex flex-col items-center justify-center gap-1 sm:gap-2 rounded-lg transition-all duration-300 cursor-pointer ${
               selected === relationship.value
-                ? 'bg-pink-500 text-white'
-                : 'bg-[#363b4a] text-white hover:bg-[#4a5063]'
+                ? 'ring-3 ring-pink-500/50 text-white'
+                : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
             }`}
           >
             <div className="text-white flex items-center justify-center">

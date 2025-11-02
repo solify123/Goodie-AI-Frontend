@@ -58,12 +58,12 @@ const HobbiesSelection = ({ selected, onSelect }: HobbiesSelectionProps) => {
               key={hobby.value}
               onClick={() => handleToggleHobby(hobby.value)}
               disabled={isDisabled}
-              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer ${
                 isSelected
                   ? 'bg-pink-500 text-white'
                   : isDisabled
                   ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                  : 'bg-[#363b4a] text-white hover:bg-[#4a5063]'
+                  : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
               }`}
             >
               {hobby.label}

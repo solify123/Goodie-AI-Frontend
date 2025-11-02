@@ -28,7 +28,7 @@ const StyleSelection = ({ selected, onSelect }: StyleSelectionProps) => {
 
   return (
     <div>
-      <h3 className="text-white text-base sm:text-lg md:text-xl font-semibold mb-4 sm:mb-6 md:mb-8 text-left">
+      <h3 className="text-white text-center text-base sm:text-lg md:text-xl font-semibold mb-4 sm:mb-6 md:mb-8 w-full">
         Choose Style<span className="text-pink-500">*</span>
       </h3>
       
@@ -37,10 +37,10 @@ const StyleSelection = ({ selected, onSelect }: StyleSelectionProps) => {
           <button
             key={style.value}
             onClick={() => onSelect(style.value)}
-            className={`group relative overflow-hidden rounded-xl transition-all duration-300 ${
+            className={`group relative cursor-pointer overflow-hidden rounded-xl transition-all duration-300 ${
               selected === style.value
-                ? 'ring-2 ring-pink-500'
-                : 'ring border border-gray-700 hover:border-gray-600'
+                ? 'ring-5 ring-pink-500'
+                : ''
             }`}
           >
             {/* Style Image */}

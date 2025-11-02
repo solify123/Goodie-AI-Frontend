@@ -59,12 +59,12 @@ const HairStyleSelection = ({ selected, onSelect }: HairStyleSelectionProps) => 
         Choose Hair Style<span className="text-pink-500">*</span>
       </h3>
       
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 justify-center">
         {hairStyles.map((style) => (
           <button
             key={style.value}
             onClick={() => onSelect(style.value)}
-            className={`group relative transition-all duration-300 ${
+            className={`group relative cursor-pointer transition-all duration-300 ${
               selected === style.value
                 ? 'scale-105'
                 : 'hover:scale-105'
@@ -98,7 +98,7 @@ const HairStyleSelection = ({ selected, onSelect }: HairStyleSelectionProps) => 
               <div className={`px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                 selected === style.value
                   ? 'bg-pink-500 text-white'
-                  : 'bg-gray-700 text-white group-hover:bg-gray-600'
+                  : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
               }`}>
                 {style.label}
               </div>

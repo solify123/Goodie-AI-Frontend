@@ -8,7 +8,7 @@ const ProgressStepper = ({ currentStep, totalSteps }: ProgressStepperProps) => {
   return (
     <div className="flex items-center justify-center w-full max-w-4xl overflow-x-auto px-2 sm:px-4 mx-auto">
       {/* Progress Line with Steps */}
-      <div className="flex items-center min-w-max gap-1 sm:gap-2">
+      <div className="flex items-center min-w-max">
         {Array.from({ length: totalSteps }, (_, index) => {
           const step = index + 1
           const isCompleted = step < currentStep
@@ -42,7 +42,7 @@ const ProgressStepper = ({ currentStep, totalSteps }: ProgressStepperProps) => {
               {/* Connecting Line */}
               {step < totalSteps && (
                 <div
-                  className={`h-[2px] w-6 sm:w-8 md:w-12 transition-colors duration-300 mx-1 ${
+                  className={`h-[2px] w-6 sm:w-8 md:w-12 transition-colors duration-300 ${
                     step < currentStep ? 'bg-pink-500' : 'bg-gray-600'
                   }`}
                 />

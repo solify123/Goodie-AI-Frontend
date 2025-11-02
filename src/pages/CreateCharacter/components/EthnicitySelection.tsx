@@ -49,7 +49,7 @@ const EthnicitySelection = ({ selected, onSelect }: EthnicitySelectionProps) => 
           <button
             key={ethnicity.value}
             onClick={() => onSelect(ethnicity.value)}
-            className={`group relative transition-all duration-300 ${
+            className={`group relative transition-all duration-300 cursor-pointer ${
               selected === ethnicity.value
                 ? 'scale-105'
                 : 'hover:scale-105'
@@ -71,10 +71,10 @@ const EthnicitySelection = ({ selected, onSelect }: EthnicitySelectionProps) => 
             
             {/* Label */}
             <div className="mt-2 sm:mt-3 text-center">
-              <div className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium transition-colors ${
+              <div className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
                 selected === ethnicity.value
                   ? 'bg-pink-500 text-white'
-                  : 'bg-gray-700 text-white group-hover:bg-gray-600'
+                  : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
               }`}>
                 {ethnicity.label}
               </div>

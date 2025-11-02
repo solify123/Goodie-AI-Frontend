@@ -272,10 +272,10 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
           ))}
         </div>
         
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 max-w-2xl mx-auto">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 w-full">
           <button 
             onClick={onPrevious}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-[#2a2d3a] text-white rounded-xl border border-gray-600 hover:bg-[#3a3d4a] transition-all duration-300 text-sm sm:text-base"
+            className="sm:w-auto flex cursor-pointer items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 text-white rounded-xl border border-white/20 hover:border-gray-600 transition-all duration-300 text-sm sm:text-base"
           >
             <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -284,7 +284,7 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
           </button>
           <button 
             onClick={onComplete}
-            className="w-full sm:w-auto relative flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl hover:from-pink-600 hover:to-purple-700 transition-all duration-300 text-base sm:text-lg font-medium"
+            className="w-full sm:w-auto relative flex cursor-pointer items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl hover:from-pink-600 hover:to-purple-700 transition-all duration-300 text-base sm:text-lg font-medium"
           >
             <span className="text-[10px] sm:text-xs bg-pink-700 text-pink-200 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded absolute -top-2 -right-2">
               Free Trial

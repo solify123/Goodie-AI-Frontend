@@ -22,7 +22,7 @@ import Summary from './components/Summary'
 
 const CreateCharacterPage = () => {
   const [currentStep, setCurrentStep] = useState(1)
-  
+
   // Countdown timer state
   const [timeLeft, setTimeLeft] = useState({
     hours: 20,
@@ -34,7 +34,7 @@ const CreateCharacterPage = () => {
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         let { hours, minutes, seconds } = prev
-        
+
         if (seconds > 0) {
           seconds--
         } else if (minutes > 0) {
@@ -48,7 +48,7 @@ const CreateCharacterPage = () => {
           // Timer ended
           return { hours: 0, minutes: 0, seconds: 0 }
         }
-        
+
         return { hours, minutes, seconds }
       })
     }, 1000)
@@ -296,21 +296,21 @@ const CreateCharacterPage = () => {
         <div className="w-full mb-4 sm:mb-6 relative overflow-hidden" style={{ height: '56px', backgroundColor: '#1A0F33' }}>
           {/* Red line at bottom */}
           <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-red-600 z-10"></div>
-          
+
           {/* Div 1: Left - banner1 - 30% */}
           <div className="absolute left-0 top-0 bottom-0 w-[15%] overflow-hidden z-0">
-            <img 
-              src={createCharacterBanner1} 
-              alt="Left Character" 
+            <img
+              src={createCharacterBanner1}
+              alt="Left Character"
               className="w-full h-full object-cover"
             />
           </div>
 
           {/* Div 2: banner2 - 30% */}
           <div className="absolute left-[30%] top-0 bottom-0 w-[60%] overflow-hidden z-0">
-            <img 
-              src={createCharacterBanner2} 
-              alt="Center Character" 
+            <img
+              src={createCharacterBanner2}
+              alt="Center Character"
               className="w-[] h-[90%] object-cover"
             />
           </div>
@@ -347,9 +347,9 @@ const CreateCharacterPage = () => {
 
           {/* Div 4: Right - banner4 - 30% */}
           <div className="absolute left-[85%] top-0 bottom-0 w-[15%] overflow-hidden z-0">
-            <img 
-              src={createCharacterBanner3} 
-              alt="Right Character" 
+            <img
+              src={createCharacterBanner3}
+              alt="Right Character"
               className="w-full h-full object-cover"
             />
           </div>
@@ -358,10 +358,10 @@ const CreateCharacterPage = () => {
         <div className="flex flex-col items-center px-2 sm:px-4 md:p-6 w-full pb-24 md:pb-6">
           {/* Page Header - OUTSIDE the card */}
           <div className="flex items-center justify-center gap-x-2 sm:gap-x-3 mx-auto mb-3 sm:mb-4 lg:mb-6 mt-2 sm:mt-5 md:mt-0">
-            <img 
-              src="https://candy.ai/assets/sidebar-icons/edit-tools-bbf2bf2c112195dace08ca66624f3aaee6cdce6fb94e6712f6ec1ecf3e1576e0.svg" 
-              alt="Edit Tools" 
-              className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" 
+            <img
+              src="https://candy.ai/assets/sidebar-icons/edit-tools-bbf2bf2c112195dace08ca66624f3aaee6cdce6fb94e6712f6ec1ecf3e1576e0.svg"
+              alt="Edit Tools"
+              className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7"
             />
             <div className="relative">
               <h1 className="text-center text-lg sm:text-xl md:text-[22px] text-white font-bold lg:text-[32px] lg:leading-[42px]">
@@ -377,40 +377,39 @@ const CreateCharacterPage = () => {
 
           {/* Character Creation Form - INSIDE the card */}
           <div className="w-full max-w-[800px] bg-[#1a1a1a] rounded-xl sm:rounded-[1rem] border border-[#282828] p-3 sm:p-6 lg:p-8">
-          {renderStepContent()}
+            {renderStepContent()}
 
-          {/* Navigation Buttons - Only show for steps 1-8 */}
-          {currentStep !== 9 && (
-            <div className="flex items-center justify-between pt-3 sm:pt-4 md:pt-6 border-t border-gray-800 gap-2 sm:gap-4">
-              <button
-                onClick={handlePrevious}
-                disabled={currentStep === 1}
-                className={`flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all text-xs sm:text-base ${currentStep === 1
-                  ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                  : 'bg-gray-700 text-white hover:bg-gray-600'
-                  }`}
-              >
-                <span>←</span>
-                <span className="hidden sm:inline">Previous</span>
-              </button>
+            {/* Navigation Buttons - Only show for steps 1-8 */}
+            {currentStep !== 9 && (
+              <div className={`flex items-center justify-between pt-3 sm:pt-4 md:pt-6 gap-2 sm:gap-4 ${currentStep === 1 ? 'justify-end' : 'justify-between'}`}>
+                {
+                  currentStep !== 1 && (
+                    <button
+                      onClick={handlePrevious}
+                      className={`flex cursor-pointer items-center space-x-1 sm:space-x-2 px-2 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all text-xs sm:text-base ${currentStep === 1
+                        ? 'text-gray-600 cursor-not-allowed'
+                        : 'text-white border-2 border-white/20 hover:border-gray-600'
+                        }`}
+                    >
+                      <span>←</span>
+                      <span className="hidden sm:inline">Previous</span>
+                    </button>
+                  )
+                }
 
-              <div className="text-[10px] sm:text-xs md:text-sm text-gray-400 whitespace-nowrap">
-                Step {currentStep} of {totalSteps}
+                <button
+                  onClick={handleNext}
+                  disabled={!canProceed()}
+                  className={`flex cursor-pointer items-center space-x-2 px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-lg font-medium transition-all text-sm sm:text-base ${!canProceed()
+                    ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-pink-500 to-pink-600 text-white hover:from-pink-600 hover:to-pink-700 shadow-lg shadow-pink-500/30'
+                    }`}
+                >
+                  <span>Next</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
               </div>
-
-              <button
-                onClick={handleNext}
-                disabled={!canProceed()}
-                className={`flex items-center space-x-2 px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-lg font-medium transition-all text-sm sm:text-base ${!canProceed()
-                  ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-pink-500 to-pink-600 text-white hover:from-pink-600 hover:to-pink-700 shadow-lg shadow-pink-500/30'
-                  }`}
-              >
-                <span>Next</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          )}
+            )}
           </div>
         </div>
       </div>
