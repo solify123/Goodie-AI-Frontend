@@ -5,7 +5,7 @@ const CollectionPage = () => {
 
   return (
     <Layout>
-      <div className="p-6 lg:p-8 max-w-[1800px] mx-auto w-full">
+      <div className="p-6 lg:p-8 max-w-[1856px] mx-auto w-full">
         {/* Page Header */}
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl lg:text-2xl md:text-[24px] sm:text-[18px] xs:text-[14px] font-bold text-white">My Collection</h1>

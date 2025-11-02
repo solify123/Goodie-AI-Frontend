@@ -4,9 +4,10 @@ import { useState } from 'react'
 interface ConversationProps {
   onBack?: () => void
   selectedChatId?: number | null
+  onToggleProfilePanel?: () => void
 }
 
-const Conversation = ({ onBack, selectedChatId }: ConversationProps) => {
+const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel }: ConversationProps) => {
   const [message, setMessage] = useState('')
   console.log(selectedChatId)
   const messages = [
@@ -56,7 +57,7 @@ const Conversation = ({ onBack, selectedChatId }: ConversationProps) => {
   }
 
   return (
-    <div className="flex flex-col h-full" style={{ height: 'calc(100vh - 60px)' }}>
+    <div className="flex flex-col h-full" style={{ height: 'calc(100vh - 65px)' }}>
       {/* Header */}
       <div className="p-3 sm:p-4 border-b border-gray-800 flex items-center justify-between bg-[#1a1a1a]">
         <div className="flex items-center space-x-2 sm:space-x-3 flex-1 min-w-0">
@@ -80,13 +81,16 @@ const Conversation = ({ onBack, selectedChatId }: ConversationProps) => {
         </div>
         
         <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
-          <button className="p-2 text-green-400 hover:bg-[#2a2a2a] rounded-lg transition-colors">
+          <button className="p-2 text-green-400 hover:bg-[#2a2a2a] rounded-lg transition-colors cursor-pointer">
             <Phone className="w-5 h-5" />
           </button>
-          <button className="p-2 text-gray-400 hover:bg-[#2a2a2a] rounded-lg transition-colors hidden sm:block">
+          <button className="p-2 text-gray-400 hover:bg-[#2a2a2a] rounded-lg transition-colors hidden sm:block cursor-pointer">
             <MoreVertical className="w-5 h-5" />
           </button>
-          <button className="p-2 text-gray-400 hover:bg-[#2a2a2a] rounded-lg transition-colors hidden md:block">
+          <button 
+            onClick={onToggleProfilePanel}
+            className="p-2 text-gray-400 hover:bg-[#2a2a2a] rounded-lg transition-colors hidden md:block cursor-pointer"
+          >
             <Menu className="w-5 h-5" />
           </button>
         </div>

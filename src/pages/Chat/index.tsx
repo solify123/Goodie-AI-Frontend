@@ -9,6 +9,7 @@ const ChatPage = () => {
   const [showChatList, setShowChatList] = useState(true)
   const [selectedChat, setSelectedChat] = useState<number | null>(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [showProfilePanel, setShowProfilePanel] = useState(true)
 
   useEffect(() => {
     const checkMobile = () => {
@@ -37,7 +38,7 @@ const ChatPage = () => {
     <Layout>
       <div className="chat-page w-full flex">
         <div className={`${(isMobile && showChatList && !selectedChat) || !isMobile ? 'flex' : 'hidden'
-          } w-full xl:w-80 lg:w-72 bg-[#1a1a1a] border-r border-gray-800 flex-col`}>
+          } w-full xl:w-80 lg:w-72 bg-[#1a1a1a] border-r border-gray-800 flex-col p-3`}>
           <ChatList onChatSelect={handleChatSelect} onClose={() => setShowChatList(false)} />
         </div>
 
@@ -49,13 +50,16 @@ const ChatPage = () => {
               <Conversation
                 onBack={handleBackToChatList}
                 selectedChatId={selectedChat}
+                onToggleProfilePanel={() => setShowProfilePanel(!showProfilePanel)}
               />
             </div>
 
             {/* Profile Panel - Hidden on mobile/tablet */}
-            <div className="hidden xl:block w-80 bg-[#1a1a1a] border-l border-gray-800">
-              <ProfilePanel />
-            </div>
+            {showProfilePanel && (
+              <div className="hidden xl:block w-[30%] bg-[#1a1a1a] border-l border-gray-800">
+                <ProfilePanel />
+              </div>
+            )}
           </div>
         </div>
         <BottomNavigation />
