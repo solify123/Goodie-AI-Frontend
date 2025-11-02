@@ -1,19 +1,19 @@
-import m_1_1 from '../../../assets/images/persons/m_1_1.png'
-import m_1_2 from '../../../assets/images/persons/m_1_2.png'
-import m_2_1 from '../../../assets/images/persons/m_2_1.png'
-import m_2_2 from '../../../assets/images/persons/m_2_2.png'
-import m_3_1 from '../../../assets/images/persons/m_3_1.png'
-import m_3_2 from '../../../assets/images/persons/m_3_2.png'
-import m_4_1 from '../../../assets/images/persons/m_4_1.png'
-import m_4_2 from '../../../assets/images/persons/m_4_2.png'
-import m_5_1 from '../../../assets/images/persons/m_5_1.png'
-import m_5_2 from '../../../assets/images/persons/m_5_2.png'
-import m_6_1 from '../../../assets/images/persons/m_6_1.png'
-import m_6_2 from '../../../assets/images/persons/m_6_2.png'
-import m_7_1 from '../../../assets/images/persons/m_7_1.png'
-import m_7_2 from '../../../assets/images/persons/m_7_2.png'
-import m_8_1 from '../../../assets/images/persons/m_8_1.png'
-import m_8_2 from '../../../assets/images/persons/m_8_2.png'
+// import m_1_1 from '../../../assets/images/persons/m_1_1.png'
+// import m_1_2 from '../../../assets/images/persons/m_1_2.png'
+// import m_2_1 from '../../../assets/images/persons/m_2_1.png'
+// import m_2_2 from '../../../assets/images/persons/m_2_2.png'
+// import m_3_1 from '../../../assets/images/persons/m_3_1.png'
+// import m_3_2 from '../../../assets/images/persons/m_3_2.png'
+// import m_4_1 from '../../../assets/images/persons/m_4_1.png'
+// import m_4_2 from '../../../assets/images/persons/m_4_2.png'
+// import m_5_1 from '../../../assets/images/persons/m_5_1.png'
+// import m_5_2 from '../../../assets/images/persons/m_5_2.png'
+// import m_6_1 from '../../../assets/images/persons/m_6_1.png'
+// import m_6_2 from '../../../assets/images/persons/m_6_2.png'
+// import m_7_1 from '../../../assets/images/persons/m_7_1.png'
+// import m_7_2 from '../../../assets/images/persons/m_7_2.png'
+// import m_8_1 from '../../../assets/images/persons/m_8_1.png'
+// import m_8_2 from '../../../assets/images/persons/m_8_2.png'
 
 const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: boolean }) => {
   return (
@@ -60,57 +60,50 @@ const Anime = () => {
       name: "Kenji",
       age: 22,
       description: "Swordsman from the ancient realm seeking justice...",
-      defaultImage: m_1_1,
-      hoverImage: m_1_2,
-    },
-    {
-      name: "Sakura",
-      age: 19,
-      description: "Magical girl with incredible powers and a kind heart...",
-      defaultImage: m_2_1,
-      hoverImage: m_2_2,
-    },
+      defaultImage: "https://images.unsplash.com/photo-1566837945700-30057527ade0?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1566837945700-30057527ade0?w=300&h=400&fit=crop&crop=face",
+    },  
     {
       name: "Ren",
       age: 24,
       description: "Ninja warrior with extraordinary agility...",
-      defaultImage: m_3_1,
-      hoverImage: m_3_2,
+      defaultImage: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=300&h=400&fit=crop&crop=face",
     },
     {
       name: "Yuki",
       age: 20,
       description: "Ice mage controlling the elements...",
-      defaultImage: m_4_1,
-      hoverImage: m_4_2,
+      defaultImage: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&h=400&fit=crop&crop=face",
     },
     {
       name: "Takeshi",
       age: 23,
       description: "Samurai warrior with honor and unwavering spirit...",
-      defaultImage: m_5_1,
-      hoverImage: m_5_2,
+      defaultImage: "https://images.unsplash.com/photo-1479936343636-73cdc5aae0c3?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1479936343636-73cdc5aae0c3?w=300&h=400&fit=crop&crop=face",
     },
     {
       name: "Aoi",
       age: 21,
       description: "Shrine maiden with mystical powers and ancient wisdom...",
-      defaultImage: m_6_1,
-      hoverImage: m_6_2,
+      defaultImage: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=300&h=400&fit=crop&crop=face",
     },
     {
       name: "Ryuu",
       age: 25,
       description: "Dragon slayer with legendary strength and courage...",
-      defaultImage: m_7_1,
-      hoverImage: m_7_2,
+      defaultImage: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&h=400&fit=crop&crop=face",
     },
     {
       name: "Hana",
       age: 18,
       description: "Nature spirit connected to the forest and all living things...",
-      defaultImage: m_8_1,
-      hoverImage: m_8_2,
+      defaultImage: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=400&fit=crop&crop=face",
     }
   ]
 

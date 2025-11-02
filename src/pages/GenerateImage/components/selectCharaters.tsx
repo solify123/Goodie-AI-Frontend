@@ -20,7 +20,6 @@ const SelectCharaters = ({ setSelectCharater }: SelectCharatersProps) => {
     { id: 5, name: 'Isabella', image: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=300&h=400&fit=crop&crop=face' },
     { id: 6, name: 'Mia', image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=300&h=400&fit=crop&crop=face' },
     { id: 7, name: 'Charlotte', image: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=300&h=400&fit=crop&crop=face' },
-    { id: 8, name: 'Amelia', image: 'https://images.unsplash.com/photo-1499955967378-681551ccee25?w=300&h=400&fit=crop&crop=face' }
   ]
 
   const animeCharacters = [

@@ -1,19 +1,19 @@
-import m_1_1 from '../../../assets/images/persons/m_1_1.png'
-import m_1_2 from '../../../assets/images/persons/m_1_2.png'
-import m_2_1 from '../../../assets/images/persons/m_2_1.png'
-import m_2_2 from '../../../assets/images/persons/m_2_2.png'
-import m_3_1 from '../../../assets/images/persons/m_3_1.png'
-import m_3_2 from '../../../assets/images/persons/m_3_2.png'
-import m_4_1 from '../../../assets/images/persons/m_4_1.png'
-import m_4_2 from '../../../assets/images/persons/m_4_2.png'
-import m_5_1 from '../../../assets/images/persons/m_5_1.png'
-import m_5_2 from '../../../assets/images/persons/m_5_2.png'
-import m_6_1 from '../../../assets/images/persons/m_6_1.png'
-import m_6_2 from '../../../assets/images/persons/m_6_2.png'
-import m_7_1 from '../../../assets/images/persons/m_7_1.png'
-import m_7_2 from '../../../assets/images/persons/m_7_2.png'
-import m_8_1 from '../../../assets/images/persons/m_8_1.png'
-import m_8_2 from '../../../assets/images/persons/m_8_2.png'
+// import m_1_1 from '../../../assets/images/persons/m_1_1.png'
+// import m_1_2 from '../../../assets/images/persons/m_1_2.png'
+// import m_2_1 from '../../../assets/images/persons/m_2_1.png'
+// import m_2_2 from '../../../assets/images/persons/m_2_2.png'
+// import m_3_1 from '../../../assets/images/persons/m_3_1.png'
+// import m_3_2 from '../../../assets/images/persons/m_3_2.png'
+// import m_4_1 from '../../../assets/images/persons/m_4_1.png'
+// import m_4_2 from '../../../assets/images/persons/m_4_2.png'
+// import m_5_1 from '../../../assets/images/persons/m_5_1.png'
+// import m_5_2 from '../../../assets/images/persons/m_5_2.png'
+// import m_6_1 from '../../../assets/images/persons/m_6_1.png'
+// import m_6_2 from '../../../assets/images/persons/m_6_2.png'
+// import m_7_1 from '../../../assets/images/persons/m_7_1.png'
+// import m_7_2 from '../../../assets/images/persons/m_7_2.png'
+// import m_8_1 from '../../../assets/images/persons/m_8_1.png'
+// import m_8_2 from '../../../assets/images/persons/m_8_2.png'
 
 const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: boolean }) => {
   return (
@@ -60,57 +60,50 @@ const Girls = () => {
       name: "Emma",
       age: 28,
       description: "Fashion designer and yoga instructor with a passion for sustainable living...",
-      defaultImage: m_1_1,
-      hoverImage: m_1_2,
+      defaultImage: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=400&fit=crop&crop=face",
     },
     {
       name: "Sophia",
       age: 32,
       description: "Successful entrepreneur and wellness advocate...",
-      defaultImage: m_2_1,
-      hoverImage: m_2_2,
+      defaultImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=400&fit=crop&crop=face",
     },
     {
       name: "Maya",
       age: 25,
       description: "Professional dancer and choreographer...",
-      defaultImage: m_3_1,
-      hoverImage: m_3_2,
+      defaultImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=400&fit=crop&crop=face",
     },
     {
       name: "Luna",
       age: 29,
       description: "Talented musician and nature enthusiast...",
-      defaultImage: m_4_1,
-      hoverImage: m_4_2,
+      defaultImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=400&fit=crop&crop=face",
     },
     {
       name: "Isabella",
       age: 26,
       description: "Creative artist and coffee enthusiast with a love for vintage fashion...",
-      defaultImage: m_5_1,
-      hoverImage: m_5_2,
+      defaultImage: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=300&h=400&fit=crop&crop=face",
     },
     {
       name: "Olivia",
       age: 30,
       description: "Fitness instructor and health coach passionate about wellness...",
-      defaultImage: m_6_1,
-      hoverImage: m_6_2,
+      defaultImage: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=300&h=400&fit=crop&crop=face",
     },
     {
       name: "Ava",
       age: 27,
       description: "Graphic designer and digital artist with an eye for aesthetics...",
-      defaultImage: m_7_1,
-      hoverImage: m_7_2,
-    },
-    {
-      name: "Charlotte",
-      age: 31,
-      description: "Chef and food blogger who creates beautiful culinary experiences...",
-      defaultImage: m_8_1,
-      hoverImage: m_8_2,
+      defaultImage: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=300&h=400&fit=crop&crop=face",
+      hoverImage: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=300&h=400&fit=crop&crop=face",
     }
   ]
 
