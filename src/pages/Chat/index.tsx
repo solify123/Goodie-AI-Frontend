@@ -10,6 +10,7 @@ const ChatPage = () => {
   const [isMobile, setIsMobile] = useState(false)
   const [showProfilePanel, setShowProfilePanel] = useState(true)
   const [showResetModal, setShowResetModal] = useState(false)
+
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 1024)
@@ -18,6 +19,7 @@ const ChatPage = () => {
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
+
   // On mobile, hide chat list when conversation is selected
   const handleChatSelect = (chatId: number) => {
     setSelectedChat(chatId)
@@ -25,11 +27,13 @@ const ChatPage = () => {
       setShowChatList(false)
     }
   }
+
   // Back to chat list on mobile
   const handleBackToChatList = () => {
     setShowChatList(true)
     setSelectedChat(null)
   }
+
   return (
     <Layout>
       <div className="chat-page w-full flex">
