@@ -35,10 +35,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             )}
 
             {/* Main Content */}
-            <div className={`flex flex-col min-h-screen transition-all duration-500 ease-in-out ml-0 pt-[53px] ${isCollapsed ? 'md:ml-16' : 'md:ml-62'}`}>
+            <div className={`flex flex-col min-h-screen ml-0 pt-[65px] ${isCollapsed ? 'md:ml-16' : 'md:ml-58'}`}>
                 {/* Scrollable Main Content Area */}
                 <main className="flex-1 overflow-y-auto">
-                    <div className="max-w-[1800px] mx-auto w-full">
+                    <div className="max-w-[1856px] mx-auto w-full">
                         {children}
                     </div>
                 </main>

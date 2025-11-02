@@ -31,3 +31,22 @@
     line-clamp: 2;
   }
 }
+
+/* Custom scrollbar styles for dark UI */
+::-webkit-scrollbar {
+  width: 10px;
+  background: #181818;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #282828;
+  border-radius: 10px;
+  border: 2px solid #181818;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #383838;
+}
+
+::-webkit-scrollbar-corner {
+  background: #181818;
+}

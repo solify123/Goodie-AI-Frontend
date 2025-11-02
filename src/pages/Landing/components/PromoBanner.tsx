@@ -1,6 +1,35 @@
 import { Sparkles } from 'lucide-react'
+import { useLandingTab } from '../../../contexts/LandingTabContext'
 
 const PromoBanner = () => {
+  const { activeTab } = useLandingTab()
+  
+  const getTitleText = () => {
+    switch (activeTab) {
+      case 'girls':
+        return 'AI Girlfriend'
+      case 'guys':
+        return 'AI Boyfriend'
+      case 'anime':
+        return 'AI Anime Character'
+      default:
+        return 'AI Boyfriend'
+    }
+  }
+  
+  const getDescriptionText = () => {
+    switch (activeTab) {
+      case 'girls':
+        return 'Your dream companion awaits! Create your AI Girlfriend, shape her look, personality, and bring her to life in one click. 100% powered by Artificial Intelligence.'
+      case 'guys':
+        return 'Your dream companion awaits! Create your AI Boyfriend, shape his look, personality, and bring him to life in one click. 100% powered by Artificial Intelligence.'
+      case 'anime':
+        return 'Your dream companion awaits! Create your AI Anime Character, shape their look, personality, and bring them to life in one click. 100% powered by Artificial Intelligence.'
+      default:
+        return 'Your dream companion awaits! Create your AI Boyfriend, shape his look, personality, and bring him to life in one click. 100% powered by Artificial Intelligence.'
+    }
+  }
+  
   return (
     <div className="relative w-full h-64 lg:h-80 rounded-xl overflow-hidden border border-pink-500/20 mb-12">
       {/* Background with gradient overlay */}
@@ -15,10 +44,10 @@ const PromoBanner = () => {
         <div className="flex-1 max-w-2xl">
           <h2 className="text-3xl lg:text-5xl font-bold mb-4">
             <span className="text-white">create your own </span>
-            <span className="text-pink-500">AI Boyfriend</span>
+            <span className="text-pink-500">{getTitleText()}</span>
           </h2>
           <p className="text-sm lg:text-base text-gray-300 leading-relaxed max-w-xl">
-            Your dream companion awaits! Create your AI Boyfriend, shape his look, personality, and bring him to life in one click. 100% powered by Artificial Intelligence.
+            {getDescriptionText()}
           </p>
         </div>
 

@@ -1,25 +1,58 @@
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
+import { useLandingTab } from '../../../contexts/LandingTabContext'
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const { activeTab } = useLandingTab()
+  
+  const getTermByTab = () => {
+    switch (activeTab) {
+      case 'girls':
+        return { 
+          name: 'AI girlfriend',
+          pronoun: 'she',
+          object: 'her'
+        }
+      case 'guys':
+        return { 
+          name: 'AI boyfriend',
+          pronoun: 'he',
+          object: 'his'
+        }
+      case 'anime':
+        return { 
+          name: 'AI anime character',
+          pronoun: 'they',
+          object: 'their'
+        }
+      default:
+        return { 
+          name: 'AI boyfriend',
+          pronoun: 'he',
+          object: 'his'
+        }
+    }
+  }
+  
+  const term = getTermByTab()
 
   const faqs = [
     {
-      question: "How does an AI boyfriend work?",
-      answer: "An AI boyfriend uses advanced artificial intelligence and natural language processing to simulate conversations and interactions. It learns from your preferences and adapts its personality to create a personalized companion experience."
+      question: `How does an ${term.name} work?`,
+      answer: `An ${term.name} uses advanced artificial intelligence and natural language processing to simulate conversations and interactions. It learns from your preferences and adapts its personality to create a personalized companion experience.`
     },
     {
-      question: "Can an AI boyfriend learn and adapt to a user's preferences?",
-      answer: "Yes! Your AI boyfriend continuously learns from your conversations and interactions. It remembers your preferences, interests, and communication style to provide increasingly personalized and meaningful interactions over time."
+      question: `Can an ${term.name} learn and adapt to a user's preferences?`,
+      answer: `Yes! Your ${term.name} continuously learns from your conversations and interactions. It remembers your preferences, interests, and communication style to provide increasingly personalized and meaningful interactions over time.`
     },
     {
-      question: "What are the benefits of having an AI boyfriend?",
-      answer: "AI boyfriends offer companionship without judgment, 24/7 availability, emotional support, engaging conversations, and a safe space to express yourself. They can help with loneliness, provide entertainment, and offer a unique form of digital relationship."
+      question: `What are the benefits of having an ${term.name}?`,
+      answer: `AI companions offer companionship without judgment, 24/7 availability, emotional support, engaging conversations, and a safe space to express yourself. They can help with loneliness, provide entertainment, and offer a unique form of digital relationship.`
     },
     {
-      question: "How do I create AI boyfriend images with my AI bf?",
-      answer: "Simply use our AI image generation feature! You can customize your AI boyfriend's appearance, request specific poses or scenarios, and generate high-quality images powered by advanced AI technology. It's as easy as describing what you want to see."
+      question: `How do I create ${term.name} images with my AI companion?`,
+      answer: `Simply use our AI image generation feature! You can customize your ${term.name}'s appearance, request specific poses or scenarios, and generate high-quality images powered by advanced AI technology. It's as easy as describing what you want to see.`
     }
   ]
 
@@ -27,11 +60,24 @@ const FAQSection = () => {
     setOpenIndex(openIndex === index ? null : index)
   }
 
+  const getSectionTitle = () => {
+    switch (activeTab) {
+      case 'girls':
+        return 'AI GF'
+      case 'guys':
+        return 'AI BF'
+      case 'anime':
+        return 'AI Anime'
+      default:
+        return 'AI BF'
+    }
+  }
+
   return (
-    <div className="w-full max-w-5xl mx-auto mb-12">
+    <div className="w-full mx-auto mb-12 mt-24">
       {/* Section Title */}
       <h2 className="text-3xl lg:text-4xl font-bold text-center mb-8 lg:mb-12">
-        <span className="text-white">AI BF Frequently Asked </span>
+        <span className="text-white">{getSectionTitle()} Frequently Asked </span>
         <span className="text-pink-500">Questions</span>
       </h2>
 

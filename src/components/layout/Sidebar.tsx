@@ -28,13 +28,13 @@ const Sidebar = ({ setShowLanguagePopup, setShowContactModal }: { setShowLanguag
   return (
     <aside
       className={
-        `fixed overflow-y-auto left-0 bg-[#1a1a1a] border-r border-gray-800 flex flex-col z-40 transition-all duration-500 ease-in-out transform ${isCollapsed ? '-translate-x-full md:translate-x-0 md:w-16' : 'translate-x-0 md:w-64'} w-72 mt-[53px]`
+        `fixed flex flex-col justify-between align-start overflow-y-auto left-0 bg-[#0f0f0f] border-r border-gray-800 flex flex-col z-40 transform ${isCollapsed ? '-translate-x-full md:translate-x-0 md:w-16' : 'translate-x-0 md:w-58'} w-66 mt-[65px]`
       }
-      style={{ height: 'calc(100vh - 53px)' }}
+      style={{ height: 'calc(100vh - 65px)' }}
     >
 
       {/* Main Features */}
-      <div className={`space-y-1 mt-2 ${isCollapsed ? 'md:p-2 p-4x' : 'p-4'}`}>
+      <div className={`space-y-2 mt-2 ${isCollapsed ? 'md:p-2 p-4x' : 'py-4 px-6'}`}>
         {mainFeatures.map((feature, index) => {
           const Icon = feature.icon
           const isActive = location.pathname === feature.path
@@ -47,17 +47,17 @@ const Sidebar = ({ setShowLanguagePopup, setShowContactModal }: { setShowLanguag
                 }
                 navigate(feature.path)
               }}
-              className={`w-full flex cursor-pointer items-center text-white rounded-lg transition-all duration-200 ${isActive
+              className={`w-full flex cursor-pointer items-center text-white rounded-lg transition-all border border-gray-800 duration-200 ${isActive
                 ? 'bg-[#2a2a2a]'
                 : 'hover:bg-[#2a2a2a]'
-                } ${isCollapsed ? 'md:justify-center md:px-2 px-3 py-2.5' : 'space-x-3 px-3 py-2.5'}`}
+                } ${isCollapsed ? 'md:justify-center md:px-1 px-1 py-1' : 'space-x-1 px-1 py-1'}`}
               title={isCollapsed ? feature.name : undefined}
             >
               <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isActive ? 'bg-white/10' : 'bg-transparent'
                 }`}>
                 <Icon className="w-4 h-4" />
               </div>
-              <span className={`text-sm font-medium whitespace-nowrap transition-opacity duration-200 ${isCollapsed ? 'md:opacity-0 md:hidden' : 'opacity-100'}`}>{feature.name}</span>
+              <span className={`text-xs font-medium whitespace-nowrap transition-opacity duration-200 ${isCollapsed ? 'md:opacity-0 md:hidden' : 'opacity-100'}`}>{feature.name}</span>
             </button>
           )
         })}
@@ -72,11 +72,8 @@ const Sidebar = ({ setShowLanguagePopup, setShowContactModal }: { setShowLanguag
         </button>
       </div>
 
-      {/* Divider */}
-      <div className="border-t border-gray-800 mx-4 my-2"></div>
-
       {/* Support Links */}
-      <div className={`space-y-1 flex-1 ${isCollapsed ? 'md:p-2 p-4' : 'p-4'}`}>
+      <div className={`space-y-1 border-t border-gray-800 flex flex-col ${isCollapsed ? 'md:p-2 p-4' : 'pt-6 px-6 pb-4'}`}>
         {supportLinks.map((link, index) => {
           const Icon = link.icon
           return (
@@ -89,33 +86,31 @@ const Sidebar = ({ setShowLanguagePopup, setShowContactModal }: { setShowLanguag
                   setShowContactModal(true)
                 }
               }}
-              className={`w-full cursor-pointer flex items-center text-gray-400 rounded-lg hover:bg-[#2a2a2a] hover:text-white transition-all duration-200 ${isCollapsed ? 'md:justify-center md:px-2 px-3 py-2.5' : 'space-x-3 px-3 py-2.5'}`}
+              className={`w-full cursor-pointer flex border border-gray-800 items-center text-gray-400 rounded-lg hover:bg-[#2a2a2a] hover:text-white transition-all duration-200 ${isCollapsed ? 'md:justify-center md:px-1 px-1 py-1' : 'space-x-1 px-1 py-1'}`}
               title={isCollapsed ? link.name : undefined}
             >
               <div className="w-8 h-8 rounded-full flex items-center justify-center">
                 <Icon className="w-4 h-4" />
               </div>
-              <span className={`text-sm font-medium whitespace-nowrap transition-opacity duration-200 ${isCollapsed ? 'md:opacity-0 md:hidden' : 'opacity-100'}`}>{link.name}</span>
+              <span className={`text-xs font-medium whitespace-nowrap transition-opacity duration-200 ${isCollapsed ? 'md:opacity-0 md:hidden' : 'opacity-100'}`}>{link.name}</span>
             </button>
           )
         })}
-      </div>
-
-      {
-        isCollapsed ? null : (
-          <div className="p-4 border-t border-gray-800">
-            <div className="space-y-2 text-xs text-gray-500">
+        {
+          isCollapsed ? null : (
+            <div className="space-y-2 text-[10px] text-gray-500 flex justify-center align-center pt-3">
               <a href="#" className="block hover:text-gray-300 transition-colors">
                 Privacy Notice
               </a>
-              <span className="text-gray-700">•</span>
+              <span className="text-gray-700 text-[10px]">•</span>
               <a href="#" className="inline hover:text-gray-300 transition-colors ml-1">
                 Terms of Service
               </a>
             </div>
-          </div>
-        )
-      }
+          )
+        }
+      </div>
+
     </aside>
   )
 

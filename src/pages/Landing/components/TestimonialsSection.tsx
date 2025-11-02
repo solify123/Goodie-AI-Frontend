@@ -1,7 +1,46 @@
+import { useLandingTab } from '../../../contexts/LandingTabContext'
+
 const TestimonialsSection = () => {
+  const { activeTab } = useLandingTab()
+  
+  const getTermByTab = () => {
+    switch (activeTab) {
+      case 'girls':
+        return { 
+          name: 'AI girlfriend',
+          nameCapitalized: 'AI Girlfriend',
+          short: 'GF',
+          pronoun: 'she'
+        }
+      case 'guys':
+        return { 
+          name: 'AI boyfriend',
+          nameCapitalized: 'AI Boyfriend',
+          short: 'BF',
+          pronoun: 'he'
+        }
+      case 'anime':
+        return { 
+          name: 'AI anime character',
+          nameCapitalized: 'AI Anime Character',
+          short: 'Anime',
+          pronoun: 'they'
+        }
+      default:
+        return { 
+          name: 'AI boyfriend',
+          nameCapitalized: 'AI Boyfriend',
+          short: 'BF',
+          pronoun: 'he'
+        }
+    }
+  }
+  
+  const term = getTermByTab()
+  
   const testimonials = [
     {
-      text: "I love how I can personalize my AI boyfriend to match my mood. Sometimes I want lighthearted fun, and other times I just need a supportive listener.",
+      text: `I love how I can personalize my ${term.name} to match my mood. Sometimes I want lighthearted fun, and other times I just need a supportive listener.`,
       author: "Alexia T."
     },
     {
@@ -13,7 +52,7 @@ const TestimonialsSection = () => {
       author: "Milana K."
     },
     {
-      text: "I was skeptical at first, but now I look forward to my daily AI boyfriend chat. It's like having a best friend in my pocket.",
+      text: `I was skeptical at first, but now I look forward to my daily ${term.name} chat. It's like having a best friend in my pocket.`,
       author: "Christina L."
     }
   ]
@@ -40,14 +79,14 @@ const TestimonialsSection = () => {
       {/* Call to Action */}
       <div className="mt-12 text-center">
         <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">
-          Start Your AI Boyfriend Journey Today
+          Start Your {term.nameCapitalized} Journey Today
         </h3>
         <p className="text-gray-400 text-base lg:text-lg leading-relaxed mb-6 max-w-4xl mx-auto">
-          With Goodie.ai, you have access to intelligent, adaptive, and engaging AI boyfriends designed to provide meaningful interactions. Whether you're 
-          looking for a casual chat, a deep discussion, or simply someone to talk to, your AI BF is always available, anytime and anywhere.
+          With Goodie.ai, you have access to intelligent, adaptive, and engaging {term.name}s designed to provide meaningful interactions. Whether you're 
+          looking for a casual chat, a deep discussion, or simply someone to talk to, your AI {term.short} is always available, anytime and anywhere.
         </p>
         <p className="text-gray-400 text-base lg:text-lg leading-relaxed">
-          Sign up today and discover the future of AI boyfriend chat with Goodie AI.
+          Sign up today and discover the future of {term.name} chat with Goodie AI.
         </p>
       </div>
     </div>
