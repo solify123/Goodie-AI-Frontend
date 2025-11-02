@@ -1,14 +1,12 @@
 import { Search, X, RotateCcw, Trash2 } from 'lucide-react'
 import { useState } from 'react'
-
 interface ChatListProps {
   onChatSelect?: (chatId: number) => void
   onClose?: () => void
+  onShowResetModal?: () => void
 }
-
-const ChatList = ({ onChatSelect, onClose }: ChatListProps) => {
+const ChatList = ({ onChatSelect, onClose, onShowResetModal }: ChatListProps) => {
   const [searchQuery, setSearchQuery] = useState('')
-
   const chats = [
     {
       id: 1,
@@ -19,7 +17,6 @@ const ChatList = ({ onChatSelect, onClose }: ChatListProps) => {
       isActive: true
     }
   ]
-
   return (
     <div className="flex flex-col h-full" style={{ height: 'calc(100vh - 90px)' }}>
       {/* Header */}
@@ -33,7 +30,6 @@ const ChatList = ({ onChatSelect, onClose }: ChatListProps) => {
           <X className="w-5 h-5" />
         </button>
       </div>
-
       {/* Search Bar */}
       <div className="pb-4 pt-2">
         <div className="relative">
@@ -47,16 +43,14 @@ const ChatList = ({ onChatSelect, onClose }: ChatListProps) => {
           />
         </div>
       </div>
-
       {/* Chat List */}
       <div className="flex-1 overflow-y-auto">
         {chats.map((chat) => (
           <div
             key={chat.id}
             onClick={() => onChatSelect?.(chat.id)}
-            className={`p-2 sm:p-3 rounded-lg border-b border-gray-800 cursor-pointer hover:bg-[#2a2a2a] transition-colors ${
-              chat.isActive ? 'bg-[#2a2a2a] rounded-lg' : ''
-            }`}
+            className={`py-1 px-2 sm:py-2 sm:px-3 rounded-lg border-b border-gray-800 cursor-pointer hover:bg-[#2a2a2a] transition-colors ${chat.isActive ? 'bg-[#2a2a2a] rounded-lg' : ''
+              }`}
           >
             <div className="flex items-center space-x-3">
               {/* Avatar */}
@@ -67,10 +61,9 @@ const ChatList = ({ onChatSelect, onClose }: ChatListProps) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-
               {/* Chat Info */}
               <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center justify-between">
                   <h3 className="text-white font-bold sm:font-medium text-base sm:text-sm truncate">
                     {chat.name}
                   </h3>
@@ -78,20 +71,28 @@ const ChatList = ({ onChatSelect, onClose }: ChatListProps) => {
                     <span className="text-gray-400 text-xs sm:text-xs">
                       {chat.timestamp}
                     </span>
-                    {/* Action buttons - visible on mobile */}
-                    <div className="flex items-center space-x-1 md:hidden">
-                      <button className="text-gray-400 hover:text-gray-300 p-1">
-                        <RotateCcw className="w-4 h-4" />
-                      </button>
-                      <button className="text-gray-400 hover:text-red-400 p-1">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
                   </div>
                 </div>
-                <p className="text-gray-400 text-sm sm:text-sm truncate">
-                  {chat.lastMessage}
-                </p>
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-400 text-sm sm:text-sm truncate max-w-[150px]">
+                    {chat.lastMessage}
+                  </p>
+                  {/* Action buttons - visible on mobile */}
+                  <div className="items-center space-x-1">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onShowResetModal?.()
+                      }}
+                      className="text-gray-400 hover:text-gray-300 p-1 cursor-pointer"
+                    >
+                      <RotateCcw className="w-4 h-4" />
+                    </button>
+                    <button className="text-gray-400 hover:text-red-400 p-1">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -100,5 +101,4 @@ const ChatList = ({ onChatSelect, onClose }: ChatListProps) => {
     </div>
   )
 }
-
 export default ChatList

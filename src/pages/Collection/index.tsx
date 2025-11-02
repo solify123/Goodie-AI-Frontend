@@ -1,35 +1,91 @@
-import { ChevronDown, Image as ImageIcon } from 'lucide-react'
+import { ArrowDownWideNarrow, Image as ImageIcon } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
 import Layout from '../../components/layout'
 
 const CollectionPage = () => {
+  const [showSortDropdown, setShowSortDropdown] = useState(false)
+  const [selectedSort, setSelectedSort] = useState('Newest first')
+  const sortDropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sortDropdownRef.current && !sortDropdownRef.current.contains(event.target as Node)) {
+        setShowSortDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const sortOptions = [
+    'Newest first',
+    'Oldest first',
+    'A-Z by name'
+  ]
 
   return (
     <Layout>
-      <div className="p-6 lg:p-8 max-w-[1856px] mx-auto w-full">
+      <div className="mx-auto w-full">
         {/* Page Header */}
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl lg:text-2xl md:text-[24px] sm:text-[18px] xs:text-[14px] font-bold text-white">My Collection</h1>
+        <div className="flex items-center justify-between mb-8 p-6 lg:py-6 border-b border-gray-800">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <h1 className="text-2xl lg:text-2xl w-7xl md:text-[24px] sm:text-[18px] xs:text-[14px] font-bold text-white">My Collection</h1>
 
-          {/* Sort Dropdown */}
-          <div className="flex items-center space-x-2">
-            <span className="text-gray-400 text-sm sm:block hidden">Sort by</span>
-            <button className="flex items-center space-x-2 bg-[#1a1a1a] border border-gray-700 rounded-lg px-3 py-2 text-white hover:bg-[#2a2a2a] transition-colors">
-              <span className="text-sm">Latest</span>
-              <ChevronDown className="w-4 h-4" />
-            </button>
+            {/* Sort Dropdown */}
+            <div className="relative" ref={sortDropdownRef}>
+              <button
+                onClick={() => setShowSortDropdown(!showSortDropdown)}
+                className="flex items-center space-x-2 w-[90px] justify-between cursor-pointer"
+              >
+                <span className="text-sm font-semibold mr-1 hidden sm:block">Sort by</span>
+                <ArrowDownWideNarrow className="w-4 h-4" />
+              </button>
+
+              {/* Dropdown Menu */}
+              {showSortDropdown && (
+                <div className="absolute top-full right-0 mt-2 bg-[#1a1a1a] border border-gray-700 rounded-lg shadow-lg min-w-[160px] py-1 z-20">
+                  {sortOptions.map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => {
+                        setSelectedSort(option)
+                        setShowSortDropdown(false)
+                        // Handle sort logic
+                        console.log('Sort by:', option)
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-white hover:bg-[#2a2a2a] transition-colors flex items-center space-x-3 cursor-pointer"
+                    >
+                      {selectedSort === option && (
+                        <span className="text-green-500">✓</span>
+                      )}
+                      {selectedSort !== option && (
+                        <span className="w-4"></span>
+                      )}
+                      <span>{option}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Collection Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+        <div className="pb-8 grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4 xl:grid-cols-5 md:grid-cols-3 lg:gap-7 max-w-7xl mx-auto">
           {/* Character Card */}
-          <div className="bg-[#1a1a1a] rounded-lg border border-gray-800 overflow-hidden hover:border-gray-700 transition-colors w-64">
+          <div className="cursor-pointer hover:border-gray-700 transition-colors w-full">
             {/* Card Header */}
-            <div className="p-3 border-b border-gray-800">
+            <div className="pb-2">
               <div className="flex items-center space-x-2">
                 {/* Profile Picture */}
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">AM</span>
+                <div className="w-8 h-8 rounded-full from-blue-500 to-purple-600 flex items-center justify-center">
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face"
+                    alt="Arthur Murphy"
+                    className="w-full h-full object-cover rounded-lg"
+                  />
                 </div>
 
                 {/* Character Info */}
@@ -37,37 +93,22 @@ const CollectionPage = () => {
                   <h3 className="text-white font-medium text-xs">Arthur Murphy</h3>
                   <div className="flex items-center space-x-1 text-gray-400 text-xs">
                     <ImageIcon className="w-3 h-3" />
-                    <span>1</span>
+                    <span className="font-bold">1</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Character Image */}
-            <div className="aspect-[3/4] relative">
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face"
-                alt="Arthur Murphy"
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Card Footer */}
-            <div className="p-3">
-              <div className="flex items-center justify-between">
-                <span className="text-gray-400 text-xs">2 days ago</span>
-                <div className="flex space-x-1">
-                  <button className="text-gray-400 hover:text-white transition-colors">
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                  </button>
-                  <button className="text-gray-400 hover:text-white transition-colors">
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
-                    </svg>
-                  </button>
-                </div>
+            <div>
+              {/* Character Image */}
+              <div className="aspect-[2/3] relative">
+                <div className="absolute w-[98%] h-full bg-[#2D2D2D] rounded-lg top-2 left-2 lg:top-3 lg:left-4"></div>
+                <div className="absolute w-[98%] h-full bg-[#474747] rounded-lg top-1 left-1 lg:top-[6px] lg:left-2"></div>
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face"
+                  alt="Arthur Murphy"
+                  className="w-full h-full object-cover rounded-lg relative z-10"
+                />
               </div>
             </div>
           </div>
