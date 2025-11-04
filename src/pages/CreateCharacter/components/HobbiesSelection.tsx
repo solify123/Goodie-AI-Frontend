@@ -42,7 +42,7 @@ const HobbiesSelection = ({ selected, onSelect }: HobbiesSelectionProps) => {
   return (
     <div className="flex flex-col items-center">
       <h3 className="text-white text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-center">
-        Choose Hobbies<span className="text-pink-500">*</span>
+        Choose Hobbies<span className="text-[#009688]">*</span>
       </h3>
       <p className="text-gray-400 text-xs sm:text-sm text-center mb-4 sm:mb-6">
         You can choose up to 3 variants
@@ -60,7 +60,7 @@ const HobbiesSelection = ({ selected, onSelect }: HobbiesSelectionProps) => {
               disabled={isDisabled}
               className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer ${
                 isSelected
-                  ? 'bg-pink-500 text-white'
+                  ? 'bg-[#009688] text-white'
                   : isDisabled
                   ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
                   : 'text-white outline-2 outline-white/20 hover:outline-gray-600'

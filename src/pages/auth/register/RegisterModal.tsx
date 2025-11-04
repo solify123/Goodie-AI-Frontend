@@ -73,14 +73,14 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegistrationSuccess
       <div className="relative w-full max-w-[50rem] mx-4 bg-[#1A1A1A] rounded-2xl overflow-hidden shadow-2xl">
         <div className="w-full flex flex-col md:flex-row">
           {/* Left Side - Image/Branding */}
-          <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-purple-900/60 via-pink-900/50 to-purple-800/60 relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-pink-800/70 to-purple-900/80"></div>
+          <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-purple-900/60 via-[#00695c]/40 to-purple-800/60 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-[#00796b]/50 to-purple-900/80"></div>
             {/* Placeholder for background image - add your actual image */}
             <div className="relative w-full h-full flex items-end p-8">
               <div className="text-left">
                 <h1 className="text-4xl font-bold">
                   <span className="text-white">Goodie</span>
-                  <span className="text-pink-500">.ai</span>
+                  <span className="text-[#009688]">.ai</span>
                 </h1>
               </div>
             </div>
@@ -111,7 +111,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegistrationSuccess
                     placeholder="E-mail"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full h-12 bg-[#252525] border border-gray-600 rounded-lg pl-12 pr-4 text-white placeholder-white focus:outline-none focus:border-pink-500 transition-colors text-sm"
+                    className="w-full h-12 bg-[#252525] border border-gray-600 rounded-lg pl-12 pr-4 text-white placeholder-white focus:outline-none focus:border-[#009688] transition-colors text-sm"
                     required
                   />
                 </div>
@@ -125,7 +125,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegistrationSuccess
                       placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full h-12 bg-[#252525] border border-gray-600 rounded-lg pl-12 pr-12 text-white placeholder-white focus:outline-none focus:border-pink-500 transition-colors text-sm"
+                      className="w-full h-12 bg-[#252525] border border-gray-600 rounded-lg pl-12 pr-12 text-white placeholder-white focus:outline-none focus:border-[#009688] transition-colors text-sm"
                       required
                       minLength={6}
                     />

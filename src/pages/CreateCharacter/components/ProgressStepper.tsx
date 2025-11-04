@@ -21,9 +21,9 @@ const ProgressStepper = ({ currentStep, totalSteps }: ProgressStepperProps) => {
                 <div
                   className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center transition-all duration-300 ${
                     isCompleted
-                      ? 'bg-pink-500'
+                      ? 'bg-[#009688]'
                       : isCurrent
-                      ? 'bg-pink-500'
+                      ? 'bg-[#009688]'
                       : 'bg-gray-700 border-2 border-gray-600'
                   }`}
                 >
@@ -43,7 +43,7 @@ const ProgressStepper = ({ currentStep, totalSteps }: ProgressStepperProps) => {
               {step < totalSteps && (
                 <div
                   className={`h-[2px] w-6 sm:w-8 md:w-12 transition-colors duration-300 ${
-                    step < currentStep ? 'bg-pink-500' : 'bg-gray-600'
+                    step < currentStep ? 'bg-[#009688]' : 'bg-gray-600'
                   }`}
                 />
               )}

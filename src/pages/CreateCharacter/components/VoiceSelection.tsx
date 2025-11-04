@@ -24,7 +24,7 @@ const VoiceSelection = ({ selected, onSelect }: VoiceSelectionProps) => {
   return (
     <div>
       <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
-        Choose Voice<span className="text-pink-500">*</span>
+        Choose Voice<span className="text-[#009688]">*</span>
       </h3>
       
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
@@ -34,7 +34,7 @@ const VoiceSelection = ({ selected, onSelect }: VoiceSelectionProps) => {
             onClick={() => onSelect(voice.value)}
             className={`flex cursor-pointer items-center justify-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm ${
               selected === voice.value
-                ? 'bg-pink-500 text-white ring-2 ring-pink-300'
+                ? 'bg-[#009688] text-white ring-2 ring-[#4db6ac]'
                 : 'text-white border-2 border-white/20 hover:border-gray-600'
             }`}
           >

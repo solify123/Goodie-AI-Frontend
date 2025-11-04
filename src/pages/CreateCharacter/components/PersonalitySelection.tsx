@@ -89,7 +89,7 @@ const PersonalitySelection = ({ selected, onSelect }: PersonalitySelectionProps)
   return (
     <div>
       <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
-        Choose Personality<span className="text-pink-500">*</span>
+        Choose Personality<span className="text-[#009688]">*</span>
       </h3>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
@@ -99,7 +99,7 @@ const PersonalitySelection = ({ selected, onSelect }: PersonalitySelectionProps)
             onClick={() => onSelect(personality.value)}
             className={`group relative p-3 sm:p-4 rounded-lg transition-all duration-300 cursor-pointer ${
               selected === personality.value
-                ? 'bg-pink-500/20 ring-2 ring-pink-500'
+                ? 'bg-[#009688]/20 ring-2 ring-[#009688]'
                 : 'hover:bg-black/40 outline outline-2 outline-white/20'
             }`}
           >
@@ -120,7 +120,7 @@ const PersonalitySelection = ({ selected, onSelect }: PersonalitySelectionProps)
 
             {/* Selected Check Icon */}
             {selected === personality.value && (
-              <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-pink-500 rounded-full p-0.5 sm:p-1">
+              <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-[#009688] rounded-full p-0.5 sm:p-1">
                 <svg className="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" viewBox="0 0 24 24" stroke="currentColor">
                   <path d="M5 13l4 4L19 7"></path>
                 </svg>

@@ -1,4 +1,4 @@
-import { ChevronDown, User, CreditCard, LogOut, Menu, Diamond, Venus, Mars, Shell } from 'lucide-react'
+import { ChevronDown, User, CreditCard, LogOut, Menu, Diamond, Venus, Mars, Shell, Sun, Moon } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { RegisterModal } from '../../pages/auth/register'
 import { LoginModal } from '../../pages/auth/login'
@@ -8,6 +8,7 @@ import { useSidebar } from '../../contexts/SidebarContext'
 import { toast } from 'sonner'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLandingTab } from '../../contexts/LandingTabContext'
+import { useTheme } from '../../contexts/ThemeContext'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -22,6 +23,7 @@ const Header = () => {
   const { user, isAuthenticated, logout } = useAuth()
   const { toggleSidebar } = useSidebar()
   const { activeTab, setActiveTab } = useLandingTab()
+  const { theme, toggleTheme } = useTheme()
 
   const isLandingPage = location.pathname === '/'
 
@@ -89,35 +91,41 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-[#0f0f0f] border-b border-gray-800 fixed top-0 left-0 right-0 z-30">
+      <header className="fixed top-0 left-0 right-0 z-30 bg-white/80 dark:bg-[#0f0f0f]/80 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-[#0f0f0f]/70 border-b border-gray-200 dark:border-gray-800 shadow-[0_1px_0_0_rgba(0,0,0,0.03)] dark:shadow-[0_1px_0_0_rgba(255,255,255,0.03)]">
         {/* Main Header Bar */}
         <div className="flex items-center justify-between">
           {/* Left Section: Hamburger Menu + Logo + Tabs */}
           <div className="flex items-center space-x-4 sm:space-x-6 min-w-0">
-            <div className='flex items-center space-x-4 justify-center w-55 m-0 px-3 py-4'>
+            <div className='flex items-center space-x-4 justify-center w-58 m-0 px-3 sm:px-3 py-3.5'>
               {/* Sidebar Toggle Button */}
               <button
                 onClick={toggleSidebar}
-                className="cursor-pointer text-white hover:text-pink-500 transition-colors flex-shrink-0"
+                className="cursor-pointer text-gray-900 dark:text-white hover:text-[#009688] transition-colors flex-shrink-0"
               >
                 <Menu className="w-8 h-7" />
               </button>
 
               {/* Logo */}
-              <div className="flex items-center space-x-1 min-w-0">
-                <span className="text-white text-xl font-semibold truncate">Goodie</span>
-                <span className="text-pink-500 text-xl font-bold ">.ai</span>
+              <div className="flex items-center space-x-1 min-w-0 select-none">
+                <span className="text-gray-900 dark:text-white text-xl font-semibold truncate tracking-tight">Goodie</span>
+                <span className="text-[#009688] text-xl font-bold tracking-tight">.ai</span>
               </div>
             </div>
 
+            {/* soft divider */}
+            {isLandingPage && (
+              <div className="hidden md:block h-10 w-px bg-gradient-to-b from-transparent via-gray-800 to-transparent" />
+            )}
+
             {/* Category Tabs - Only show on landing page */}
             {isLandingPage && (
-              <div className="hidden md:flex items-center space-x-3 sm:space-x-4 pl-3 sm:pl-4 ml-6" style={{ height: '63.5px' }}>
+              <div className="hidden md:flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-3 ml-4 py-2">
                 <button
                   onClick={() => setActiveTab('girls')}
-                  className={`flex items-center px-3 h-full cursor-pointer space-x-1.5 sm:space-x-2 font-medium transition-colors text-xs font-bold sm:text-[14px] ${activeTab === 'girls'
-                    ? 'text-pink-500 border-b-3 border-pink-500'
-                    : 'text-gray-400 hover:text-white'
+                  aria-current={activeTab === 'girls'}
+                  className={`flex items-center rounded-full px-3.5 py-1 cursor-pointer space-x-1.5 sm:space-x-2 font-medium transition-all text-xs font-semibold sm:text-[14px] ${activeTab === 'girls'
+                    ? 'text-[#009688] bg-[#009688]/10 ring-1 ring-[#009688]/40'
+                    : 'text-gray-300 hover:text-white hover:bg-white/5'
                     }`}
                 >
                   <Venus />
@@ -125,9 +133,10 @@ const Header = () => {
                 </button>
                 <button
                   onClick={() => setActiveTab('anime')}
-                  className={`flex items-center px-3 h-full cursor-pointer space-x-1.5 sm:space-x-2 font-medium transition-colors text-xs font-bold sm:text-[14px] ${activeTab === 'anime'
-                    ? 'text-pink-500 border-b-3 border-pink-500'
-                    : 'text-gray-400 hover:text-white'
+                  aria-current={activeTab === 'anime'}
+                  className={`flex items-center rounded-full px-3.5 py-1 cursor-pointer space-x-1.5 sm:space-x-2 font-medium transition-all text-xs font-semibold sm:text-[14px] ${activeTab === 'anime'
+                    ? 'text-[#009688] bg-[#009688]/10 ring-1 ring-[#009688]/40'
+                    : 'text-gray-300 hover:text-white hover:bg-white/5'
                     }`}
                 >
                   <Shell />
@@ -135,9 +144,10 @@ const Header = () => {
                 </button>
                 <button
                   onClick={() => setActiveTab('guys')}
-                  className={`flex items-center px-3 h-full cursor-pointer space-x-1.5 sm:space-x-2 font-medium transition-colors text-xs font-bold sm:text-[14px] ${activeTab === 'guys'
-                    ? 'text-pink-500 border-b-3 border-pink-500'
-                    : 'text-gray-400 hover:text-white'
+                  aria-current={activeTab === 'guys'}
+                  className={`flex items-center rounded-full px-3.5 py-1 cursor-pointer space-x-1.5 sm:space-x-2 font-medium transition-all text-xs font-semibold sm:text-[14px] ${activeTab === 'guys'
+                    ? 'text-[#009688] bg-[#009688]/10 ring-1 ring-[#009688]/40'
+                    : 'text-gray-300 hover:text-white hover:bg-white/5'
                     }`}
                 >
                   <Mars />
@@ -148,11 +158,23 @@ const Header = () => {
           </div>
 
           {/* Right Section: Premium Badge + Profile */}
-          <div className="flex items-center space-x-1.5 flex-shrink-0 px-3 py-4">
+          <div className="flex items-center space-x-1.5 flex-shrink-0 px-3 py-3.5">
+            {/* Theme toggle */}
+            <button
+              onClick={toggleTheme}
+              className="cursor-pointer mr-2 w-9 h-9 rounded-full flex items-center justify-center border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/10 hover:bg-white/70 dark:hover:bg-white/20 transition-colors"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <Moon className="w-5 h-5 text-[#009688]" />
+              )}
+            </button>
             {isAuthenticated && user ? (
               <>
                 {/* Premium Badge */}
-                <button className="cursor-pointer hidden lg:flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200">
+                <button className="cursor-pointer hidden lg:flex items-center space-x-2 bg-gradient-to-r from-[#009688] to-[#00bfa5] text-white px-4 py-2 rounded-md font-medium hover:from-[#00897b] hover:to-[#00a78f] transition-all duration-200 shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]">
                   <Diamond className="w-4 h-4" />
                   <span>Premium 70% OFF</span>
                 </button>
@@ -161,10 +183,10 @@ const Header = () => {
                 <div className="relative" ref={dropdownRef}>
                   <button
                     onClick={() => setShowProfileMenu(!showProfileMenu)}
-                    className="cursor-pointer flex items-center space-x-2 text-white hover:text-pink-500 transition-colors"
+                    className="cursor-pointer flex items-center space-x-2 text-white hover:text-[#009688] transition-colors"
                   >
                     {/* Avatar */}
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center font-semibold shadow-lg">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br to-[#00bfa5] to-[#00897b] flex items-center justify-center font-semibold shadow-md">
                       {getAvatarInitial()}
                     </div>
                     <span className="hidden md:block font-medium">My Profile</span>
@@ -173,15 +195,15 @@ const Header = () => {
 
                   {/* Dropdown Menu */}
                   {showProfileMenu && (
-                    <div className="absolute right-0 mt-2 w-56 bg-[#1a1a1a] border border-gray-800 rounded-lg shadow-2xl py-2 z-50">
+                    <div className="absolute right-0 mt-2 w-56 bg-[#121212]/90 backdrop-blur border border-white/10 rounded-lg shadow-2xl py-2 z-50">
                       <button
                         onClick={() => {
                           setShowProfileMenu(false)
                           navigate('/profile')
                         }}
-                        className="cursor-pointer w-full flex items-center space-x-3 px-4 py-3 text-white hover:bg-[#2a2a2a] transition-colors"
+                        className="cursor-pointer w-full flex items-center space-x-3 px-4 py-3 text-white hover:bg-white/10 transition-colors"
                       >
-                        <User className="w-5 h-5 text-pink-500" />
+                        <User className="w-5 h-5 text-[#009688]" />
                         <span>Settings</span>
                       </button>
 
@@ -190,17 +212,17 @@ const Header = () => {
                           setShowProfileMenu(false)
                           // Navigate to subscription
                         }}
-                        className="cursor-pointer w-full flex items-center space-x-3 px-4 py-3 text-white hover:bg-[#2a2a2a] transition-colors"
+                        className="cursor-pointer w-full flex items-center space-x-3 px-4 py-3 text-white hover:bg-white/10 transition-colors"
                       >
-                        <CreditCard className="w-5 h-5 text-pink-500" />
+                        <CreditCard className="w-5 h-5 text-[#009688]" />
                         <span>Subscription</span>
                       </button>
 
-                      <div className="border-t border-gray-800 my-2"></div>
+                      <div className="border-t border-white/10 my-2"></div>
 
                       <button
                         onClick={handleLogout}
-                        className="cursor-pointer w-full flex items-center space-x-3 px-4 py-3 text-red-400 hover:bg-[#2a2a2a] transition-colors"
+                        className="cursor-pointer w-full flex items-center space-x-3 px-4 py-3 text-red-400 hover:bg-white/10 transition-colors"
                       >
                         <LogOut className="w-5 h-5" />
                         <span>Logout</span>
@@ -214,18 +236,19 @@ const Header = () => {
                 {/* Auth Buttons - Show when not authenticated */}
                 <button
                   onClick={() => setShowRegisterModal(true)}
-                  className="cursor-pointer bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-[0.3rem] font-semibold shadow-lg shadow-pink-500/20 transition-all duration-200
-                  px-2.5 py-1.5 leading-tight px-6 text-sm
-                  hover:from-pink-600 hover:to-pink-700 whitespace-nowrap"
+                  className="cursor-pointer rounded-md font-semibold transition-all duration-200
+                  bg-[#009688]/20 text-white border border-[#009688]/40 backdrop-blur
+                  px-2.5 py-1.5 leading-tight px-5 text-sm shadow-[0_6px_20px_-10px_rgba(0,150,136,0.45)]
+                  hover:bg-[#009688]/30 hover:border-[#009688]/60 hover:shadow-[0_10px_30px_-12px_rgba(0,150,136,0.6)] whitespace-nowrap"
                 >
                   <span className="hidden sm:inline">Create Free Account</span>
                   <span className="sm:hidden">Sign Up</span>
                 </button>
                 <button
                   onClick={() => setShowLoginModal(true)}
-                  className="cursor-pointer rounded-[0.3rem] font-semibold transition-all duration-200
-                  bg-[#1f1f1f] text-white border border-gray-700 hover:border-gray-600 hover:bg-[#272727]
-                  px-2.5 py-1.5 leading-tight px-6 text-sm
+                  className="cursor-pointer rounded-md font-semibold transition-all duration-200
+                  bg-white/5 text-white border border-white/10 hover:bg-white/10
+                  px-2.5 py-1.5 leading-tight px-5 text-sm backdrop-blur
                   whitespace-nowrap"
                 >
                   Login

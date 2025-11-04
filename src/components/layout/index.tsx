@@ -16,7 +16,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }
 
     return (
-        <div className="min-h-screen bg-[#0f0f0f]">
+        <div className="min-h-screen bg-white text-gray-900 dark:bg-[#0f0f0f] dark:text-white transition-colors">
             {/* Fixed Header */}
             <Header />
 
@@ -35,10 +35,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             )}
 
             {/* Main Content */}
-            <div className={`flex flex-col min-h-screen ml-0 pt-[65px] ${isCollapsed ? 'md:ml-16' : 'md:ml-58'}`}>
+            <div className={`flex flex-col min-h-screen ml-0 pt-[62px] ${isCollapsed ? 'md:ml-16' : 'md:ml-58'}`}>
                 {/* Scrollable Main Content Area */}
                 <main className="flex-1 overflow-y-auto">
-                    <div className="max-w-[1856px] mx-auto w-full">
+                    <div className="mx-auto">
                         {children}
                     </div>
                 </main>

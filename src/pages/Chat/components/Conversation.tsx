@@ -277,7 +277,7 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
           {/* Send Button */}
           <button
             type="submit"
-            className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all flex items-center justify-center cursor-pointer"
+            className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-[#009688] hover:from-purple-600 hover:to-[#00897b] transition-all flex items-center justify-center cursor-pointer"
           >
             <Send className="w-5 h-5 text-white" />
           </button>
@@ -312,7 +312,7 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
               <div className="flex space-x-3 mb-4">
                 <button
                   onClick={handleCloseResetModal}
-                  className="flex-1 px-4 py-2 border border-pink-500 text-pink-500 rounded-lg hover:bg-pink-500/10 transition-colors cursor-pointer"
+                  className="flex-1 px-4 py-2 border border-[#009688] text-[#009688] rounded-lg hover:bg-[#009688]/10 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -322,7 +322,7 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
                     console.log('Reset chat confirmed')
                     handleCloseResetModal()
                   }}
-                  className="flex-1 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors cursor-pointer"
+                  className="flex-1 px-4 py-2 bg-[#009688] text-white rounded-lg hover:bg-[#00897b] transition-colors cursor-pointer"
                 >
                   Yes, Confirm
                 </button>

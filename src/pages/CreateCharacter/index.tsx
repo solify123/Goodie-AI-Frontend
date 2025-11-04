@@ -402,7 +402,7 @@ const CreateCharacterPage = () => {
                   disabled={!canProceed()}
                   className={`flex cursor-pointer items-center space-x-2 px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-lg font-medium transition-all text-sm sm:text-base ${!canProceed()
                     ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-pink-500 to-pink-600 text-white hover:from-pink-600 hover:to-pink-700 shadow-lg shadow-pink-500/30'
+                    : 'bg-gradient-to-r to-[#00bfa5] to-[#00897b] text-white hover:from-[#00897b] hover:to-[#00796b] shadow-lg shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]'
                     }`}
                 >
                   <span>Next</span>

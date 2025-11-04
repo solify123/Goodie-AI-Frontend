@@ -35,7 +35,7 @@ const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
   return (
     <div>
       <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
-        Choose Eye Color<span className="text-pink-500">*</span>
+        Choose Eye Color<span className="text-[#009688]">*</span>
       </h3>
       
       <div className="flex justify-center gap-4 sm:gap-6 md:gap-8">
@@ -56,7 +56,7 @@ const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
                 
                 {/* Selected Border */}
                 {selected === color.value && (
-                  <div className="absolute inset-0 rounded-2xl border-2 border-pink-500"></div>
+                  <div className="absolute inset-0 rounded-2xl border-2 border-[#009688]"></div>
                 )}
               </div>
               
@@ -64,7 +64,7 @@ const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
               <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
                 <div className={`bg-gray-500 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${
                   selected === color.value
-                    ? 'bg-pink-500 text-white'
+                    ? 'bg-[#009688] text-white'
                     : 'bg-gray-200 text-gray-500 text-white'
                 }`}>
                   {color.label}

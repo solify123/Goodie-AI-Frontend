@@ -21,7 +21,7 @@ const AgeSlider = ({ value, onChange }: AgeSliderProps) => {
       <div className="px-2 sm:px-4">
         {/* Current Value Display */}
         <div className="flex justify-center mb-6 sm:mb-8">
-          <div className="bg-gradient-to-r from-pink-500 to-pink-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-2xl sm:text-3xl min-w-[80px] sm:min-w-[100px] text-center shadow-lg shadow-pink-500/30">
+          <div className="bg-gradient-to-r to-[#00bfa5] to-[#00897b] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-2xl sm:text-3xl min-w-[80px] sm:min-w-[100px] text-center shadow-lg shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]">
             {value}
           </div>
         </div>

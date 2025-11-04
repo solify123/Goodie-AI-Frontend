@@ -78,7 +78,7 @@ const FAQSection = () => {
       {/* Section Title */}
       <h2 className="text-3xl lg:text-4xl font-bold text-center mb-8 lg:mb-12">
         <span className="text-white">{getSectionTitle()} Frequently Asked </span>
-        <span className="text-pink-500">Questions</span>
+        <span className="text-[#009688]">Questions</span>
       </h2>
 
       {/* FAQ Items */}
@@ -86,7 +86,7 @@ const FAQSection = () => {
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className="bg-[#1a1a1a] border border-gray-800 rounded-lg overflow-hidden transition-all duration-200 hover:border-pink-500/30"
+            className="bg-[#1a1a1a] border border-gray-800 rounded-lg overflow-hidden transition-all duration-200 hover:border-[#009688]/30"
           >
             {/* Question */}
             <button
@@ -98,7 +98,7 @@ const FAQSection = () => {
               </span>
               <ChevronDown
                 className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-200 ${
-                  openIndex === index ? 'transform rotate-180 text-pink-500' : ''
+                  openIndex === index ? 'transform rotate-180 text-[#009688]' : ''
                 }`}
               />
             </button>

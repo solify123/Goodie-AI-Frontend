@@ -51,7 +51,7 @@ const HairColorSelection = ({ selected, onSelect }: HairColorSelectionProps) => 
   return (
     <div>
       <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
-        Choose Hair Color<span className="text-pink-500">*</span>
+        Choose Hair Color<span className="text-[#009688]">*</span>
       </h3>
       
       <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3 max-w-2xl mx-auto">
@@ -61,7 +61,7 @@ const HairColorSelection = ({ selected, onSelect }: HairColorSelectionProps) => 
             onClick={() => onSelect(color.value)}
             className={`px-2 sm:px-3 md:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm cursor-pointer ${
               selected === color.value
-                ? 'bg-pink-500 text-white ring-2 ring-pink-300'
+                ? 'bg-[#009688] text-white ring-2 ring-[#4db6ac]'
                 : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
             }`}
             style={{

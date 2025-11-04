@@ -2,7 +2,7 @@ import { useLandingTab } from '../../../contexts/LandingTabContext'
 
 const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: boolean }) => {
   return (
-    <div className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-pink-500/10 transition-all duration-300 cursor-pointer group">
+    <div className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] transition-all duration-300 cursor-pointer group">
       {/* Image Area */}
       <div className="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
         <div 
@@ -10,7 +10,7 @@ const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: b
         ></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
         {isNew && (
-          <div className="absolute top-3 right-3 bg-gradient-to-r from-pink-500 to-pink-600 text-white text-xs px-3 py-1 rounded-full font-medium shadow-lg">
+          <div className="absolute top-3 right-3 bg-gradient-to-r to-[#00bfa5] to-[#00897b] text-white text-xs px-3 py-1 rounded-full font-medium shadow-lg">
             New
           </div>
         )}
@@ -66,7 +66,7 @@ const CharacterGrid = () => {
       name: "Alex",
       age: 32,
       description: "Creative photographer with a passion for capturing life's moments...",
-      gradientClass: "bg-gradient-to-br from-pink-400 to-purple-600",
+      gradientClass: "bg-gradient-to-br from-[#26a69a] to-purple-600",
       category: "guys"
     },
     {
@@ -80,7 +80,7 @@ const CharacterGrid = () => {
       name: "David",
       age: 35,
       description: "Architect with a modern vision and love for sustainable design...",
-      gradientClass: "bg-gradient-to-br from-rose-400 to-pink-600",
+      gradientClass: "bg-gradient-to-br from-rose-400 to-[#00897b]",
       category: "guys"
     },
     {
@@ -95,21 +95,21 @@ const CharacterGrid = () => {
       name: "Emma",
       age: 28,
       description: "Fashion designer and yoga instructor with a passion for sustainable living...",
-      gradientClass: "bg-gradient-to-br from-pink-300 to-rose-500",
+      gradientClass: "bg-gradient-to-br from-[#80cbc4] to-rose-500",
       category: "girls"
     },
     {
       name: "Sophia",
       age: 32,
       description: "Successful entrepreneur and wellness advocate...",
-      gradientClass: "bg-gradient-to-br from-purple-300 to-pink-500",
+      gradientClass: "bg-gradient-to-br from-purple-300 to-[#009688]",
       category: "girls"
     },
     {
       name: "Maya",
       age: 25,
       description: "Professional dancer and choreographer...",
-      gradientClass: "bg-gradient-to-br from-red-300 to-pink-600",
+      gradientClass: "bg-gradient-to-br from-red-300 to-[#00897b]",
       category: "girls"
     },
     {
@@ -131,7 +131,7 @@ const CharacterGrid = () => {
       name: "Sakura",
       age: 19,
       description: "Magical girl with incredible powers and a kind heart...",
-      gradientClass: "bg-gradient-to-br from-pink-400 to-rose-600",
+      gradientClass: "bg-gradient-to-br from-[#26a69a] to-rose-600",
       category: "anime"
     },
     {
