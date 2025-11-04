@@ -65,7 +65,7 @@ const RelationshipSelection = ({ selected, onSelect }: RelationshipSelectionProp
       value: 'husband', 
       label: 'Husband', 
       icon: <div className="relative w-10 h-10">
-        <Heart className="absolute top-1 left-0 w-7 h-7 fill-pink-500 stroke-pink-500" />
+        <Heart className="absolute top-1 left-0 w-7 h-7 fill-[#009688] stroke-[#009688]" />
         <Heart className="absolute top-2 right-0 w-7 h-7 fill-yellow-400 stroke-yellow-400" />
       </div>
     },
@@ -73,7 +73,7 @@ const RelationshipSelection = ({ selected, onSelect }: RelationshipSelectionProp
       value: 'lover', 
       label: 'Lover', 
       icon: <div className="relative w-10 h-10">
-        <Heart className="absolute top-1 left-0 w-7 h-7 fill-pink-500 stroke-pink-500" />
+        <Heart className="absolute top-1 left-0 w-7 h-7 fill-[#009688] stroke-[#009688]" />
         <Heart className="absolute top-2 right-0 w-7 h-7 fill-yellow-400 stroke-yellow-400" />
       </div>
     },
@@ -106,7 +106,7 @@ const RelationshipSelection = ({ selected, onSelect }: RelationshipSelectionProp
   return (
     <div className="flex flex-col items-center">
       <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
-        Choose Relationship<span className="text-pink-500">*</span>
+        Choose Relationship<span className="text-[#009688]">*</span>
       </h3>
       
       <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-4xl">
@@ -116,7 +116,7 @@ const RelationshipSelection = ({ selected, onSelect }: RelationshipSelectionProp
             onClick={() => onSelect(relationship.value)}
             className={`w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 flex flex-col items-center justify-center gap-1 sm:gap-2 rounded-lg transition-all duration-300 cursor-pointer ${
               selected === relationship.value
-                ? 'ring-3 ring-pink-500/50 text-white'
+                ? 'ring-3 ring-[#009688]/50 text-white'
                 : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
             }`}
           >

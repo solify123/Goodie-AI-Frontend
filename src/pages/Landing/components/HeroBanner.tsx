@@ -63,19 +63,19 @@ const HeroBanner = () => {
     {
       title: getTitleByTab(0),
       subtitle: 'Chat, generate images, and build deep connections',
-      gradient: 'from-purple-600/40 via-pink-600/40 to-blue-600/40',
+      gradient: 'from-purple-600/40 via-[#009688]/40 to-blue-600/40',
       image: images[0]
     },
     {
       title: getTitleByTab(1),
       subtitle: 'Experience meaningful interactions powered by AI',
-      gradient: 'from-pink-600/40 via-rose-600/40 to-orange-600/40',
+      gradient: 'from-[#00897b]/40 via-rose-600/40 to-orange-600/40',
       image: images[1]
     },
     {
       title: getTitleByTab(0),
       subtitle: 'Connect with your perfect AI companion',
-      gradient: 'from-blue-600/40 via-purple-600/40 to-pink-600/40',
+      gradient: 'from-blue-600/40 via-purple-600/40 to-[#00897b]/40',
       image: images[2]
     }
   ], [activeTab])
@@ -137,7 +137,7 @@ const HeroBanner = () => {
             key={index}
             onClick={() => setCurrentSlide(index)}
             className={`cursor-pointer w-2 h-2 rounded-full transition-all duration-300 ${
-              index === currentSlide ? 'bg-pink-500 w-8' : 'bg-gray-400 hover:bg-gray-300'
+              index === currentSlide ? 'bg-[#009688] w-8' : 'bg-gray-400 hover:bg-gray-300'
             }`}
           />
         ))}

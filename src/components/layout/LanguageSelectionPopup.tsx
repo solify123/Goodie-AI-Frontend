@@ -59,7 +59,7 @@ const LanguageSelectionPopup = ({ isOpen, onClose, onLanguageSelect }: LanguageS
                 }}
                 className={`cursor-pointer w-full flex items-center justify-between p-3 rounded-lg border transition-all duration-200 ${
                   language.selected
-                    ? 'border-pink-500 bg-pink-500/5'
+                    ? 'border-[#009688] bg-[#009688]/5'
                     : 'border-transparent hover:border-gray-600 hover:bg-gray-800/50'
                 }`}
               >
@@ -79,7 +79,7 @@ const LanguageSelectionPopup = ({ isOpen, onClose, onLanguageSelect }: LanguageS
                   </div>
                 </div>
                 {language.selected && (
-                  <Check className="w-4 h-4 text-pink-500" />
+                  <Check className="w-4 h-4 text-[#009688]" />
                 )}
               </button>
             ))}

@@ -64,7 +64,7 @@ const TestimonialsSection = () => {
         {testimonials.map((testimonial, index) => (
           <div
             key={index}
-            className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-6 hover:border-pink-500/30 transition-all duration-200"
+            className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-6 hover:border-[#009688]/30 transition-all duration-200"
           >
             <p className="text-gray-400 text-sm lg:text-base leading-relaxed mb-4 italic">
               {testimonial.text}

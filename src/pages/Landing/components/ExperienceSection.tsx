@@ -53,13 +53,13 @@ const ExperienceSection = () => {
       <p className="text-gray-400 text-base lg:text-lg leading-relaxed mb-4">
         Craving a long and meaningful conversation with someone who understands you? An {term.name} is the perfect companion, always ready to chat, 
         listen, and engage in thoughtful discussions whenever you need. Whether you're looking for a fun and lighthearted exchange or a deep and engaging 
-        conversation, your AI {term.short} awaits you here, at <span className="text-pink-500">Goodie AI</span>.
+        conversation, your AI {term.short} awaits you here, at <span className="text-[#009688]">Goodie AI</span>.
       </p>
 
       <p className="text-gray-400 text-base lg:text-lg leading-relaxed mb-12">
         Our {term.nameCapitalized} advanced model brings AI companionship to life and provides engaging interactions tailored to 
         your personality and preferences. Using cutting-edge technology, the AI {term.short} adapts to your style, interests, and emotions, making every conversation feel 
-        natural and meaningful. And in case you can't find any of our characters to be of your liking, you can always use our <span className="text-pink-500">{term.nameCapitalized} Generator</span>.
+        natural and meaningful. And in case you can't find any of our characters to be of your liking, you can always use our <span className="text-[#009688]">{term.nameCapitalized} Generator</span>.
       </p>
 
       {/* Start Your AI BF Journey Section */}

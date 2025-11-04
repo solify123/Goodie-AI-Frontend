@@ -86,14 +86,14 @@ const ConfirmEmailModal = ({ isOpen, onClose, onBack, onSwitchToLogin, email }: 
       <div className="relative w-full max-w-4xl mx-4 bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-2xl">
         <div className="flex flex-col md:flex-row">
           {/* Left Side - Image/Branding */}
-          <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-purple-900/60 via-pink-900/50 to-purple-800/60 relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-pink-800/70 to-purple-900/80"></div>
+          <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-purple-900/60 via-[#00695c]/40 to-purple-800/60 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-[#00796b]/50 to-purple-900/80"></div>
             {/* Placeholder for background image */}
             <div className="relative w-full h-full flex items-end justify-center p-8">
               <div className="text-center">
                 <h1 className="text-4xl font-bold">
                   <span className="text-white">goodie</span>
-                  <span className="text-pink-500">.ai</span>
+                  <span className="text-[#009688]">.ai</span>
                 </h1>
               </div>
             </div>
@@ -107,7 +107,7 @@ const ConfirmEmailModal = ({ isOpen, onClose, onBack, onSwitchToLogin, email }: 
               {onBack && (
                 <button
                   onClick={onBack}
-                  className="cursor-pointer flex items-center space-x-2 text-white hover:text-pink-500 transition-colors"
+                  className="cursor-pointer flex items-center space-x-2 text-white hover:text-[#009688] transition-colors"
                 >
                   <ChevronLeft className="w-5 h-5" />
                   <span className="font-medium">Back</span>
@@ -138,7 +138,7 @@ const ConfirmEmailModal = ({ isOpen, onClose, onBack, onSwitchToLogin, email }: 
                 </div>
                 
                 {/* Email envelope */}
-                <div className="w-32 h-32 bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg shadow-pink-500/30">
+                <div className="w-32 h-32 bg-gradient-to-br to-[#00bfa5] to-[#00897b] rounded-2xl flex items-center justify-center shadow-lg shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]">
                   <Mail className="w-16 h-16 text-white" />
                 </div>
               </div>
@@ -152,7 +152,7 @@ const ConfirmEmailModal = ({ isOpen, onClose, onBack, onSwitchToLogin, email }: 
               <div className="space-y-2">
                 <p className="text-gray-400 text-sm lg:text-base">
                   We've sent a confirmation link to{' '}
-                  <span className="text-pink-500 font-medium">{email}</span>.
+                  <span className="text-[#009688] font-medium">{email}</span>.
                 </p>
                 <p className="text-gray-400 text-sm lg:text-base">
                   If you don't see it, check your SPAM folder.
@@ -185,7 +185,7 @@ const ConfirmEmailModal = ({ isOpen, onClose, onBack, onSwitchToLogin, email }: 
                 disabled={!canResend || loading}
                 className={`w-full flex items-center justify-center space-x-2 py-3 rounded-lg font-medium transition-all duration-200 shadow-lg ${
                   canResend && !loading
-                    ? 'bg-gradient-to-r from-pink-500 to-pink-600 text-white hover:from-pink-600 hover:to-pink-700 shadow-pink-500/30 cursor-pointer'
+                    ? 'bg-gradient-to-r to-[#00bfa5] to-[#00897b] text-white hover:from-[#00897b] hover:to-[#00796b] shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] cursor-pointer'
                     : 'bg-gray-700 text-gray-400 cursor-not-allowed shadow-gray-700/30'
                 }`}
               >
@@ -208,7 +208,7 @@ const ConfirmEmailModal = ({ isOpen, onClose, onBack, onSwitchToLogin, email }: 
                   Already have an account?{' '}
                   <button
                     onClick={onSwitchToLogin}
-                    className="cursor-pointer text-pink-500 hover:text-pink-400 transition-colors font-medium"
+                    className="cursor-pointer text-[#009688] hover:text-[#009688] transition-colors font-medium"
                   >
                     Sign in
                   </button>

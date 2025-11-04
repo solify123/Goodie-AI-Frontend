@@ -41,7 +41,7 @@ const ProfilePage = () => {
                         <div className="bg-[#1a1a1a] rounded-xl border border-gray-800 p-4 sm:p-6">
                             <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
                                 {/* Profile Picture */}
-                                <div className="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center text-white text-3xl md:text-4xl font-bold shadow-lg flex-shrink-0">
+                                <div className="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br to-[#00bfa5] to-[#00897b] rounded-full flex items-center justify-center text-white text-3xl md:text-4xl font-bold shadow-lg flex-shrink-0">
                                     {getAvatarInitial()}
                                 </div>
 
@@ -59,7 +59,7 @@ const ProfilePage = () => {
                                                     onClick={() => handleEdit('nickname')}
                                                     className="opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                                                 >
-                                                    <Pencil className="w-4 h-4 text-gray-400 hover:text-pink-500" />
+                                                    <Pencil className="w-4 h-4 text-gray-400 hover:text-[#009688]" />
                                                 </button>
                                             </div>
 
@@ -74,7 +74,7 @@ const ProfilePage = () => {
                                                     onClick={() => handleEdit('email')}
                                                     className="opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                                                 >
-                                                    <Pencil className="w-4 h-4 text-gray-400 hover:text-pink-500" />
+                                                    <Pencil className="w-4 h-4 text-gray-400 hover:text-[#009688]" />
                                                 </button>
                                             </div>
                                         </div>
@@ -90,7 +90,7 @@ const ProfilePage = () => {
                                                     onClick={() => handleEdit('gender')}
                                                     className="opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                                                 >
-                                                    <Pencil className="w-4 h-4 text-gray-400 hover:text-pink-500" />
+                                                    <Pencil className="w-4 h-4 text-gray-400 hover:text-[#009688]" />
                                                 </button>
                                             </div>
 
@@ -103,7 +103,7 @@ const ProfilePage = () => {
                                                     onClick={() => handleEdit('password')}
                                                     className="opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                                                 >
-                                                    <Pencil className="w-4 h-4 text-gray-400 hover:text-pink-500" />
+                                                    <Pencil className="w-4 h-4 text-gray-400 hover:text-[#009688]" />
                                                 </button>
                                             </div>
                                         </div>
@@ -119,7 +119,7 @@ const ProfilePage = () => {
                                     <p className="text-gray-400 text-sm mb-1">Current Plan</p>
                                     <p className="text-red-400 font-medium text-lg">Free</p>
                                 </div>
-                                <button className="bg-gradient-to-r from-pink-500 to-pink-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 w-full sm:w-auto text-sm sm:text-base">
+                                <button className="bg-gradient-to-r to-[#00bfa5] to-[#00897b] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium hover:from-[#00897b] hover:to-[#00796b] transition-all duration-200 w-full sm:w-auto text-sm sm:text-base">
                                     Upgrade to Premium
                                 </button>
                             </div>

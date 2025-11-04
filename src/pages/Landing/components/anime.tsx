@@ -17,7 +17,7 @@
 
 const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: boolean }) => {
   return (
-    <div className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-pink-500/10 transition-all duration-300 cursor-pointer group">
+    <div className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] transition-all duration-300 cursor-pointer group">
       {/* Image Area */}
       <div className="relative h-88 sm:h-94 lg:h-102 overflow-hidden">
         {/* Default Image */}
@@ -35,7 +35,7 @@ const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: b
         {/* Dark Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
         {isNew && (
-          <div className="absolute top-3 right-3 bg-gradient-to-r from-pink-500 to-pink-600 text-white text-xs px-3 py-1 rounded-full font-medium shadow-lg z-10">
+          <div className="absolute top-3 right-3 bg-gradient-to-r to-[#00bfa5] to-[#00897b] text-white text-xs px-3 py-1 rounded-full font-medium shadow-lg z-10">
             New
           </div>
         )}

@@ -41,7 +41,7 @@ const EthnicitySelection = ({ selected, onSelect }: EthnicitySelectionProps) => 
   return (
     <div>
       <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
-        Choose Ethnicity<span className="text-pink-500">*</span>
+        Choose Ethnicity<span className="text-[#009688]">*</span>
       </h3>
       
       <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6">
@@ -65,7 +65,7 @@ const EthnicitySelection = ({ selected, onSelect }: EthnicitySelectionProps) => 
               
               {/* Selected Ring */}
               {selected === ethnicity.value && (
-                <div className="absolute inset-0 rounded-full ring-2 sm:ring-4 ring-pink-500"></div>
+                <div className="absolute inset-0 rounded-full ring-2 sm:ring-4 ring-[#009688]"></div>
               )}
             </div>
             
@@ -73,7 +73,7 @@ const EthnicitySelection = ({ selected, onSelect }: EthnicitySelectionProps) => 
             <div className="mt-2 sm:mt-3 text-center">
               <div className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
                 selected === ethnicity.value
-                  ? 'bg-pink-500 text-white'
+                  ? 'bg-[#009688] text-white'
                   : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
               }`}>
                 {ethnicity.label}

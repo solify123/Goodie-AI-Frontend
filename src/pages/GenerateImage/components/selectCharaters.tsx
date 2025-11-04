@@ -99,17 +99,17 @@ const SelectCharaters = ({ setSelectCharater }: SelectCharatersProps) => {
             <div className="hidden lg:block">
               <div className="bg-[#1a1a1a] rounded-xl p-2">
                 <div className="grid grid-cols-3 lg:gap-5">
-                  <button onClick={() => handleTabChange('girls')} disabled={activeDiscoveryTab === 'myAI'} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'myAI' ? 'text-[#969696]' : activeTab === 'girls' ? 'text-white bg-pink-500/20 ring-2 ring-pink-500/50' : 'text-[#969696]'}`}>
+                  <button onClick={() => handleTabChange('girls')} disabled={activeDiscoveryTab === 'myAI'} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'myAI' ? 'text-[#969696]' : activeTab === 'girls' ? 'text-white bg-[#009688]/20 ring-2 ring-[#009688]/50' : 'text-[#969696]'}`}>
                     <Venus />
                     <div>Girls</div>
                   </button>
 
-                  <button onClick={() => handleTabChange('anime')} disabled={activeDiscoveryTab === 'myAI'} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'myAI' ? 'text-[#969696]' : activeTab === 'anime' ? 'text-white bg-pink-500/20 ring-2 ring-pink-500/50' : 'text-[#969696]'}`}>
+                  <button onClick={() => handleTabChange('anime')} disabled={activeDiscoveryTab === 'myAI'} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'myAI' ? 'text-[#969696]' : activeTab === 'anime' ? 'text-white bg-[#009688]/20 ring-2 ring-[#009688]/50' : 'text-[#969696]'}`}>
                     <Shell />
                     <div>Anime</div>
                   </button>
 
-                  <button onClick={() => handleTabChange('guys')} disabled={activeDiscoveryTab === 'myAI'} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'myAI' ? 'text-[#969696]' : activeTab === 'guys' ? 'text-white bg-pink-500/20 ring-2 ring-pink-500/50' : 'text-[#969696]'}`}>
+                  <button onClick={() => handleTabChange('guys')} disabled={activeDiscoveryTab === 'myAI'} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'myAI' ? 'text-[#969696]' : activeTab === 'guys' ? 'text-white bg-[#009688]/20 ring-2 ring-[#009688]/50' : 'text-[#969696]'}`}>
                     <div className="w-5 h-5 flex items-center justify-center">
                       <Mars />
                     </div>
@@ -138,13 +138,13 @@ const SelectCharaters = ({ setSelectCharater }: SelectCharatersProps) => {
             <div className="hidden lg:block">
               <div className="bg-[#1a1a1a] rounded-xl p-2">
                 <div className="grid grid-cols-2 lg:gap-1">
-                  <button onClick={() => handleDiscoveryTabChange('discovery')} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'discovery' ? 'text-white bg-pink-500/20 ring-2 ring-pink-500/50' : 'text-[#969696]'}`}>
+                  <button onClick={() => handleDiscoveryTabChange('discovery')} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'discovery' ? 'text-white bg-[#009688]/20 ring-2 ring-[#009688]/50' : 'text-[#969696]'}`}>
                     <div className="flex items-center justify-center w-5 h-5">
                       <Telescope />
                     </div>
                     <div>Discovery</div>
                   </button>
-                  <button onClick={() => handleDiscoveryTabChange('myAI')} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'myAI' ? 'text-white bg-pink-500/20 ring-2 ring-pink-500/50' : 'text-[#969696]'}`}>
+                  <button onClick={() => handleDiscoveryTabChange('myAI')} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'myAI' ? 'text-white bg-[#009688]/20 ring-2 ring-[#009688]/50' : 'text-[#969696]'}`}>
                     <HeartPulse />
                     <div>My AI's</div>
                   </button>
@@ -164,17 +164,17 @@ const SelectCharaters = ({ setSelectCharater }: SelectCharatersProps) => {
         <div className="space-y-4 lg:hidden">
             <div className="bg-[#1a1a1a] rounded-xl p-2">
             <div className="grid grid-cols-3 lg:gap-5">
-              <button onClick={() => handleTabChange('girls')} disabled={activeDiscoveryTab === 'myAI'} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeTab === 'girls' ? 'text-white bg-pink-500/20 ring-2 ring-pink-500/50' : 'text-[#969696]'}`}>
+              <button onClick={() => handleTabChange('girls')} disabled={activeDiscoveryTab === 'myAI'} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeTab === 'girls' ? 'text-white bg-[#009688]/20 ring-2 ring-[#009688]/50' : 'text-[#969696]'}`}>
                 <Venus />
                 <div>Girls</div>
               </button>
 
-              <button onClick={() => handleTabChange('anime')} disabled={activeDiscoveryTab === 'myAI'} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeTab === 'anime' ? 'text-white bg-pink-500/20 ring-2 ring-pink-500/50' : 'text-[#969696]'}`}>
+              <button onClick={() => handleTabChange('anime')} disabled={activeDiscoveryTab === 'myAI'} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeTab === 'anime' ? 'text-white bg-[#009688]/20 ring-2 ring-[#009688]/50' : 'text-[#969696]'}`}>
                 <Shell />
                 <div>Anime</div>
               </button>
 
-              <button onClick={() => handleTabChange('guys')} disabled={activeDiscoveryTab === 'myAI'} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeTab === 'guys' ? 'text-white bg-pink-500/20 ring-2 ring-pink-500/50' : 'text-[#969696]'}`}>
+              <button onClick={() => handleTabChange('guys')} disabled={activeDiscoveryTab === 'myAI'} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeTab === 'guys' ? 'text-white bg-[#009688]/20 ring-2 ring-[#009688]/50' : 'text-[#969696]'}`}>
                 <div className="w-5 h-5 flex items-center justify-center">
                   <Mars />
                 </div>
@@ -185,11 +185,11 @@ const SelectCharaters = ({ setSelectCharater }: SelectCharatersProps) => {
 
           <div className="bg-[#1a1a1a] rounded-xl p-2">
             <div className="grid grid-cols-2 lg:gap-1">
-              <button onClick={() => handleDiscoveryTabChange('discovery')} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'discovery' ? 'text-white bg-pink-500/20 ring-2 ring-pink-500/50' : 'text-[#969696]'}`}>
+              <button onClick={() => handleDiscoveryTabChange('discovery')} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'discovery' ? 'text-white bg-[#009688]/20 ring-2 ring-[#009688]/50' : 'text-[#969696]'}`}>
                 <Telescope />
                 <div>Discovery</div>
               </button>
-              <button onClick={() => handleDiscoveryTabChange('myAI')} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'myAI' ? 'text-white bg-pink-500/20 ring-2 ring-pink-500/50' : 'text-[#969696]'}`}>
+              <button onClick={() => handleDiscoveryTabChange('myAI')} className={`px-2 py-2 lg:py-1 justify-center items-center gap-2 flex rounded-md cursor-pointer ${activeDiscoveryTab === 'myAI' ? 'text-white bg-[#009688]/20 ring-2 ring-[#009688]/50' : 'text-[#969696]'}`}>
                 <HeartPulse />
                 <div>My AI's</div>
               </button>
@@ -213,7 +213,7 @@ const SelectCharaters = ({ setSelectCharater }: SelectCharatersProps) => {
                   onClick={() => setSelectedCharacter(character.id)}
                   className={`aspect-[3/4] relative rounded-[1.2rem] overflow-hidden transition-all duration-300 cursor-pointer group ${
                     selectedCharacter === character.id 
-                      ? 'ring-5 ring-pink-400/50' 
+                      ? 'ring-5 ring-[#009688]/50' 
                       : ''
                   }`}
                 >
@@ -227,11 +227,11 @@ const SelectCharaters = ({ setSelectCharater }: SelectCharatersProps) => {
                 {/* Character Name Button */}
                 <button
                   onClick={() => setSelectedCharacter(character.id)}
-                  className={`absolute bottom-3 left-3 right-3 z-10 mt-3 px-4 py-2 rounded-full text-white font-medium text-sm text-center transition-all duration-300 cursor-pointer ${
+                  className={`absolute bottom-3 left-3 right-3 z-10 mt-3 px-4 py-2 rounded-full text-white font-medium text-sm text-center transition-all duration-300 cursor-pointer backdrop-blur border ${
                     selectedCharacter === character.id 
-                      ? 'bg-pink-500/50' 
-                      : 'bg-black/40 hover:bg-pink-500/20'
-                  }`}
+                      ? 'bg-[#009688]/60 border-[#009688]/50 shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]' 
+                      : 'bg-black/30 hover:bg-white/15 border-white/20'
+                   }`}
                 >
                   {character.name}
                 </button>

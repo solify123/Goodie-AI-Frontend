@@ -29,7 +29,7 @@ const CollectionPage = () => {
       <div className="mx-auto w-full">
         {/* Page Header */}
         <div className="flex items-center justify-between mb-8 p-6 lg:py-6 border-b border-gray-800">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="lg:max-w-7xl w-full mx-auto flex items-center justify-between">
             <h1 className="text-2xl lg:text-2xl w-7xl md:text-[24px] sm:text-[18px] xs:text-[14px] font-bold text-white">My Collection</h1>
 
             {/* Sort Dropdown */}
@@ -73,7 +73,7 @@ const CollectionPage = () => {
         </div>
 
         {/* Collection Grid */}
-        <div className="pb-8 grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4 xl:grid-cols-5 md:grid-cols-3 lg:gap-7 max-w-7xl mx-auto">
+        <div className="pb-8 px-8 2xl:px-0 grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4 xl:grid-cols-5 md:grid-cols-3 lg:gap-7 lg:max-w-7xl w-full mx-auto">
           {/* Character Card */}
           <div className="cursor-pointer hover:border-gray-700 transition-colors w-full">
             {/* Card Header */}

@@ -59,8 +59,8 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
           <User className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-800" />
         </div>
       case 'caucasian':
-        return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-pink-200 to-pink-400 rounded-lg flex items-center justify-center">
-          <User className="w-6 h-6 sm:w-8 sm:h-8 text-pink-800" />
+        return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[#b2dfdb] to-[#26a69a] rounded-lg flex items-center justify-center">
+          <User className="w-6 h-6 sm:w-8 sm:h-8 text-[#00695c]" />
         </div>
       case 'african':
         return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-amber-200 to-amber-400 rounded-lg flex items-center justify-center">
@@ -101,8 +101,8 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
   }
 
   const getPersonalityIcon = () => {
-    return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-pink-200 to-pink-400 rounded-lg flex items-center justify-center">
-      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-pink-500 rounded-full flex items-center justify-center">
+    return <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[#b2dfdb] to-[#26a69a] rounded-lg flex items-center justify-center">
+      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-[#009688] rounded-full flex items-center justify-center">
         <Heart className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
       </div>
     </div>
@@ -284,9 +284,9 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
           </button>
           <button 
             onClick={onComplete}
-            className="w-full sm:w-auto relative flex cursor-pointer items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl hover:from-pink-600 hover:to-purple-700 transition-all duration-300 text-base sm:text-lg font-medium"
+            className="w-full sm:w-auto relative flex cursor-pointer items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r to-[#00bfa5] to-purple-600 text-white rounded-xl hover:from-[#00897b] hover:to-purple-700 transition-all duration-300 text-base sm:text-lg font-medium"
           >
-            <span className="text-[10px] sm:text-xs bg-pink-700 text-pink-200 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded absolute -top-2 -right-2">
+            <span className="text-[10px] sm:text-xs bg-[#00796b] text-[#b2dfdb] px-1.5 sm:px-2 py-0.5 sm:py-1 rounded absolute -top-2 -right-2">
               Free Trial
             </span>
             Bring my AI to life

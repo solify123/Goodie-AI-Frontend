@@ -56,7 +56,7 @@ const HairStyleSelection = ({ selected, onSelect }: HairStyleSelectionProps) => 
   return (
     <div>
       <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
-        Choose Hair Style<span className="text-pink-500">*</span>
+        Choose Hair Style<span className="text-[#009688]">*</span>
       </h3>
       
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 justify-center">
@@ -80,12 +80,12 @@ const HairStyleSelection = ({ selected, onSelect }: HairStyleSelectionProps) => 
               
               {/* Selected Ring */}
               {selected === style.value && (
-                <div className="absolute inset-0 rounded-lg ring-2 sm:ring-4 ring-pink-500"></div>
+                <div className="absolute inset-0 rounded-lg ring-2 sm:ring-4 ring-[#009688]"></div>
               )}
 
               {/* Selected Check Icon */}
               {selected === style.value && (
-                <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-pink-500 rounded-full p-0.5 sm:p-1">
+                <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-[#009688] rounded-full p-0.5 sm:p-1">
                   <svg className="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M5 13l4 4L19 7"></path>
                   </svg>
@@ -97,7 +97,7 @@ const HairStyleSelection = ({ selected, onSelect }: HairStyleSelectionProps) => 
             <div className="mt-2 sm:mt-3 text-center">
               <div className={`px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                 selected === style.value
-                  ? 'bg-pink-500 text-white'
+                  ? 'bg-[#009688] text-white'
                   : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
               }`}>
                 {style.label}

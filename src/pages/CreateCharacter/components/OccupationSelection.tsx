@@ -52,7 +52,7 @@ const OccupationSelection = ({ selected, onSelect }: OccupationSelectionProps) =
   return (
     <div className="flex flex-col items-center">
       <h3 className="text-white text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-center">
-        Choose Occupation<span className="text-pink-500">*</span>
+        Choose Occupation<span className="text-[#009688]">*</span>
       </h3>
       
       <div className="flex flex-wrap justify-center gap-2 max-w-4xl">
@@ -62,7 +62,7 @@ const OccupationSelection = ({ selected, onSelect }: OccupationSelectionProps) =
             onClick={() => onSelect(occupation.value)}
             className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer ${
               selected === occupation.value
-                ? 'bg-pink-500 text-white'
+                ? 'bg-[#009688] text-white'
                 : 'text-white outline-2 outline-white/20 hover:outline-gray-600'
             }`}
           >

@@ -75,9 +75,9 @@ const GenerateImagePage = () => {
         <Layout>
             {
                 selectCharater ? <SelectCharaters setSelectCharater={setSelectCharater} /> : (
-                    <div className="w-full h-full flex">
+                    <div className="w-full h-full flex flex-col lg:flex-row">
                         {/* Left Panel - Generate Image Controls */}
-                        <div className="w-full lg:w-1/2 py-6 px-14 overflow-y-auto">
+                        <div className="w-full lg:w-1/2 py-6 px-4 sm:px-6 lg:px-14 overflow-y-auto">
                             {/* Header */}
                             <div className="flex items-center justify-center space-x-3 mb-6">
                                 <Camera className="w-6 h-6 text-white" />
@@ -85,9 +85,9 @@ const GenerateImagePage = () => {
                             </div>
 
                             {/* Character Selection and Prompt Input */}
-                            <div className="mb-6 flex space-x-4 w-full">
+                            <div className="mb-6 flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 w-full">
                                 {/* Character Selection */}
-                                <div className="flex-shrink-0 w-1/3">
+                                <div className="flex-shrink-0 w-full md:w-1/3">
                                     <div className="relative w-full">
                                         <img
                                             src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face"
@@ -106,14 +106,14 @@ const GenerateImagePage = () => {
                                 </div>
 
                                 {/* Prompt Input */}
-                                <div className="flex-1 relative w-2/3">
+                                <div className="flex-1 relative w-full md:w-2/3">
                                     <textarea
                                         value={prompt}
                                         onChange={(e) => setPrompt(e.target.value)}
-                                        className="w-full h-full bg-[#1a1a1a] transition-all duration-500 focus:shadow-lg focus:shadow-pink-500/20 rounded-lg px-4 py-5 pr-10 pl-12 text-white text-sm focus:outline-2 focus:outline-pink-700 resize-none "
+                                        className="w-full h-40 md:h-[220px] bg-[#1a1a1a] transition-all duration-500 focus:shadow-lg focus:shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] rounded-lg px-4 py-5 pr-10 pl-12 text-white text-sm focus:outline-2 focus:outline-[#009688] resize-none "
                                     />
                                     <button className="absolute bottom-3 right-4 w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer">
-                                        <Dices className="w-full h-full text-pink-300" />
+                                        <Dices className="w-full h-full text-[#80cbc4]" />
                                     </button>
                                     <button className="absolute top-6 left-5 w-5 h-5 rounded-lg flex items-center justify-center cursor-pointer">
                                         <NotebookPen className="w-full h-full text-gray-300" />
@@ -132,7 +132,7 @@ const GenerateImagePage = () => {
                                             key={tab}
                                             onClick={() => setActiveTab(tab)}
                                             className={`px-2 py-1 text-sm font-medium cursor-pointer transition-colors whitespace-nowrap ${activeTab === tab
-                                                ? 'text-white border-b-2 border-pink-700'
+                                                ? 'text-white border-b-2 border-[#009688]'
                                                 : 'text-gray-400 hover:text-white'
                                                 }`}
                                         >
@@ -158,13 +158,13 @@ const GenerateImagePage = () => {
                             {/* Number of Images */}
                             <div className="mb-6">
                                 <h3 className="text-white font-medium mb-3">Number of images</h3>
-                                <div className="flex flex-wrap gap-2 w-full justify-between items-center">
+                                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 w-full items-center">
                                     {countOptions.map((count) => (
                                         <button
                                             key={count}
                                             onClick={() => setSelectedCount(count)}
-                                            className={`relative flex items-center justify-center cursor-pointer w-[18%] space-x-1 bg-[#1a1a1a] px-4 py-2 rounded-[5px] text-sm font-medium transition-colors ${selectedCount === count
-                                                ? 'text-white outline-2 outline-[#4346e6]'
+                                            className={`relative flex items-center justify-center cursor-pointer space-x-1 bg-[#1a1a1a] px-3 py-2 sm:px-4 rounded-[5px] text-sm font-medium transition-colors ${selectedCount === count
+                                                ? 'text-white outline outline-1 outline-[#009688]'
                                                 : 'text-gray-400 hover:text-white'
                                                 }`}
                                         >
@@ -174,7 +174,7 @@ const GenerateImagePage = () => {
                                             </div>
                                             <div>
                                                 {isPremiumCount(count) && (
-                                                    <img src={gem} alt="Gem" className="absolute top-0 right-[-1px] w-6 h-6" />
+                                                    <img src={gem} alt="Gem" className="absolute -top-1 -right-1 w-5 h-5" />
                                                 )}
                                             </div>
                                         </button>
@@ -183,14 +183,14 @@ const GenerateImagePage = () => {
                             </div>
 
                             {/* Generate Button */}
-                            <button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium py-4 rounded-lg flex items-center justify-center space-x-2 transition-all cursor-pointer">
+                            <button className="w-full bg-gradient-to-r from-[#009688] to-[#00bfa5] hover:from-[#00897b] hover:to-[#00a78f] text-white font-medium py-4 rounded-lg flex items-center justify-center space-x-2 transition-all cursor-pointer shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]">
                                 <Wand2 className="w-5 h-5" />
                                 <span>Generate Image</span>
                             </button>
                         </div>
 
                         {/* Right Panel - Generated Images */}
-                        <div className="hidden lg:block w-1/2 bg-[#0f0f0f] py-6 px-14 overflow-y-auto">
+                        <div className="w-full lg:w-1/2 bg-[#0f0f0f] py-6 px-4 sm:px-6 lg:px-14 overflow-y-auto">
                             <div>
                                 <h2 className="text-md font-semibold">Generated Images</h2>
                                 <p className="mb-8 mt-3 text-xs leading-4 text-[#969696]">
@@ -219,7 +219,7 @@ const GenerateImagePage = () => {
                                 </div>
 
                                 {/* Generated Image Display */}
-                                <div className="space-y-4 w-full grid gap-2 md:gap-4 grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 auto-rows-fr">
+                                <div className="space-y-4 w-full grid gap-2 sm:gap-3 md:gap-4 grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 auto-rows-fr">
                                     <div className="aspect-[2/3] relative rounded-3xl overflow-hidden bg-[#1a1a1a]">
                                         <img
                                             src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face"

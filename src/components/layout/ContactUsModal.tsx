@@ -27,7 +27,7 @@ const ContactUsModal = ({ isOpen, onClose }: ContactUsModalProps) => {
             <h2 className="text-2xl font-bold text-white mb-3">Contact us</h2>
             <p className="text-white text-sm leading-relaxed">
               Write your message here or email us at{' '}
-              <span className="text-pink-500">support@goodie.ai</span>
+              <span className="text-[#009688]">support@goodie.ai</span>
             </p>
           </div>
           <button
@@ -44,7 +44,7 @@ const ContactUsModal = ({ isOpen, onClose }: ContactUsModalProps) => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Description"
-            className="w-full h-32 bg-[#2a2a2a] border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-pink-500 transition-colors"
+            className="w-full h-32 bg-[#2a2a2a] border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-[#009688] transition-colors"
           />
         </div>
 
@@ -52,7 +52,7 @@ const ContactUsModal = ({ isOpen, onClose }: ContactUsModalProps) => {
         <div className="flex justify-center">
           <button
             onClick={handleSend}
-            className="bg-pink-500 hover:bg-pink-600 text-white px-12 py-3 rounded-lg font-medium transition-colors"
+            className="bg-[#009688] hover:bg-[#00897b] text-white px-12 py-3 rounded-lg font-medium transition-colors"
           >
             Send
           </button>

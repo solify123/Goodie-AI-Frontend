@@ -18,11 +18,11 @@ const BottomNavigation = () => {
                             <Sparkles className="w-5 h-5" />
                             <span className="text-xs">Create</span>
                         </button>
-                        <button className="flex flex-col items-center justify-center space-y-1 px-2 py-1 text-pink-500 rounded-lg flex-1">
+                        <button className="flex flex-col items-center justify-center space-y-1 px-2 py-1 text-[#009688] rounded-lg flex-1">
                             <MessageCircle className="w-5 h-5" />
                             <span className="text-xs">Chat</span>
                         </button>
-                        <button className="flex flex-col items-center justify-center space-y-1 px-2 py-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 rounded-lg flex-1">
+                        <button className="flex flex-col items-center justify-center space-y-1 px-2 py-1 bg-gradient-to-r from-purple-500 via-[#00bfa5] to-orange-500 rounded-lg flex-1">
                             <Diamond className="w-5 h-5 text-amber-400" />
                             <span className="text-xs text-white font-medium">Premium</span>
                         </button>
