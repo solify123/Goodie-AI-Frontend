@@ -7,50 +7,16 @@ interface ConversationProps {
   showResetModal?: boolean
   onCloseResetModal?: () => void
   onShowResetModal?: () => void
+  handleCall?: () => void
+  onConversationDelete?: () => void
+  conversationDelete?: boolean
 }
-const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetModal: externalShowResetModal, onCloseResetModal, onShowResetModal }: ConversationProps) => {
+const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetModal: externalShowResetModal, onCloseResetModal, onShowResetModal, handleCall, onConversationDelete, conversationDelete }: ConversationProps) => {
   const [message, setMessage] = useState('')
   const [showAskDropdown, setShowAskDropdown] = useState(false)
   const [showMoreDropdown, setShowMoreDropdown] = useState(false)
   const [internalShowResetModal, setInternalShowResetModal] = useState(false)
-  const askDropdownRef = useRef<HTMLDivElement>(null)
-  const moreDropdownRef = useRef<HTMLDivElement>(null)
-  
-  // Use external modal state if provided, otherwise use internal
-  const showResetModal = externalShowResetModal !== undefined ? externalShowResetModal : internalShowResetModal
-  
-  const handleCloseResetModal = () => {
-    if (onCloseResetModal) {
-      onCloseResetModal()
-    } else {
-      setInternalShowResetModal(false)
-    }
-  }
-  
-  const handleOpenResetModal = () => {
-    if (onShowResetModal) {
-      onShowResetModal()
-    } else {
-      setInternalShowResetModal(true)
-    }
-  }
-  
-  console.log(selectedChatId)
- 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (askDropdownRef.current && !askDropdownRef.current.contains(event.target as Node)) {
-        setShowAskDropdown(false)
-      }
-      if (moreDropdownRef.current && !moreDropdownRef.current.contains(event.target as Node)) {
-        setShowMoreDropdown(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-  const messages = [
+  const [messages, setMessages] = useState([
     {
       id: 1,
       type: 'ai',
@@ -85,15 +51,116 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
       timestamp: '11:58PM',
       hasAudio: true
     }
-  ]
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (message.trim()) {
-      // Handle sending message
-      console.log('Sending message:', message)
-      setMessage('')
+  ])
+
+  const askDropdownRef = useRef<HTMLDivElement>(null)
+  const moreDropdownRef = useRef<HTMLDivElement>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const isProcessingResponseRef = useRef(false)
+
+  console.log(selectedChatId)
+
+  // Use external modal state if provided, otherwise use internal
+  const showResetModal = externalShowResetModal !== undefined ? externalShowResetModal : internalShowResetModal
+
+  const handleCloseResetModal = () => {
+    setMessages([])
+    if (onCloseResetModal) {
+      onCloseResetModal()
+    } else {
+      setInternalShowResetModal(false)
     }
   }
+
+  const handleOpenResetModal = () => {
+    if (onShowResetModal) {
+      onShowResetModal()
+    } else {
+      setInternalShowResetModal(true)
+    }
+  }
+
+  // Get current time in 12-hour format
+  const getCurrentTime = () => {
+    const now = new Date()
+    const hours = now.getHours()
+    const minutes = now.getMinutes()
+    const ampm = hours >= 12 ? 'PM' : 'AM'
+    const displayHours = hours % 12 || 12
+    return `${displayHours}:${minutes.toString().padStart(2, '0')}${ampm}`
+  }
+
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (message.trim() && !isProcessingResponseRef.current) {
+      const userMessageContent = message.trim()
+
+      // Add user message
+      setMessages(prev => {
+        const userMessage = {
+          id: prev.length + 1,
+          type: 'user' as const,
+          content: userMessageContent,
+          timestamp: getCurrentTime()
+        }
+        return [...prev, userMessage]
+      })
+
+      // Clear input immediately
+      setMessage('')
+
+      // Set processing flag to prevent duplicates
+      isProcessingResponseRef.current = true
+
+      // Add dummy AI response after a short delay (outside of setState callback)
+      setTimeout(() => {
+        setMessages(prevMsgs => {
+          const aiResponse = {
+            id: prevMsgs.length + 1,
+            type: 'ai' as const,
+            content: 'Hello you are right now in offline',
+            timestamp: getCurrentTime()
+          }
+          // Reset processing flag after adding response
+          isProcessingResponseRef.current = false
+          return [...prevMsgs, aiResponse]
+        })
+      }, 500)
+    }
+  }
+
+  const handleDeleteChat = () => {
+    setShowMoreDropdown(false)
+    if (onConversationDelete) {
+      onConversationDelete()
+    }
+  }
+
+  // Auto-scroll to bottom when new messages are added
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  useEffect(() => {
+    if (conversationDelete) {
+      setMessages([])
+    }
+  }, [conversationDelete])
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (askDropdownRef.current && !askDropdownRef.current.contains(event.target as Node)) {
+        setShowAskDropdown(false)
+      }
+      if (moreDropdownRef.current && !moreDropdownRef.current.contains(event.target as Node)) {
+        setShowMoreDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
   return (
     <div className="flex flex-col h-full" style={{ height: 'calc(100vh - 65px)' }}>
       {/* Header */}
@@ -118,10 +185,10 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
           <h3 className="text-white font-medium text-base sm:text-base truncate">Arthur</h3>
         </div>
         <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
-          <button className="p-2 text-green-400 rounded-lg transition-colors cursor-pointer">
+          <button onClick={handleCall} className="p-2 text-green-400 rounded-lg transition-colors cursor-pointer">
             <Phone className="w-7 h-7" />
           </button>
-          
+
           {/* More Options Dropdown */}
           <div className="relative hidden sm:block" ref={moreDropdownRef}>
             <button
@@ -147,9 +214,7 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
                 <button
                   type="button"
                   onClick={() => {
-                    setShowMoreDropdown(false)
-                    // Handle delete chat
-                    console.log('Delete chat')
+                    handleDeleteChat()
                   }}
                   className="w-full text-left px-4 py-2 text-sm text-white hover:bg-[#2a2a2a] transition-colors flex items-center space-x-3 cursor-pointer"
                 >
@@ -176,14 +241,14 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
               }`}
           >
             <div
-              className={`max-w-[85%] sm:max-w-xs md:max-w-md px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg`}
+              className={`max-w-[85%] sm:max-w-xs md:max-w-md lg:max-w-lg px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg`}
             >
               {msg.isImage ? (
                 <div className="space-y-2">
                   <img
                     src={msg.imageUrl}
                     alt="Character"
-                    className="rounded-tl-3xl rounded-tr-3xl rounded-br-3xl rounded-bl-[4px] max-h-[60vh]"
+                    className="rounded-tl-3xl rounded-tr-3xl rounded-br-3xl rounded-bl-[4px] max-h-[60vh] w-full object-cover"
                   />
                 </div>
               ) : (
@@ -205,43 +270,34 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
       {/* Message Input */}
-      <div className="p-3 sm:p-4 w-[80%] mx-auto">
-        <form onSubmit={handleSendMessage} className="flex items-center space-x-2 sm:space-x-2 w-full">
-          <div className='flex items-center space-x-2s bg-[#2a2a2a] rounded-full px-2 sm:px-3 py-1 sm:py-1 w-full'>
+      <div className="p-3 sm:p-4 border-t border-gray-800 bg-[#0f0f0f]">
+        <form onSubmit={handleSendMessage} className="flex items-center space-x-2 sm:space-x-2 w-full max-w-4xl mx-auto">
+          <div className='flex items-center space-x-2 bg-[#2a2a2a] rounded-full px-2 sm:px-3 py-1 sm:py-1.5 w-full'>
             {/* Input Field */}
             <input
               type="text"
               placeholder="Write a message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="flex-1 rounded-lg px-4 py-2 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-gray-600"
+              className="flex-1 bg-transparent rounded-lg px-3 sm:px-4 py-2 text-white placeholder-gray-500 text-sm focus:outline-none"
             />
             {/* Ask Button with Dropdown */}
             <div className="relative flex-shrink-0" ref={askDropdownRef}>
               <button
                 type="button"
                 onClick={() => setShowAskDropdown(!showAskDropdown)}
-                className="flex items-center space-x-1 px-3 py-2 bg-[#1a1a1a] border border-gray-700 rounded-full cursor-pointer text-white hover:bg-[#2a2a2a] transition-colors"
+                className="flex items-center space-x-1 px-2 sm:px-3 py-1.5 sm:py-2 bg-[#1a1a1a] border border-gray-700 rounded-full cursor-pointer text-white hover:bg-[#2a2a2a] transition-colors"
               >
-                <Send className="w-4 h-4" />
-                <span className="text-sm">Ask</span>
-                {showAskDropdown ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                <Send className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="text-xs sm:text-sm hidden sm:inline">Ask</span>
+                {showAskDropdown ? <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4" /> : <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />}
               </button>
               {/* Dropdown Menu */}
               {showAskDropdown && (
-                <div className="absolute bottom-full mb-2 left-0 bg-[#1a1a1a] border border-gray-700 rounded-lg shadow-lg min-w-[180px] py-1">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowAskDropdown(false)
-                      setMessage('Show me...')
-                    }}
-                    className="w-full text-left px-4 py-2 text-sm text-white hover:bg-[#2a2a2a] transition-colors cursor-pointer"
-                  >
-                    Show me...
-                  </button>
+                <div className="absolute bottom-full mb-2 left-0 bg-[#1a1a1a] border border-gray-700 rounded-lg shadow-lg min-w-[180px] py-1 z-20">
                   <button
                     type="button"
                     onClick={() => {
@@ -277,19 +333,19 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
           {/* Send Button */}
           <button
             type="submit"
-            className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-[#009688] hover:from-purple-600 hover:to-[#00897b] transition-all flex items-center justify-center cursor-pointer"
+            className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-[#009688] to-[#00bfa5] hover:from-[#00897b] hover:to-[#00a78f] transition-all flex items-center justify-center cursor-pointer shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]"
           >
-            <Send className="w-5 h-5 text-white" />
+            <Send className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </button>
         </form>
       </div>
       {/* Reset Chat Modal */}
       {showResetModal && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm"
           style={{ animation: 'fadeIn 0.2s ease-out' }}
         >
-          <div 
+          <div
             className="bg-[#1a1a1a] border border-gray-700 rounded-lg shadow-xl w-full max-w-md mx-4 relative"
             style={{ animation: 'fadeInScale 0.2s ease-out' }}
           >
@@ -318,8 +374,6 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
                 </button>
                 <button
                   onClick={() => {
-                    // Handle reset chat logic
-                    console.log('Reset chat confirmed')
                     handleCloseResetModal()
                   }}
                   className="flex-1 px-4 py-2 bg-[#009688] text-white rounded-lg hover:bg-[#00897b] transition-colors cursor-pointer"

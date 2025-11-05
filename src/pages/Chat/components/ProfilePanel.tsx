@@ -1,5 +1,10 @@
 import { Phone, Sparkles, ChevronLeft, ChevronRight, User, Globe, Heart, Briefcase, Target, Star, Dumbbell } from 'lucide-react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+interface ProfilePanelProps {
+  handleCall?: () => void
+}
 
 const InfoItem = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string }) => (
   <div className="flex items-center space-x-3">
@@ -13,7 +18,7 @@ const InfoItem = ({ icon, label, value }: { icon: React.ReactNode, label: string
   </div>
 )
 
-const ProfilePanel = () => {
+const ProfilePanel = ({ handleCall }: ProfilePanelProps) => {
   const images = [
     'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face',
     'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=400&fit=crop&crop=face',
@@ -27,6 +32,12 @@ const ProfilePanel = () => {
 
   const prevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
+  }
+
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate('/generate')
   }
 
   return (
@@ -63,8 +74,8 @@ const ProfilePanel = () => {
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
                 className={`w-2 h-2 rounded-full cursor-pointer transition-all ${index === currentImageIndex
-                    ? 'bg-white w-6'
-                    : 'bg-white/40 hover:bg-white/60'
+                  ? 'bg-white w-6'
+                  : 'bg-white/40 hover:bg-white/60'
                   }`}
               />
             ))}
@@ -82,11 +93,11 @@ const ProfilePanel = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-col space-y-3 md:space-y-0 md:space-x-3 gap-3">
-            <button className="w-full flex-1 bg-[#4fab52] text-white py-1.5 px-4 rounded-lg font-medium hover:bg-[#4fab52]/80 transition-colors flex items-center justify-center space-x-2 cursor-pointer">
+            <button onClick={handleCall} className="w-full flex-1 bg-[#4fab52] text-white py-1.5 px-4 rounded-lg font-medium hover:bg-[#4fab52]/80 transition-colors flex items-center justify-center space-x-2 cursor-pointer">
               <Phone className="w-4 h-4" />
               <span>Call Me</span>
             </button>
-            <button className="w-full flex justify-center items-center p-1.5 rounded-[10px] border-2 border-[#f97187] text-[#f97187] cursor-pointer">
+            <button onClick={handleClick} className="w-full flex justify-center items-center p-1.5 rounded-[10px] border-2 border-[#f97187] text-[#f97187] cursor-pointer">
               <Sparkles className="w-4 h-4" />
               <span>Generate Image</span>
             </button>

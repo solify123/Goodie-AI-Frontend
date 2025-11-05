@@ -20,11 +20,17 @@ import m_10_1 from '../../../assets/images/persons/m_10_1.png'
 import m_10_2 from '../../../assets/images/persons/m_10_2.png'
 import m_11_1 from '../../../assets/images/persons/m_11_1.png'
 import m_11_2 from '../../../assets/images/persons/m_11_2.png'
-
+import { useNavigate } from 'react-router-dom'
 
 const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: boolean }) => {
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate('/chat')
+  }
+
   return (
-    <div className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] transition-all duration-300 cursor-pointer group">
+    <div onClick={handleClick} className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] transition-all duration-300 cursor-pointer group">
       {/* Image Area */}
       <div className="relative h-88 sm:h-94 lg:h-102 overflow-hidden">
         {/* Default Image */}
