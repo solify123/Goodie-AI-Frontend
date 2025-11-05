@@ -1,4 +1,4 @@
-import { ChevronDown, User, CreditCard, LogOut, Menu, Diamond, Venus, Mars, Shell, Sun, Moon } from 'lucide-react'
+import { ChevronDown, User, CreditCard, LogOut, Menu, Diamond, Venus, Mars, Shell } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { RegisterModal } from '../../pages/auth/register'
 import { LoginModal } from '../../pages/auth/login'
@@ -8,7 +8,6 @@ import { useSidebar } from '../../contexts/SidebarContext'
 import { toast } from 'sonner'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLandingTab } from '../../contexts/LandingTabContext'
-import { useTheme } from '../../contexts/ThemeContext'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -23,7 +22,6 @@ const Header = () => {
   const { user, isAuthenticated, logout } = useAuth()
   const { toggleSidebar } = useSidebar()
   const { activeTab, setActiveTab } = useLandingTab()
-  const { theme, toggleTheme } = useTheme()
 
   const isLandingPage = location.pathname === '/'
 
@@ -91,7 +89,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-30 bg-white/80 dark:bg-[#0f0f0f]/80 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-[#0f0f0f]/70 border-b border-gray-200 dark:border-gray-800 shadow-[0_1px_0_0_rgba(0,0,0,0.03)] dark:shadow-[0_1px_0_0_rgba(255,255,255,0.03)]">
+      <header className="fixed top-0 left-0 right-0 z-30 bg-[#0f0f0f]/80 backdrop-blur supports-[backdrop-filter]:bg-[#0f0f0f]/70 border-b border-gray-800 shadow-[0_1px_0_0_rgba(255,255,255,0.03)]">
         {/* Main Header Bar */}
         <div className="flex items-center justify-between">
           {/* Left Section: Hamburger Menu + Logo + Tabs */}
@@ -100,14 +98,14 @@ const Header = () => {
               {/* Sidebar Toggle Button */}
               <button
                 onClick={toggleSidebar}
-                className="cursor-pointer text-gray-900 dark:text-white hover:text-[#009688] transition-colors flex-shrink-0"
+                className="cursor-pointer text-white hover:text-[#009688] transition-colors flex-shrink-0"
               >
                 <Menu className="w-8 h-7" />
               </button>
 
               {/* Logo */}
               <div className="flex items-center space-x-1 min-w-0 select-none">
-                <span className="text-gray-900 dark:text-white text-xl font-semibold truncate tracking-tight">Goodie</span>
+                <span className="text-white text-xl font-semibold truncate tracking-tight">Goodie</span>
                 <span className="text-[#009688] text-xl font-bold tracking-tight">.ai</span>
               </div>
             </div>
@@ -159,18 +157,6 @@ const Header = () => {
 
           {/* Right Section: Premium Badge + Profile */}
           <div className="flex items-center space-x-1.5 flex-shrink-0 px-3 py-3.5">
-            {/* Theme toggle */}
-            <button
-              onClick={toggleTheme}
-              className="cursor-pointer mr-2 w-9 h-9 rounded-full flex items-center justify-center border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/10 hover:bg-white/70 dark:hover:bg-white/20 transition-colors"
-              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-5 h-5 text-yellow-400" />
-              ) : (
-                <Moon className="w-5 h-5 text-[#009688]" />
-              )}
-            </button>
             {isAuthenticated && user ? (
               <>
                 {/* Premium Badge */}

@@ -28,7 +28,7 @@ const Sidebar = ({ setShowLanguagePopup, setShowContactModal }: { setShowLanguag
   return (
     <aside
       className={
-        `fixed flex flex-col justify-between align-start overflow-y-auto left-0 bg-white/90 dark:bg-[#0f0f0f]/95 backdrop-blur supports-[backdrop-filter]:bg-white/85 dark:supports-[backdrop-filter]:bg-[#0f0f0f]/90 border-r border-gray-200 dark:border-gray-800 z-40 transform ${isCollapsed ? '-translate-x-full md:translate-x-0 md:w-16' : 'translate-x-0 md:w-58'} w-66 mt-[65px] shadow-[0_0_0_1px_rgba(0,0,0,0.02)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.02)]`
+        `fixed flex flex-col justify-between align-start overflow-y-auto left-0 bg-[#0f0f0f]/95 backdrop-blur supports-[backdrop-filter]:bg-[#0f0f0f]/90 border-r border-gray-800 z-40 transform ${isCollapsed ? '-translate-x-full md:translate-x-0 md:w-16' : 'translate-x-0 md:w-58'} w-66 mt-[62px] shadow-[0_0_0_1px_rgba(255,255,255,0.02)]`
       }
       style={{ height: 'calc(100vh - 65px)' }}
     >
@@ -65,7 +65,8 @@ const Sidebar = ({ setShowLanguagePopup, setShowContactModal }: { setShowLanguag
 
         {/* Premium Button */}
         <button
-          className={`w-full cursor-pointer flex items-center rounded-lg bg-[#009688]/20 text-white border border-[#009688]/40 backdrop-blur
+          className={`flex items-center cursor-pointer rounded-md font-semibold transition-all duration-200
+                  bg-[#009688]/20 text-white border border-[#009688]/40 backdrop-blur
                   px-2.5 py-1.5 leading-tight px-5 text-sm shadow-[0_6px_20px_-10px_rgba(0,150,136,0.45)]
                   hover:bg-[#009688]/30 hover:border-[#009688]/60 hover:shadow-[0_10px_30px_-12px_rgba(0,150,136,0.6)] whitespace-nowrap ${isCollapsed ? 'md:justify-center md:px-2 justify-center space-x-2 px-4' : 'justify-center space-x-2 px-4'}`}
           title={isCollapsed ? 'Become Premium' : undefined}
@@ -99,6 +100,7 @@ const Sidebar = ({ setShowLanguagePopup, setShowContactModal }: { setShowLanguag
             </button>
           )
         })}
+        
         {
           isCollapsed ? null : (
             <div className="space-y-2 text-[10px] text-gray-500 flex justify-center align-center pt-3">

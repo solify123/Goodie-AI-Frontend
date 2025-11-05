@@ -16,7 +16,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }
 
     return (
-        <div className="min-h-screen bg-white text-gray-900 dark:bg-[#0f0f0f] dark:text-white transition-colors">
+        <div className="min-h-screen bg-[#0f0f0f]">
             {/* Fixed Header */}
             <Header />
 
