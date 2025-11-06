@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Layout from '../../components/layout'
+import BottomNavigation from '../../components/layout/BottomNavigation'
 import { ChevronRight } from 'lucide-react'
 import ProgressStepper from './components/ProgressStepper'
 import StyleSelection from './components/StyleSelection'
@@ -19,6 +20,7 @@ import HobbiesSelection from './components/HobbiesSelection'
 import RelationshipSelection from './components/RelationshipSelection'
 import ClothingSelection from './components/ClothingSelection'
 import Summary from './components/Summary'
+import { toast } from 'sonner'
 
 const CreateCharacterPage = () => {
   const [currentStep, setCurrentStep] = useState(1)
@@ -119,8 +121,8 @@ const CreateCharacterPage = () => {
   }
 
   const handleComplete = () => {
+    toast.warning("Now you are offline!")
     // Save character and proceed to next page
-    console.log('Character completed:', characterData)
     // Here you would typically navigate to the next page or show success message
   }
 
@@ -355,7 +357,7 @@ const CreateCharacterPage = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-center px-2 sm:px-4 md:p-6 w-full pb-24 md:pb-6">
+        <div className="flex flex-col items-center px-2 sm:px-4 md:p-6 w-full pb-24 md:pb-6" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 6rem)' }}>
           {/* Page Header - OUTSIDE the card */}
           <div className="flex items-center justify-center gap-x-2 sm:gap-x-3 mx-auto mb-3 sm:mb-4 lg:mb-6 mt-2 sm:mt-5 md:mt-0">
             <img
@@ -412,6 +414,7 @@ const CreateCharacterPage = () => {
             )}
           </div>
         </div>
+        <BottomNavigation />
       </div>
     </Layout>
   )

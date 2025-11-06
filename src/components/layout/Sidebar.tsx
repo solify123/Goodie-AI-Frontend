@@ -28,9 +28,12 @@ const Sidebar = ({ setShowLanguagePopup, setShowContactModal }: { setShowLanguag
   return (
     <aside
       className={
-        `fixed flex flex-col justify-between align-start overflow-y-auto left-0 bg-[#0f0f0f]/95 backdrop-blur supports-[backdrop-filter]:bg-[#0f0f0f]/90 border-r border-gray-800 z-40 transform ${isCollapsed ? '-translate-x-full md:translate-x-0 md:w-16' : 'translate-x-0 md:w-58'} w-66 mt-[62px] shadow-[0_0_0_1px_rgba(255,255,255,0.02)]`
+        `fixed flex flex-col pb-16 md:pb-0 justify-between align-start overflow-y-auto left-0 bg-[#0f0f0f]/95 backdrop-blur supports-[backdrop-filter]:bg-[#0f0f0f]/90 border-r border-gray-800 z-40 transform ${isCollapsed ? '-translate-x-full md:translate-x-0 md:w-16' : 'translate-x-0 md:w-58'} w-66 mt-[62px] shadow-[0_0_0_1px_rgba(255,255,255,0.02)]`
       }
-      style={{ height: 'calc(100vh - 65px)' }}
+      style={{ 
+        height: 'calc(100vh - 65px)',
+        overflowY: 'auto'
+      }}
     >
 
       {/* Main Features */}

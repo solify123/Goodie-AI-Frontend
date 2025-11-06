@@ -1,6 +1,7 @@
 import { Plus } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
+import BottomNavigation from '../../components/layout/BottomNavigation'
 
 // Sample AI character data - in a real app this would come from an API
 const sampleAIs = [
@@ -45,7 +46,7 @@ const AICharacterCard = ({ ai }: { ai: typeof sampleAIs[0] }) => {
   return (
     <div className="relative w-full aspect-[3/4] max-w-[300px] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">
       {/* Character Image */}
-      <div className="relative w-full h-full">
+      <div className="relative w-full h-full" onClick={handleChat}>
         <img 
           src={ai.image} 
           alt={ai.name}
@@ -54,8 +55,7 @@ const AICharacterCard = ({ ai }: { ai: typeof sampleAIs[0] }) => {
         
         {/* Chat Bubble Icon - small in top right */}
         <button
-          onClick={handleChat}
-          className="absolute top-3 right-3 w-8 h-8 bg-[#009688] rounded-full flex items-center justify-center hover:bg-[#00897b] transition-colors shadow-lg z-10"
+          className="absolute cursor-pointer top-3 right-3 w-8 h-8 bg-[#009688] rounded-full flex items-center justify-center hover:bg-[#00897b] transition-colors shadow-lg z-10"
         >
           <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
@@ -77,7 +77,7 @@ const MyAIPage = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-24 md:pb-8" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 6rem)' }}>
           {/* Header */}
           <div className="mb-8 sm:mb-10">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
@@ -94,6 +94,7 @@ const MyAIPage = () => {
             ))}
           </div>
         </div>
+      <BottomNavigation />
     </Layout>
   )
 }

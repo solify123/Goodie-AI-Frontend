@@ -1,24 +1,63 @@
 import { Search, X, RotateCcw, Trash2 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 interface ChatListProps {
   onChatSelect?: (chatId: number) => void
   onClose?: () => void
   onShowResetModal?: () => void
+  onConversationDelete: () => void
+  conversationDelete: boolean
 }
-const ChatList = ({ onChatSelect, onClose, onShowResetModal }: ChatListProps) => {
+
+const initialChats = [
+  {
+    id: 1,
+    name: 'Arthur Murphy',
+    lastMessage: "My name's Arthur Murphy, but most people call me Art. What should I call you, cu...",
+    timestamp: '11:58PM',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+    isActive: true
+  }
+]
+
+const ChatList = ({ onChatSelect, onClose, onShowResetModal, onConversationDelete, conversationDelete }: ChatListProps) => {
   const [searchQuery, setSearchQuery] = useState('')
-  const chats = [
-    {
-      id: 1,
-      name: 'Arthur Murphy',
-      lastMessage: "My name's Arthur Murphy, but most people call me Art. What should I call you, cu...",
-      timestamp: '11:58PM',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
-      isActive: true
+  const [chats, setChats] = useState<any>(initialChats)
+  const originalChatsRef = useRef<any[]>(initialChats)
+
+  // Filter chats based on search query
+  useEffect(() => {
+    if (searchQuery.trim().length === 0) {
+      setChats(originalChatsRef.current)
+    } else {
+      const filtered = originalChatsRef.current.filter((chat: any) =>
+        chat.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      setChats(filtered)
     }
-  ]
+  }, [searchQuery])
+
+  useEffect(() => {
+    if (conversationDelete) {
+      setChats([])
+      originalChatsRef.current = []
+    }
+  }, [conversationDelete])
+
+  // Note: onConversationDelete is handled in handleDelete function
+  // This useEffect is kept for backward compatibility but may need refactoring
+
+  const handleDelete = () => {
+    setChats([])
+    originalChatsRef.current = []
+    onConversationDelete()
+  }
+
+  const handleClearSearch = () => {
+    setSearchQuery('')
+  }
+
   return (
-    <div className="flex flex-col h-full" style={{ height: 'calc(100vh - 90px)' }}>
+    <div className="flex flex-col h-full md:h-auto" style={{ height: 'calc(100vh - 86px)' }}>
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-white text-2xl sm:text-1xl font-bold sm:font-semibold mb-3 mt-3">Chat</h2>
@@ -39,13 +78,28 @@ const ChatList = ({ onChatSelect, onClose, onShowResetModal }: ChatListProps) =>
             placeholder="Search for a profile..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#2a2a2a] border border-gray-700 rounded-lg pl-10 pr-4 py-2.5 sm:py-2 text-white placeholder-gray-400 text-sm focus:outline-none focus:border-gray-600"
+            className="w-full bg-[#2a2a2a] border border-gray-700 rounded-lg pl-10 pr-10 py-2.5 sm:py-2 text-white placeholder-gray-400 text-sm focus:outline-none focus:border-gray-600"
           />
+          {searchQuery && (
+            <button
+              onClick={handleClearSearch}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
       {/* Chat List */}
       <div className="flex-1 overflow-y-auto">
-        {chats.map((chat) => (
+        {chats.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-full py-8">
+            <p className="text-gray-400 text-sm">
+              {searchQuery ? 'No profiles found matching your search.' : 'No chats available.'}
+            </p>
+          </div>
+        ) : (
+          chats.map((chat: any) => (
           <div
             key={chat.id}
             onClick={() => onChatSelect?.(chat.id)}
@@ -88,7 +142,7 @@ const ChatList = ({ onChatSelect, onClose, onShowResetModal }: ChatListProps) =>
                     >
                       <RotateCcw className="w-4 h-4" />
                     </button>
-                    <button className="text-gray-400 hover:text-red-400 p-1">
+                    <button onClick={handleDelete} className="text-gray-400 hover:text-red-400 p-1 cursor-pointer">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
@@ -96,7 +150,8 @@ const ChatList = ({ onChatSelect, onClose, onShowResetModal }: ChatListProps) =>
               </div>
             </div>
           </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   )

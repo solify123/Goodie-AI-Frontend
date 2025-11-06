@@ -52,22 +52,22 @@ const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
                   src={color.image} 
                   alt={color.label + " Eye Color"} 
                   className="w-full h-full object-cover"
-                />
-                
-                {/* Selected Border */}
-                {selected === color.value && (
-                  <div className="absolute inset-0 rounded-2xl border-2 border-[#009688]"></div>
-                )}
-              </div>
+                  />
               
+                {/* Selected Border */}
+              {selected === color.value && (
+                  <div className="absolute inset-0 rounded-2xl border-2 border-[#009688]"></div>
+              )}
+            </div>
+            
               {/* Label - overlapping at bottom */}
               <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
                 <div className={`bg-gray-500 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${
-                  selected === color.value
+                selected === color.value
                     ? 'bg-[#009688] text-white'
                     : 'bg-gray-200 text-gray-500 text-white'
-                }`}>
-                  {color.label}
+              }`}>
+                {color.label}
                 </div>
               </div>
             </div>

@@ -1,23 +1,15 @@
-// import m_1_1 from '../../../assets/images/persons/m_1_1.png'
-// import m_1_2 from '../../../assets/images/persons/m_1_2.png'
-// import m_2_1 from '../../../assets/images/persons/m_2_1.png'
-// import m_2_2 from '../../../assets/images/persons/m_2_2.png'
-// import m_3_1 from '../../../assets/images/persons/m_3_1.png'
-// import m_3_2 from '../../../assets/images/persons/m_3_2.png'
-// import m_4_1 from '../../../assets/images/persons/m_4_1.png'
-// import m_4_2 from '../../../assets/images/persons/m_4_2.png'
-// import m_5_1 from '../../../assets/images/persons/m_5_1.png'
-// import m_5_2 from '../../../assets/images/persons/m_5_2.png'
-// import m_6_1 from '../../../assets/images/persons/m_6_1.png'
-// import m_6_2 from '../../../assets/images/persons/m_6_2.png'
-// import m_7_1 from '../../../assets/images/persons/m_7_1.png'
-// import m_7_2 from '../../../assets/images/persons/m_7_2.png'
-// import m_8_1 from '../../../assets/images/persons/m_8_1.png'
-// import m_8_2 from '../../../assets/images/persons/m_8_2.png'
+import { useNavigate } from 'react-router-dom'
+import characters from './anime.json' with { type: "json" }
 
 const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: boolean }) => {
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate('/chat')
+  }
+
   return (
-    <div className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] transition-all duration-300 cursor-pointer group">
+    <div onClick={handleClick} className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] transition-all duration-300 cursor-pointer group">
       {/* Image Area */}
       <div className="relative h-88 sm:h-94 lg:h-102 overflow-hidden">
         {/* Default Image */}
@@ -55,62 +47,11 @@ const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: b
 }
 
 const Anime = () => {
-  const characters = [
-    {
-      name: "Kenji",
-      age: 22,
-      description: "Swordsman from the ancient realm seeking justice...",
-      defaultImage: "https://images.unsplash.com/photo-1566837945700-30057527ade0?w=300&h=400&fit=crop&crop=face",
-      hoverImage: "https://images.unsplash.com/photo-1566837945700-30057527ade0?w=300&h=400&fit=crop&crop=face",
-    },  
-    {
-      name: "Ren",
-      age: 24,
-      description: "Ninja warrior with extraordinary agility...",
-      defaultImage: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=300&h=400&fit=crop&crop=face",
-      hoverImage: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=300&h=400&fit=crop&crop=face",
-    },
-    {
-      name: "Yuki",
-      age: 20,
-      description: "Ice mage controlling the elements...",
-      defaultImage: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&h=400&fit=crop&crop=face",
-      hoverImage: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&h=400&fit=crop&crop=face",
-    },
-    {
-      name: "Takeshi",
-      age: 23,
-      description: "Samurai warrior with honor and unwavering spirit...",
-      defaultImage: "https://images.unsplash.com/photo-1479936343636-73cdc5aae0c3?w=300&h=400&fit=crop&crop=face",
-      hoverImage: "https://images.unsplash.com/photo-1479936343636-73cdc5aae0c3?w=300&h=400&fit=crop&crop=face",
-    },
-    {
-      name: "Aoi",
-      age: 21,
-      description: "Shrine maiden with mystical powers and ancient wisdom...",
-      defaultImage: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=300&h=400&fit=crop&crop=face",
-      hoverImage: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=300&h=400&fit=crop&crop=face",
-    },
-    {
-      name: "Ryuu",
-      age: 25,
-      description: "Dragon slayer with legendary strength and courage...",
-      defaultImage: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&h=400&fit=crop&crop=face",
-      hoverImage: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&h=400&fit=crop&crop=face",
-    },
-    {
-      name: "Hana",
-      age: 18,
-      description: "Nature spirit connected to the forest and all living things...",
-      defaultImage: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=400&fit=crop&crop=face",
-      hoverImage: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=400&fit=crop&crop=face",
-    }
-  ]
 
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
-        {characters.map((character, index) => (
+        {(characters as any).map((character: any, index: number) => (
           <CharacterCard
             key={index}
             character={character}
