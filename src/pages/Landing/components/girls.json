@@ -278,12 +278,5 @@
     "description": "Digital muse and trendsetter, known as the perfect girl next door, finds herself in a cozy local coffee shop she frequents",
     "defaultImage": "/images/girls/1/girl (40).png",
     "hoverImage": "/images/girls/2/girl (40).png"
-  },
-  {
-    "name": "Serena",
-    "age": "26",
-    "description": "Rich heiress with a taste for risk and attention. Serena lives for poker, danger, and being the center of everyone's desire.",
-    "defaultImage": "/images/girls/1/girl (41).png",
-    "hoverImage": "/images/girls/2/girl (41).png"
   }
 ]
