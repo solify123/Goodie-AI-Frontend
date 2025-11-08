@@ -1,49 +1,29 @@
 import { useNavigate } from 'react-router-dom'
-import { useRef } from 'react'
 import characters from './girls.json' with { type: "json" }
 
 const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: boolean }) => {
   const navigate = useNavigate()
-  const videoRef = useRef<HTMLVideoElement>(null)
 
   const handleClick = () => {
     navigate('/chat')
   }
 
-  const handleMouseEnter = () => {
-    if (videoRef.current) {
-      videoRef.current.play().catch((error) => {
-        console.error('Error playing video:', error)
-      })
-    }
-  }
-
-  const handleMouseLeave = () => {
-    if (videoRef.current) {
-      videoRef.current.pause()
-      videoRef.current.currentTime = 0
-    }
-  }
-
   return (
-    <div
-      onClick={handleClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] transition-all duration-300 cursor-pointer group"
-    >
+    <div onClick={handleClick} className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] transition-all duration-300 cursor-pointer group">
       {/* Image Area */}
       <div className="relative h-88 sm:h-94 lg:h-102 overflow-hidden">
-        {/* Video */}
-        <video
-          ref={videoRef}
-          src={character.videoSrc}
-          className="absolute inset-0 w-full h-full object-cover"
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        ></video>
+        {/* Default Image */}
+        <img
+          src={character.defaultImage}
+          alt={character.name}
+          className="absolute inset-0 w-full h-full object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
+        />
+        {/* Hover Image */}
+        <img
+          src={character.hoverImage}
+          alt={character.name}
+          className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        />
         {/* Dark Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
         {isNew && (
