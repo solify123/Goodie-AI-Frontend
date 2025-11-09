@@ -132,20 +132,20 @@ const CollectionPage = () => {
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setSelectedCharacter(null)}
-                  className="text-white hover:text-gray-400 transition-colors font-bold text-2xl lg:text-2xl md:text-[24px] sm:text-[18px] xs:text-[14px]"
+                  className="text-white hover:text-gray-400 transition-colors font-bold text-[16px] lg:text-2xl md:text-[24px] sm:text-[18px] xs:text-[14px]"
                 >
                   My Collection
                 </button>
                 <ChevronRight className="w-5 h-5 text-gray-400" />
                 <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+                  <div className="w-8 h-8 rounded-[10px] overflow-hidden flex-shrink-0">
                     <img
                       src={selectedCharacter.avatar}
                       alt={selectedCharacter.name}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <h1 className="text-2xl lg:text-2xl md:text-[24px] sm:text-[18px] xs:text-[14px] font-bold text-white">
+                  <h1 className="text-[14px] lg:text-2xl md:text-[24px] sm:text-[18px] xs:text-[14px] font-bold text-white">
                     {selectedCharacter.name}
                   </h1>
                 </div>
@@ -191,7 +191,7 @@ const CollectionPage = () => {
           </div>
 
           {/* Character Images Grid */}
-          <div className="pb-24 md:pb-8 px-8 2xl:px-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-7 lg:max-w-7xl w-full mx-auto" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 6rem)' }}>
+          <div className="pb-24 md:pb-8 px-8 2xl:px-0 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-7 lg:max-w-7xl w-full mx-auto" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 6rem)' }}>
             {selectedCharacter.images.map((image, index) => (
               <div
                 key={index}
@@ -272,13 +272,13 @@ const CollectionPage = () => {
         {/* Page Header */}
         <div className="flex items-center justify-between mb-8 p-6 lg:py-6 border-b border-gray-800">
           <div className="lg:max-w-7xl w-full mx-auto flex items-center justify-between">
-            <h1 className="text-2xl lg:text-2xl w-7xl md:text-[24px] sm:text-[18px] xs:text-[14px] font-bold text-white">My Collection</h1>
+            <h1 className="text-[16px] lg:text-2xl w-7xl md:text-[24px] sm:text-[18px] xs:text-[14px] font-bold text-white">My Collection</h1>
 
             {/* Sort Dropdown */}
             <div className="relative" ref={sortDropdownRef}>
               <button
                 onClick={() => setShowSortDropdown(!showSortDropdown)}
-                className="flex items-center space-x-2 w-[90px] justify-between cursor-pointer"
+                className="flex items-center space-x-2 w-[90px] justify-end cursor-pointer"
               >
                 <span className="text-sm font-semibold mr-1 hidden sm:block">Sort by</span>
                 <ArrowDownWideNarrow className="w-4 h-4" />
@@ -326,7 +326,7 @@ const CollectionPage = () => {
               <div className="pb-2">
                 <div className="flex items-center space-x-2">
                   {/* Profile Picture */}
-                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+                  <div className="w-8 h-8 rounded-[10px] overflow-hidden flex-shrink-0">
                     <img
                       src={character.avatar}
                       alt={character.name}

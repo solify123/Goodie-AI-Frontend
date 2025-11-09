@@ -1,81 +1,284 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useMemo, type Dispatch, type SetStateAction } from 'react'
 import ChatList from './components/ChatList'
 import Conversation from './components/Conversation'
 import ProfilePanel from './components/ProfilePanel'
 import Layout from '../../components/layout'
 import BottomNavigation from '../../components/layout/BottomNavigation'
 import { toast } from 'sonner'
+import { Info, X, Trash2 } from 'lucide-react'
+import { useGlobalContext, type GlobalMessage } from '../../contexts/GlobalContext'
 
 const ChatPage = () => {
+  const { chats, activeChatId, setActiveChat, resetChat, deleteChat, updateMessages } = useGlobalContext()
   const [showChatList, setShowChatList] = useState(true)
-  const [selectedChat, setSelectedChat] = useState<number | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [showProfilePanel, setShowProfilePanel] = useState(true)
   const [showResetModal, setShowResetModal] = useState(false)
-  const [conversationDelete, setConversationDelete] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [pendingChatId, setPendingChatId] = useState<string | null>(null)
+  const [hideHeader, setHideHeader] = useState(false)
+  const [hideBottomNavigation, setHideBottomNavigation] = useState(false)
+
+  const activeChat = useMemo(
+    () => chats.find((chat) => chat.id === activeChatId) ?? null,
+    [activeChatId, chats],
+  )
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024)
+      const mobile = window.innerWidth < 1024
+      setIsMobile(mobile)
+      if (!mobile) {
+        setShowChatList(true)
+        setHideHeader(false)
+        setHideBottomNavigation(false)
+      }
     }
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // On mobile, hide chat list when conversation is selected
-  const handleChatSelect = (chatId: number) => {
-    setSelectedChat(chatId)
+  useEffect(() => {
+    if (activeChatId) {
+      setHideBottomNavigation(true)
+      if (isMobile) {
+        setHideHeader(true)
+        setShowChatList(false)
+      }
+    }
+  }, [activeChatId, isMobile])
+
+  const handleChatSelect = (chatId: string) => {
+    setActiveChat(chatId)
+    setHideHeader(true)
+    setHideBottomNavigation(true)
     if (isMobile) {
       setShowChatList(false)
     }
   }
 
-  // Back to chat list on mobile
   const handleBackToChatList = () => {
-    setShowChatList(true)
-    setSelectedChat(null)
+    if (isMobile) {
+      setShowChatList(true)
+      setHideHeader(false)
+      setHideBottomNavigation(false)
+    }
   }
 
   const handleCall = () => {
-    toast.warning("Now you are offline!")
+    toast.warning('Now you are offline!')
   }
 
+  const openResetModal = useCallback(
+    (chatId: string) => {
+      setPendingChatId(chatId)
+      setShowResetModal(true)
+      setHideHeader(true)
+      setHideBottomNavigation(true)
+    },
+    [],
+  )
+
+  const handleCloseResetModal = useCallback(() => {
+    setShowResetModal(false)
+    setPendingChatId(null)
+    setHideHeader(false)
+    setHideBottomNavigation(false)
+  }, [])
+
+  const handleResetConfirm = useCallback(() => {
+    if (!pendingChatId) return
+    resetChat(pendingChatId)
+    toast.success('Chat reset successfully')
+    handleCloseResetModal()
+  }, [handleCloseResetModal, pendingChatId, resetChat])
+
+  const openDeleteModal = useCallback((chatId: string) => {
+    setPendingChatId(chatId)
+    setShowDeleteModal(true)
+    setHideHeader(true)
+    setHideBottomNavigation(true)
+  }, [])
+
+  const handleCloseDeleteModal = useCallback(() => {
+    setShowDeleteModal(false)
+    setPendingChatId(null)
+    setHideHeader(false)
+    setHideBottomNavigation(false)
+  }, [])
+
+  const handleConfirmDelete = useCallback(() => {
+    if (!pendingChatId) return
+    deleteChat(pendingChatId)
+    toast.success('Chat deleted successfully')
+    handleCloseDeleteModal()
+  }, [deleteChat, handleCloseDeleteModal, pendingChatId])
+
+  const handleConversationDelete = useCallback(
+    (chatId: string | null) => {
+      const targetId = chatId ?? activeChatId
+      if (targetId) {
+        openDeleteModal(targetId)
+      }
+    },
+    [activeChatId, openDeleteModal],
+  )
+
+  const boundSetMessages = useCallback<Dispatch<SetStateAction<GlobalMessage[]>>>(
+    (value) => {
+      if (!activeChatId) return
+      if (typeof value === 'function') {
+        updateMessages(activeChatId, value as (prev: GlobalMessage[]) => GlobalMessage[])
+      } else {
+        const next = value
+        updateMessages(activeChatId, () => next)
+      }
+    },
+    [activeChatId, updateMessages],
+  )
   return (
-    <Layout>
+    <Layout hideHeader={hideHeader}>
       <div className="chat-page w-full flex flex-col lg:flex-row h-full pb-0">
-        <div className={`${(isMobile && showChatList && !selectedChat) || !isMobile ? 'flex' : 'hidden'
-          } w-full xl:w-80 bg-[#1a1a1a] border-r border-gray-800 flex-col p-3`}>
-          <ChatList onChatSelect={handleChatSelect} onClose={() => setShowChatList(false)} onShowResetModal={() => setShowResetModal(true)} onConversationDelete={() => setConversationDelete(true)} conversationDelete={conversationDelete} />
+        <div
+          className={`${(isMobile && showChatList) || !isMobile ? 'flex' : 'hidden'
+            } xl:w-80 bg-[#1a1a1a] border-r border-gray-800 flex-col p-3`}
+        >
+          <ChatList
+            chats={chats}
+            activeChatId={activeChatId}
+            onChatSelect={handleChatSelect}
+            onShowResetModal={openResetModal}
+            onShowDeleteModal={openDeleteModal}
+          />
         </div>
         {/* Conversation Area */}
-        <div className={`${(isMobile && selectedChat) || !isMobile ? 'flex' : 'hidden'
-          } flex-1 flex-col min-w-0`}>
-          <div className="flex-1 flex min-h-0">
-            <div className="flex-1 min-w-0">
-              <Conversation
-                onBack={handleBackToChatList}
-                selectedChatId={selectedChat}
-                onToggleProfilePanel={() => setShowProfilePanel(!showProfilePanel)}
-                showResetModal={showResetModal}
-                onCloseResetModal={() => setShowResetModal(false)}
-                onShowResetModal={() => setShowResetModal(true)}
-                handleCall={handleCall}
-                onConversationDelete={() => setConversationDelete(true)}
-                conversationDelete={conversationDelete}
-              />
-            </div>
-            {/* Profile Panel - Hidden on mobile/tablet */}
-            {showProfilePanel && (
-              <div className="hidden xl:block w-[30%] bg-[#1a1a1a] border-l border-gray-800 flex-shrink-0">
-                <ProfilePanel handleCall={handleCall} />
+        <div
+          className={`${(isMobile && !showChatList && activeChat) || !isMobile ? 'flex' : 'hidden'
+            } flex-1 flex-col min-w-0`}
+        >
+          {activeChat ? (
+            <div className="flex-1 flex min-h-0">
+              <div className="flex-1 min-w-0">
+                <Conversation
+                  onBack={handleBackToChatList}
+                  selectedChatId={activeChatId}
+                  chatName={activeChat.name}
+                  chatAvatar={activeChat.avatar}
+                  onToggleProfilePanel={() => setShowProfilePanel(!showProfilePanel)}
+                  onShowResetModal={() => openResetModal(activeChat.id)}
+                  handleCall={handleCall}
+                  onConversationDelete={handleConversationDelete}
+                  messages={activeChat.messages}
+                  setMessages={boundSetMessages}
+                />
               </div>
-            )}
-          </div>
+              {/* Profile Panel - Hidden on mobile/tablet */}
+              {showProfilePanel && (
+                <div className="hidden xl:block w-[30%] bg-[#1a1a1a] border-l border-gray-800 flex-shrink-0">
+                  <ProfilePanel handleCall={handleCall} />
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-1 items-center justify-center text-gray-500">
+              Select a chat to start messaging.
+            </div>
+          )}
         </div>
-        <BottomNavigation />
+        {/* Reset Chat Modal */}
+        {showResetModal && (
+          <div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm"
+            style={{ animation: 'fadeIn 0.2s ease-out' }}
+          >
+            <div
+              className="bg-[#1a1a1a] border border-gray-700 rounded-lg shadow-xl w-full max-w-md mx-4 relative"
+              style={{ animation: 'fadeInScale 0.2s ease-out' }}
+            >
+              <button
+                onClick={handleCloseResetModal}
+                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div className="p-6">
+                <h2 className="text-2xl font-bold text-white mb-4">Reset chat?</h2>
+                <p className="text-gray-300 text-sm leading-relaxed mb-6">
+                  This will start a new conversation with this character. Your current chat history will be cleared.
+                </p>
+                <div className="flex space-x-3 mb-4">
+                  <button
+                    onClick={handleCloseResetModal}
+                    className="flex-1 px-4 py-2 border border-[#009688] text-[#009688] rounded-lg hover:bg-[#009688]/10 transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleResetConfirm}
+                    className="flex-1 px-4 py-2 bg-[#009688] text-white rounded-lg hover:bg-[#00897b] transition-colors cursor-pointer"
+                  >
+                    Yes, Confirm
+                  </button>
+                </div>
+                <div className="flex items-start space-x-2 text-xs text-gray-400">
+                  <Info className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                  <p>All generated media will stay in your gallery.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Delete Chat Modal */}
+        {showDeleteModal && (
+          <div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm"
+            style={{ animation: 'fadeIn 0.2s ease-out' }}
+          >
+            <div
+              className="bg-[#1a1a1a] border border-gray-700 rounded-lg shadow-xl w-full max-w-md mx-4 relative"
+              style={{ animation: 'fadeInScale 0.2s ease-out' }}
+            >
+              <button
+                onClick={handleCloseDeleteModal}
+                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div className="p-6">
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-500/10 text-red-400 mb-4 mx-auto">
+                  <Trash2 className="w-6 h-6" />
+                </div>
+                <h2 className="text-2xl font-bold text-white text-center mb-3">Delete chat?</h2>
+                <p className="text-gray-300 text-sm leading-relaxed text-center mb-6">
+                  This will permanently remove your conversation history with this character. This action cannot be undone.
+                </p>
+                <div className="flex space-x-3 mb-4">
+                  <button
+                    onClick={handleCloseDeleteModal}
+                    className="flex-1 px-4 py-2 border border-gray-600 text-gray-200 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleConfirmDelete}
+                    className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors cursor-pointer"
+                  >
+                    Delete Chat
+                  </button>
+                </div>
+                <div className="flex items-start space-x-2 text-xs text-gray-400">
+                  <Info className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                  <p>Deleting the chat will not affect saved media in your gallery.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {!hideBottomNavigation && <BottomNavigation />}
       </div>
     </Layout>
   )
 }
+
 export default ChatPage

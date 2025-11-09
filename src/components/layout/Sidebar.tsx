@@ -1,9 +1,31 @@
-import { Compass, MessageCircle, FolderHeart, Image, UserPlus, Sparkles, Globe, MessageSquare, HelpCircle, Mail, Award, Gem } from 'lucide-react'
+import {
+  Compass,
+  MessageCircle,
+  FolderHeart,
+  Image,
+  UserPlus,
+  Sparkles,
+  Globe,
+  MessageSquare,
+  HelpCircle,
+  Mail,
+  Award,
+  Gem,
+} from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSidebar } from '../../contexts/SidebarContext'
 
+interface SidebarProps {
+  setShowLanguagePopup: (show: boolean) => void
+  setShowContactModal: (show: boolean) => void
+  hasHeader?: boolean
+}
 
-const Sidebar = ({ setShowLanguagePopup, setShowContactModal }: { setShowLanguagePopup: (show: boolean) => void, setShowContactModal: (show: boolean) => void }) => {
+const Sidebar = ({
+  setShowLanguagePopup,
+  setShowContactModal,
+  hasHeader = true,
+}: SidebarProps) => {
   const navigate = useNavigate()
   const location = useLocation()
   const { isCollapsed, setIsCollapsed } = useSidebar()
@@ -28,10 +50,12 @@ const Sidebar = ({ setShowLanguagePopup, setShowContactModal }: { setShowLanguag
   return (
     <aside
       className={
-        `fixed flex flex-col pb-16 md:pb-0 justify-between align-start overflow-y-auto left-0 bg-[#0f0f0f]/95 backdrop-blur supports-[backdrop-filter]:bg-[#0f0f0f]/90 border-r border-gray-800 z-40 transform ${isCollapsed ? '-translate-x-full md:translate-x-0 md:w-16' : 'translate-x-0 md:w-58'} w-66 mt-[61px] shadow-[0_0_0_1px_rgba(255,255,255,0.02)]`
+        `fixed flex flex-col pb-16 md:pb-0 justify-between align-start overflow-y-auto left-0 bg-[#0f0f0f]/95 backdrop-blur supports-[backdrop-filter]:bg-[#0f0f0f]/90 border-r border-gray-800 z-40 transform ${
+          isCollapsed ? '-translate-x-full md:translate-x-0 md:w-16' : 'translate-x-0 md:w-58'
+        } w-66 ${hasHeader ? 'mt-[61px]' : 'mt-0'} shadow-[0_0_0_1px_rgba(255,255,255,0.02)]`
       }
       style={{ 
-        height: 'calc(100vh - 60px)',
+        height: hasHeader ? 'calc(100vh - 60px)' : '100vh',
         overflowY: 'auto'
       }}
     >
@@ -45,7 +69,7 @@ const Sidebar = ({ setShowLanguagePopup, setShowContactModal }: { setShowLanguag
             <button
               key={index}
               onClick={() => {
-                if (window.innerWidth < 768) {
+                if (window.innerWidth < 1024) {
                   setIsCollapsed(true)
                 }
                 navigate(feature.path)
@@ -68,7 +92,7 @@ const Sidebar = ({ setShowLanguagePopup, setShowContactModal }: { setShowLanguag
 
         {/* Premium Button */}
         <button
-          className={`flex items-center cursor-pointer rounded-md font-semibold transition-all duration-200
+          className={`flex items-center cursor-pointer w-full md:w-fit mx-auto rounded-md font-semibold transition-all duration-200
                   bg-[#009688]/20 text-white border border-[#009688]/40 backdrop-blur
                   px-2.5 py-1.5 leading-tight px-5 text-sm shadow-[0_6px_20px_-10px_rgba(0,150,136,0.45)]
                   hover:bg-[#009688]/30 hover:border-[#009688]/60 hover:shadow-[0_10px_30px_-12px_rgba(0,150,136,0.6)] whitespace-nowrap ${isCollapsed ? 'md:justify-center md:px-2 justify-center space-x-2 px-4' : 'justify-center space-x-2 px-4'}`}

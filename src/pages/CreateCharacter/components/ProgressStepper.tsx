@@ -42,7 +42,7 @@ const ProgressStepper = ({ currentStep, totalSteps }: ProgressStepperProps) => {
               {/* Connecting Line */}
               {step < totalSteps && (
                 <div
-                  className={`h-[2px] w-6 sm:w-8 md:w-12 transition-colors duration-300 ${
+                  className={`h-[2px] w-3 sm:w-8 md:w-12 transition-colors duration-300 ${
                     step < currentStep ? 'bg-[#009688]' : 'bg-gray-600'
                   }`}
                 />

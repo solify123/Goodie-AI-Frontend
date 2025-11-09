@@ -23,7 +23,7 @@ interface SidebarProviderProps {
 export const SidebarProvider = ({ children }: SidebarProviderProps) => {
   const [isCollapsed, setIsCollapsed] = useState(() => {
     if (typeof window !== 'undefined') {
-      return window.innerWidth < 768
+      return window.innerWidth < 1280
     }
     return false
   })
@@ -34,7 +34,7 @@ export const SidebarProvider = ({ children }: SidebarProviderProps) => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 1280) {
         setIsCollapsed(true)
       } else {
         setIsCollapsed(false)

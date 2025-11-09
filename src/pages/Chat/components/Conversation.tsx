@@ -1,84 +1,42 @@
-import { Phone, MoreVertical, PanelRightClose, ChevronDown, ArrowLeft, Send, ChevronUp, RefreshCw, Trash2, X, Info } from 'lucide-react'
-import { useState, useRef, useEffect } from 'react'
+import { Phone, MoreVertical, PanelRightClose, ChevronDown, ArrowLeft, Send, ChevronUp, RefreshCw, Trash2 } from 'lucide-react'
+import { useState, useRef, useEffect, type Dispatch, type SetStateAction } from 'react'
+import type { GlobalMessage } from '../../../contexts/GlobalContext'
+
 interface ConversationProps {
   onBack?: () => void
-  selectedChatId?: number | null
+  selectedChatId?: string | null
+  chatName?: string
+  chatAvatar?: string
   onToggleProfilePanel?: () => void
-  showResetModal?: boolean
-  onCloseResetModal?: () => void
-  onShowResetModal?: () => void
+  onShowResetModal: () => void
   handleCall?: () => void
-  onConversationDelete?: () => void
-  conversationDelete?: boolean
+  onConversationDelete?: (chatId: string | null) => void
+  messages: GlobalMessage[]
+  setMessages: Dispatch<SetStateAction<GlobalMessage[]>>
 }
-const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetModal: externalShowResetModal, onCloseResetModal, onShowResetModal, handleCall, onConversationDelete, conversationDelete }: ConversationProps) => {
+
+const Conversation = ({
+  onBack,
+  selectedChatId,
+  chatName,
+  chatAvatar,
+  onToggleProfilePanel,
+  onShowResetModal,
+  handleCall,
+  onConversationDelete,
+  messages,
+  setMessages
+}: ConversationProps) => {
   const [message, setMessage] = useState('')
   const [showAskDropdown, setShowAskDropdown] = useState(false)
   const [showMoreDropdown, setShowMoreDropdown] = useState(false)
-  const [internalShowResetModal, setInternalShowResetModal] = useState(false)
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      type: 'ai',
-      content: 'An image of a man from the chest down, wearing a white button-up shirt with rolled-up sleeves, white pants, and a black belt with a watch on his left wrist.',
-      timestamp: '11:57PM',
-      isImage: true,
-      imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face'
-    },
-    {
-      id: 2,
-      type: 'user',
-      content: 'how old are you?',
-      timestamp: '11:57PM'
-    },
-    {
-      id: 3,
-      type: 'ai',
-      content: "*laughs softly* Oh, you're curious now huh? Well, let's just say I'm mature enough to know what I want...and young enough to enjoy every minute of it. 😉",
-      timestamp: '11:58PM',
-      hasAudio: true
-    },
-    {
-      id: 4,
-      type: 'user',
-      content: 'what is your name?',
-      timestamp: '11:58PM'
-    },
-    {
-      id: 5,
-      type: 'ai',
-      content: "*chuckles* My name's Arthur Murphy, but most people call me Art. What should I call you, cutie?",
-      timestamp: '11:58PM',
-      hasAudio: true
-    }
-  ])
 
   const askDropdownRef = useRef<HTMLDivElement>(null)
   const moreDropdownRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const isProcessingResponseRef = useRef(false)
 
-  console.log(selectedChatId)
-
-  // Use external modal state if provided, otherwise use internal
-  const showResetModal = externalShowResetModal !== undefined ? externalShowResetModal : internalShowResetModal
-
-  const handleCloseResetModal = () => {
-    setMessages([])
-    if (onCloseResetModal) {
-      onCloseResetModal()
-    } else {
-      setInternalShowResetModal(false)
-    }
-  }
-
-  const handleOpenResetModal = () => {
-    if (onShowResetModal) {
-      onShowResetModal()
-    } else {
-      setInternalShowResetModal(true)
-    }
-  }
+  const generateMessageId = () => Math.random().toString(36).slice(2, 11)
 
   // Get current time in 12-hour format
   const getCurrentTime = () => {
@@ -96,12 +54,13 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
       const userMessageContent = message.trim()
 
       // Add user message
-      setMessages(prev => {
-        const userMessage = {
-          id: prev.length + 1,
-          type: 'user' as const,
+      setMessages((prev) => {
+        const userMessage: GlobalMessage = {
+          id: generateMessageId(),
+          type: 'user',
           content: userMessageContent,
-          timestamp: getCurrentTime()
+          timestamp: getCurrentTime(),
+          userId: 'user',
         }
         return [...prev, userMessage]
       })
@@ -114,12 +73,13 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
 
       // Add dummy AI response after a short delay (outside of setState callback)
       setTimeout(() => {
-        setMessages(prevMsgs => {
-          const aiResponse = {
-            id: prevMsgs.length + 1,
-            type: 'ai' as const,
+        setMessages((prevMsgs) => {
+          const aiResponse: GlobalMessage = {
+            id: generateMessageId(),
+            type: 'ai',
             content: 'Hello you are right now in offline',
-            timestamp: getCurrentTime()
+            timestamp: getCurrentTime(),
+            userId: 'ai',
           }
           // Reset processing flag after adding response
           isProcessingResponseRef.current = false
@@ -131,21 +91,13 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
 
   const handleDeleteChat = () => {
     setShowMoreDropdown(false)
-    if (onConversationDelete) {
-      onConversationDelete()
-    }
+    onConversationDelete?.(selectedChatId ?? null)
   }
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
-
-  useEffect(() => {
-    if (conversationDelete) {
-      setMessages([])
-    }
-  }, [conversationDelete])
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -161,8 +113,9 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+
   return (
-    <div className="flex flex-col h-full" style={{ height: 'calc(100vh - 65px)' }}>
+    <div className="flex flex-col h-[100vh]" style={window.innerWidth <= 1024 ? { height: "100vh" } : { height: 'calc(100vh - 65px)' }}>
       {/* Header */}
       <div className="p-3 sm:p-4 border-b border-gray-800 flex items-center justify-between bg-[#0f0f0f]">
         <div className="flex items-center space-x-2 sm:space-x-3 flex-1 min-w-0">
@@ -170,19 +123,21 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
           {onBack && (
             <button
               onClick={onBack}
-              className="md:hidden text-white hover:text-gray-400 transition-colors flex-shrink-0"
+              className="lg:hidden text-white hover:text-gray-400 transition-colors flex-shrink-0"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
           )}
-          <div className="w-10 h-10 sm:w-10 sm:h-10 rounded-full overflow-hidden flex-shrink-0">
-            <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face"
-              alt="Arthur"
-              className="w-full h-full object-cover"
-            />
+          <div className="w-10 h-10 sm:w-10 sm:h-10 rounded-full overflow-hidden flex-shrink-0 bg-[#1f1f1f]">
+            {chatAvatar ? (
+              <img src={chatAvatar} alt={chatName ?? 'Chat Avatar'} className="w-full h-full object-cover" />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-white">
+                {(chatName ?? 'AI').charAt(0).toUpperCase()}
+              </div>
+            )}
           </div>
-          <h3 className="text-white font-medium text-base sm:text-base truncate">Arthur</h3>
+          <h3 className="text-white font-medium text-base sm:text-base truncate">{chatName ?? 'AI Companion'}</h3>
         </div>
         <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
           <button onClick={handleCall} className="p-2 text-green-400 rounded-lg transition-colors cursor-pointer">
@@ -204,7 +159,7 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
                   type="button"
                   onClick={() => {
                     setShowMoreDropdown(false)
-                    handleOpenResetModal()
+                    onShowResetModal()
                   }}
                   className="w-full text-left px-4 py-2 text-sm text-white hover:bg-[#2a2a2a] transition-colors flex items-center space-x-3 cursor-pointer"
                 >
@@ -226,7 +181,7 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
           </div>
           <button
             onClick={onToggleProfilePanel}
-            className="p-2 text-gray-400 rounded-lg transition-colors hidden md:block cursor-pointer"
+            className="p-2 text-gray-400 rounded-lg transition-colors hidden lg:block cursor-pointer"
           >
             <PanelRightClose className="w-7 h-7" />
           </button>
@@ -297,7 +252,7 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
               </button>
               {/* Dropdown Menu */}
               {showAskDropdown && (
-                <div className="absolute bottom-full mb-2 left-0 bg-[#1a1a1a] border border-gray-700 rounded-lg shadow-lg min-w-[180px] py-1 z-20">
+                <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-[#1a1a1a] border border-gray-700 rounded-lg shadow-lg min-w-[180px] py-1 z-20">
                   <button
                     type="button"
                     onClick={() => {
@@ -339,57 +294,7 @@ const Conversation = ({ onBack, selectedChatId, onToggleProfilePanel, showResetM
           </button>
         </form>
       </div>
-      {/* Reset Chat Modal */}
-      {showResetModal && (
-        <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm"
-          style={{ animation: 'fadeIn 0.2s ease-out' }}
-        >
-          <div
-            className="bg-[#1a1a1a] border border-gray-700 rounded-lg shadow-xl w-full max-w-md mx-4 relative"
-            style={{ animation: 'fadeInScale 0.2s ease-out' }}
-          >
-            {/* Close Button */}
-            <button
-              onClick={handleCloseResetModal}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            {/* Modal Content */}
-            <div className="p-6">
-              {/* Title */}
-              <h2 className="text-2xl font-bold text-white mb-4">Reset chat?</h2>
-              {/* Description */}
-              <p className="text-gray-300 text-sm leading-relaxed mb-6">
-                This will start a new conversation with Arthur. Your current chat history will be cleared.
-              </p>
-              {/* Action Buttons */}
-              <div className="flex space-x-3 mb-4">
-                <button
-                  onClick={handleCloseResetModal}
-                  className="flex-1 px-4 py-2 border border-[#009688] text-[#009688] rounded-lg hover:bg-[#009688]/10 transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => {
-                    handleCloseResetModal()
-                  }}
-                  className="flex-1 px-4 py-2 bg-[#009688] text-white rounded-lg hover:bg-[#00897b] transition-colors cursor-pointer"
-                >
-                  Yes, Confirm
-                </button>
-              </div>
-              {/* Info Text */}
-              <div className="flex items-start space-x-2 text-xs text-gray-400">
-                <Info className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                <p>All generated media will stay in your gallery.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+
     </div>
   )
 }

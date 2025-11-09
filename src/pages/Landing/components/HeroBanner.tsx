@@ -15,7 +15,7 @@ const HeroBanner = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const { activeTab } = useLandingTab()
   const autoSlideInterval = useRef<ReturnType<typeof setInterval> | null>(null)
-  
+
   // Get title based on active tab
   const getTitleByTab = (slideIndex: number) => {
     if (slideIndex === 0) {
@@ -42,7 +42,7 @@ const HeroBanner = () => {
       }
     }
   }
-  
+
   // Get images based on active tab
   const getImagesByTab = () => {
     switch (activeTab) {
@@ -56,9 +56,9 @@ const HeroBanner = () => {
         return [heroGirls1, heroGirls2, heroGirls3]
     }
   }
-  
+
   const images = getImagesByTab()
-  
+
   const slides = useMemo(() => [
     {
       title: getTitleByTab(0),
@@ -107,40 +107,41 @@ const HeroBanner = () => {
   }, [nextSlide, activeTab])
 
   return (
-    <div className="relative w-full aspect-2/1 md:aspect-5/1 rounded-xl overflow-hidden group">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img 
-          src={slides[currentSlide].image} 
-          alt={slides[currentSlide].title}
-          className="w-full h-full object-cover transition-opacity duration-700"
-        />
-      </div>
-      {/* Navigation Arrows */}
-      <button 
-        onClick={prevSlide}
-        className="cursor-pointer absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100 z-20"
-      >
-        <ChevronLeft className="w-6 h-6" />
-      </button>
-      <button 
-        onClick={nextSlide}
-        className="cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100 z-20"
-      >
-        <ChevronRight className="w-6 h-6" />
-      </button>
-      
-      {/* Pagination Dots */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`cursor-pointer w-2 h-2 rounded-full transition-all duration-300 ${
-              index === currentSlide ? 'bg-[#009688] w-8' : 'bg-gray-400 hover:bg-gray-300'
-            }`}
+    <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-8 py-0 md:py-6">
+      <div className="relative w-full aspect-2/1 md:aspect-5/1 md:rounded-xl overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src={slides[currentSlide].image}
+            alt={slides[currentSlide].title}
+            className="w-full h-full object-cover transition-opacity duration-700"
           />
-        ))}
+        </div>
+        {/* Navigation Arrows */}
+        <button
+          onClick={prevSlide}
+          className="cursor-pointer absolute left-4 top-1/2 -translate-y-1/2 text-white p-2 rounded-full transition-all duration-200 z-20"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button
+          onClick={nextSlide}
+          className="cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 text-white p-2 rounded-full transition-all duration-200 z-20"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+
+        {/* Pagination Dots */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`cursor-pointer w-2 h-2 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-[#009688] w-8' : 'bg-gray-400 hover:bg-gray-300'
+                }`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )

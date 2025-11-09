@@ -182,7 +182,7 @@ const GenerateImagePage = () => {
                     <>
                         <div className="w-full h-full flex flex-col lg:flex-row">
                             {/* Left Panel - Generate Image Controls */}
-                            <div className="w-full lg:w-1/2 py-6 px-4 sm:px-6 lg:px-14 overflow-y-auto">
+                            <div className="w-full lg:w-1/2 py-6 px-4 sm:px-6 lg:px-14 overflow-y-auto border-b border-gray-800 md:border-b-0">
                                 {/* Header */}
                                 <div className="flex items-center justify-center space-x-3 mb-6">
                                     <Camera className="w-6 h-6 text-white" />
@@ -197,16 +197,19 @@ const GenerateImagePage = () => {
                                             <img
                                                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face"
                                                 alt={selectedCharacter}
-                                                className="w-full aspect-[1/1] rounded-lg object-cover"
+                                                className="w-full aspect-[1/1] rounded-[32px] object-cover"
                                             />
                                             <button onClick={() => setSelectCharater(true)} className="absolute top-2 right-2 w-9 h-9 rounded-full bg-[#1a1a1a] border border-gray-700 flex items-center justify-center cursor-pointer hover:bg-[#2a2a2a] transition-colors">
                                                 <RefreshCw className="w-5 h-5 text-gray-400" />
                                             </button>
 
                                             {/* Character Name */}
-                                            <div className="w-full absolute bottom-0 left-0 pl-3 pb-3 bg-gradient-to-t from-black/40 via-transparent to-transparent">
+                                            <div className="w-full hidden md:block absolute bottom-0 left-0 pl-3 pb-3 bg-gradient-to-t from-black/40 via-transparent to-transparent">
                                                 <p className="text-white font-medium">{selectedCharacter}</p>
                                             </div>
+                                        </div>
+                                        <div className="w-full text-center py-3 pl-3 pb-3">
+                                            <p className="text-white font-medium">{selectedCharacter}</p>
                                         </div>
                                     </div>
 
@@ -292,24 +295,26 @@ const GenerateImagePage = () => {
                                     </div>
                                 </div>
 
-                                {/* Generate Button */}
-                                <button
-                                    onClick={handleGenerateImage}
-                                    disabled={isGenerating}
-                                    className={`w-full bg-gradient-to-r from-[#009688] to-[#00bfa5] text-white font-medium py-4 rounded-lg flex items-center justify-center space-x-2 transition-all cursor-pointer shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] ${isGenerating ? 'opacity-70 cursor-not-allowed' : 'hover:from-[#00897b] hover:to-[#00a78f]'}`}
-                                >
-                                    {isGenerating ? (
-                                        <>
-                                            <Loader2 className="w-5 h-5 animate-spin" />
-                                            <span>Generating...</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Wand2 className="w-5 h-5" />
-                                            <span>Generate Image</span>
-                                        </>
-                                    )}
-                                </button>
+                                <div className='fixed bottom-0 left-0 right-0 z-10 md:static p-3 bg-[#131313] border-t border-gray-800 md:border-t-0 md:bg-transparent md:p-0'>
+                                    {/* Generate Button */}
+                                    <button
+                                        onClick={handleGenerateImage}
+                                        disabled={isGenerating}
+                                        className={`w-full bg-gradient-to-r from-[#009688] to-[#00bfa5] text-white font-medium py-4 rounded-lg flex items-center justify-center space-x-2 transition-all cursor-pointer shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] ${isGenerating ? 'opacity-70 cursor-not-allowed' : 'hover:from-[#00897b] hover:to-[#00a78f]'}`}
+                                    >
+                                        {isGenerating ? (
+                                            <>
+                                                <Loader2 className="w-5 h-5 animate-spin" />
+                                                <span>Generating...</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Wand2 className="w-5 h-5" />
+                                                <span>Generate Image</span>
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
                             </div>
 
                             {/* Right Panel - Generated Images */}
