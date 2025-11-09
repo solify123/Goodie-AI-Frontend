@@ -8,9 +8,17 @@ import FAQSection from './components/FAQSection'
 import Layout from '../../components/layout'
 import Footer from '../../components/layout/Footer'
 import { useLandingTab } from '../../contexts/LandingTabContext'
+import BottomNavigation from '../../components/layout/BottomNavigation'
+import { Mars, Sparkles, Venus } from 'lucide-react'
 
 const LandingPage = () => {
-  const { activeTab } = useLandingTab()
+  const { activeTab, setActiveTab } = useLandingTab()
+
+  const tabs = [
+    { key: 'girls', label: 'Girls', Icon: Venus },
+    { key: 'anime', label: 'Anime', Icon: Sparkles },
+    { key: 'guys', label: 'Guys', Icon: Mars },
+  ] as const
 
   // Render the appropriate component based on active tab
   const renderCharacterGrid = () => {
@@ -25,7 +33,7 @@ const LandingPage = () => {
         return <Girls />
     }
   }
-  
+
   const getSectionTitle = () => {
     switch (activeTab) {
       case 'girls':
@@ -41,7 +49,32 @@ const LandingPage = () => {
 
   return (
     <Layout>
+      {/* Mobile Navigation */}
+      <nav className="hidden min-[320px]:flex md:hidden mb-6">
+        <ul className="flex w-full items-center gap-2 bg-[#1A1A24] p-2">
+          {tabs.map(({ key, label, Icon }) => {
+            const isActive = activeTab === key
+            return (
+              <li key={key} className="flex-1">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab(key)}
+                  className={`flex w-full items-center justify-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-all ${isActive
+                      ? 'outline-2 outline-[#009688]'
+                      : 'text-gray-300 hover:bg-white/5'
+                    }`}
+                  aria-pressed={isActive}
+                >
+                  <Icon className="h-4 w-4" />
+                  {label}
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
       <div className="landing-page max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
         {/* Hero Banner */}
         <HeroBanner />
 
@@ -66,7 +99,8 @@ const LandingPage = () => {
 
         {/* Experience Section */}
         <ExperienceSection />
-      </div>  
+        <BottomNavigation />
+      </div>
       {/* Footer */}
       <Footer />
     </Layout>

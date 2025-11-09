@@ -1,25 +1,4 @@
-import m_1_1 from '../../../assets/images/persons/m_1_1.png'
-import m_1_2 from '../../../assets/images/persons/m_1_2.png'
-import m_2_1 from '../../../assets/images/persons/m_2_1.png'
-import m_2_2 from '../../../assets/images/persons/m_2_2.png'
-import m_3_1 from '../../../assets/images/persons/m_3_1.png'
-import m_3_2 from '../../../assets/images/persons/m_3_2.png'
-import m_4_1 from '../../../assets/images/persons/m_4_1.png'
-import m_4_2 from '../../../assets/images/persons/m_4_2.png'
-import m_5_1 from '../../../assets/images/persons/m_5_1.png'
-import m_5_2 from '../../../assets/images/persons/m_5_2.png'
-import m_6_1 from '../../../assets/images/persons/m_6_1.png'
-import m_6_2 from '../../../assets/images/persons/m_6_2.png'
-import m_7_1 from '../../../assets/images/persons/m_7_1.png'
-import m_7_2 from '../../../assets/images/persons/m_7_2.png'
-import m_8_1 from '../../../assets/images/persons/m_8_1.png'
-import m_8_2 from '../../../assets/images/persons/m_8_2.png'
-import m_9_1 from '../../../assets/images/persons/m_9_1.png'
-import m_9_2 from '../../../assets/images/persons/m_9_2.png'
-import m_10_1 from '../../../assets/images/persons/m_10_1.png'
-import m_10_2 from '../../../assets/images/persons/m_10_2.png'
-import m_11_1 from '../../../assets/images/persons/m_11_1.png'
-import m_11_2 from '../../../assets/images/persons/m_11_2.png'
+import characters from './men.json' with { type: "json" }
 import { useNavigate } from 'react-router-dom'
 
 const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: boolean }) => {
@@ -68,90 +47,11 @@ const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: b
 }
 
 const Men = () => {
-  const characters = [
-    {
-      name: "Charles",
-      age: 49,
-      description: "Charles Weston, a distinguished and affluent businessman, is often...",
-      defaultImage: m_1_1,
-      hoverImage: m_1_2,
-    },
-    {
-      name: "John",
-      age: 50,
-      description: "Robust and charismatic \"bear\" from America, celebrated for his as-...",
-      defaultImage: m_2_1,
-      hoverImage: m_2_2,
-    },
-    {
-      name: "Erik",
-      age: 27,
-      description: "Tech-savvy data analyst with interests in sailing, tennis, and fitness.",
-      defaultImage: m_3_1,
-      hoverImage: m_3_2,
-    },
-    {
-      name: "Malik",
-      age: 30,
-      description: "Fitness coach and jazz music fan, talented in saxophone playing.",
-      defaultImage: m_4_1,
-      hoverImage: m_4_2,
-    },
-    {
-      name: "Alex",
-      age: 32,
-      description: "Creative photographer with a passion for capturing life's moments...",
-      defaultImage: m_5_1,
-      hoverImage: m_5_2,
-    },
-    {
-      name: "David",
-      age: 35,
-      description: "Architect with a modern vision and love for sustainable design...",
-      defaultImage: m_6_1,
-      hoverImage: m_6_2,
-    },
-    {
-      name: "Ryan",
-      age: 26,
-      description: "Musician and songwriter who writes heartfelt melodies...",
-      defaultImage: m_7_1,
-      hoverImage: m_7_2,
-    },
-    {
-      name: "William",
-      age: 31,
-      description: "Software engineer and tech entrepreneur with a passion for innovation...",
-      defaultImage: m_8_1,
-      hoverImage: m_8_2,
-    },
-    {
-      name: "James",
-      age: 29,
-      description: "Software engineer and tech entrepreneur with a passion for innovation...",
-      defaultImage: m_9_1,
-      hoverImage: m_9_2,
-    },
-    {
-      name: "Noah",
-      age: 35,
-      description: "Architect with a modern vision and love for sustainable design...",
-      defaultImage: m_10_1,
-      hoverImage: m_10_2,
-    },
-    {
-      name: "Lucas",
-      age: 26,
-      description: "Musician and songwriter who writes heartfelt melodies...",
-      defaultImage: m_11_1,
-      hoverImage: m_11_2,
-    },
-  ]
 
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
-        {characters.map((character, index) => (
+        {characters.map((character: any, index: number) => (
           <CharacterCard
             key={index}
             character={character}

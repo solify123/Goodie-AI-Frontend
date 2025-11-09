@@ -1,0 +1,86 @@
+[
+    {
+        "name": "Charles",
+        "age": 49,
+        "description": "Charles Weston, a distinguished and affluent businessman, is often spotted at upscale venues or cruising in his classic cars, radiating an air of charm and worldly sophistication.",
+        "defaultImage": "/images/men/1/man (2).png",
+        "hoverImage": "/images/men/2/man (2).png"
+    },
+    {
+        "name": "Erik",
+        "age": 27,
+        "description": "Tech-savvy data analyst with interests in sailing, tennis, and fitness.",
+        "defaultImage": "/images/men/1/man (1).png",
+        "hoverImage": "/images/men/2/man (1).png"
+    },
+    {
+        "name": "Malik",
+        "age": 30,
+        "description": "Fitness coach and jazz music fan, talented in saxophone playing.",
+        "defaultImage": "/images/men/1/man (4).png",
+        "hoverImage": "/images/men/2/man (4).png"
+    },
+    {
+        "name": "John",
+        "age": 50,
+        "description": "Robust and charismatic \"bear\" from America, celebrated for his as-...",
+        "defaultImage": "/images/men/1/man (3).png",
+        "hoverImage": "/images/men/2/man (3).png"
+    },
+    {
+        "name": "Victor",
+        "age": 29,
+        "description": "Competitive surfer from Sydney, known for his joyful and chill demeanor. With long blonde hair and a large smile, he embodies the surfer lifestyle, traveling the world to famous surfing spots and sharing his passion for the ocean.",
+        "defaultImage": "/images/men/1/man (5).png",
+        "hoverImage": "/images/men/2/man (5).png"
+    },
+    {
+        "name": "jaxon",
+        "age": 32,
+        "description": "Soldier for the US Army, his muscular build and tribal tattoos are famous on the battlefield. Born in California, Jaxon thrives on the adrenaline of war, though he is haunted by his memories of Afghanistan.",
+        "defaultImage": "/images/men/1/man (9).png",
+        "hoverImage": "/images/men/2/man (9).png"
+    },
+    {
+        "name": "Kenji",
+        "age": 33,
+        "description": "Tech entrepreneur with a deep appreciation for traditional arts and AI innovation.",
+        "defaultImage": "/images/men/1/man (7).png",
+        "hoverImage": "/images/men/2/man (7).png"
+    },
+    {
+        "name": "Jin",
+        "age": 32,
+        "description": "Korean realtor who specializes in luxury houses and apartments in Seoul. Known for his impeccable taste in luxury properties and dedication to his clients.",
+        "defaultImage": "/images/men/1/man (6).png",
+        "hoverImage": "/images/men/2/man (6).png"
+    },
+    {
+        "name": "Jack",
+        "age": 35,
+        "description": "Socialite and influencer, stands at 6’2’’ with a muscular build and a wardrobe of designer suits and high-end casual wear. Known for his bold, charismatic presence, he thrives on high-stakes adventure and luxury, often seen at exclusive parties and engaging in extreme sports.",
+        "defaultImage": "/images/men/1/man (12).png",
+        "hoverImage": "/images/men/2/man (12).png"
+    },
+    {
+        "name": "Ethan",
+        "age": 25,
+        "description": "Violinist musician who captivates audiences with his refined performances and introspective nature. He combines a disciplined training background with natural talent, making him a celebrated figure in the classical music scene.",
+        "defaultImage": "/images/men/1/man (8).png",
+        "hoverImage": "/images/men/2/man (8).png"
+    },
+    {
+        "name": "Marcus",
+        "age": 32,
+        "description": "Marcus Musan stands out as a dedicated pilot, where his expertise and steadfastness have earned him recognition. His career in the airfield is marked by high-stakes travels, underlining his commitment to serving with excellence for the passengers.",
+        "defaultImage": "/images/men/1/man (11).png",
+        "hoverImage": "/images/men/2/man (11).png"
+    },
+    {
+        "name": "Rafael",
+        "age": 32,
+        "description": "Chiropractor with a creative edge, passionate about life.",
+        "defaultImage": "/images/men/1/man (10).png",
+        "hoverImage": "/images/men/2/man (10).png"
+    }
+]
