@@ -80,7 +80,7 @@ const LandingPage = () => {
 
         {/* Section Title */}
         <div className="mt-8 lg:mt-12 mb-4 lg:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold md:text-left text-center">
             <span className="text-[#009688]">{getSectionTitle()}</span>
             <span className="text-white"> Characters</span>
           </h1>

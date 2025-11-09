@@ -4,12 +4,12 @@ import { useLandingTab } from '../../../contexts/LandingTabContext'
 import heroMen1 from '../../../assets/images/slider/men/1.jpg'
 import heroMen2 from '../../../assets/images/slider/men/2.jpg'
 import heroMen3 from '../../../assets/images/slider/men/3.jpg'
-// import heroGirls1 from '../../../assets/images/slider/girls/1.png'
-// import heroGirls2 from '../../../assets/images/slider/girls/2.png'
-// import heroGirls3 from '../../../assets/images/slider/girls/3.png'
-// import heroAnime1 from '../../../assets/images/slider/anime/1.png'
-// import heroAnime2 from '../../../assets/images/slider/anime/2.png'
-// import heroAnime3 from '../../../assets/images/slider/anime/3.png'
+import heroGirls1 from '../../../assets/images/slider/men/1.jpg'
+import heroGirls2 from '../../../assets/images/slider/men/2.jpg'
+import heroGirls3 from '../../../assets/images/slider/men/3.jpg'
+import heroAnime1 from '../../../assets/images/slider/men/1.jpg'
+import heroAnime2 from '../../../assets/images/slider/men/2.jpg'
+import heroAnime3 from '../../../assets/images/slider/men/3.jpg'
 
 const HeroBanner = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -49,11 +49,11 @@ const HeroBanner = () => {
       case 'guys':
         return [heroMen1, heroMen2, heroMen3]
       case 'girls':
-        return [heroMen1, heroMen2, heroMen3] // Placeholder until girls images are added
+        return [heroGirls1, heroGirls2, heroGirls3] // Placeholder until girls images are added
       case 'anime':
-        return [heroMen1, heroMen2, heroMen3] // Placeholder until anime images are added
+        return [heroAnime1, heroAnime2, heroAnime3] // Placeholder until anime images are added
       default:
-        return [heroMen1, heroMen2, heroMen3]
+        return [heroGirls1, heroGirls2, heroGirls3]
     }
   }
   
@@ -107,7 +107,7 @@ const HeroBanner = () => {
   }, [nextSlide, activeTab])
 
   return (
-    <div className="relative w-full h-56 sm:h-64 lg:h-80 rounded-xl overflow-hidden group">
+    <div className="relative w-full aspect-2/1 md:aspect-5/1 rounded-xl overflow-hidden group">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img 

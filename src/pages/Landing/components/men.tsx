@@ -9,9 +9,9 @@ const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: b
   }
 
   return (
-    <div onClick={handleClick} className="bg-[#1a1a1a] rounded-xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] transition-all duration-300 cursor-pointer group">
+    <div onClick={handleClick} className="bg-[#1a1a1a] rounded-3xl overflow-hidden hover:scale-[1.02] hover:shadow-2xl hover:shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] transition-all duration-300 cursor-pointer group">
       {/* Image Area */}
-      <div className="relative h-88 sm:h-94 lg:h-102 overflow-hidden">
+      <div className="relative w-full aspect-[3/4] overflow-hidden">
         {/* Default Image */}
         <img
           src={character.defaultImage}
@@ -33,10 +33,10 @@ const CharacterCard = ({ character, isNew = false }: { character: any, isNew?: b
         )}
         {/* Text Area */}
         <div className="p-3 sm:p-4 absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-          <h3 className="text-white font-bold text-base sm:text-lg mb-1">
-            {character.name} <span className="text-gray-400 font-normal">{character.age}</span>
+          <h3 className="text-white font-bold text-base md:text-[24px] mb-1 font-semibold">
+            {character.name} <span className="text-white/70 font-semibold">{character.age}</span>
           </h3>
-          <p className="text-gray-400 text-xs sm:text-sm leading-relaxed line-clamp-2">
+          <p className="text-white/70 text-xs sm:text-sm leading-relaxed line-clamp-2">
             {character.description}
           </p>
         </div>

@@ -43,9 +43,9 @@ const ChatPage = () => {
 
   return (
     <Layout>
-      <div className="chat-page w-full flex flex-col lg:flex-row h-full pb-20 md:pb-0">
+      <div className="chat-page w-full flex flex-col lg:flex-row h-full pb-0">
         <div className={`${(isMobile && showChatList && !selectedChat) || !isMobile ? 'flex' : 'hidden'
-          } w-full xl:w-80 lg:w-72 bg-[#1a1a1a] border-r border-gray-800 flex-col p-3`}>
+          } w-full xl:w-80 bg-[#1a1a1a] border-r border-gray-800 flex-col p-3`}>
           <ChatList onChatSelect={handleChatSelect} onClose={() => setShowChatList(false)} onShowResetModal={() => setShowResetModal(true)} onConversationDelete={() => setConversationDelete(true)} conversationDelete={conversationDelete} />
         </div>
         {/* Conversation Area */}

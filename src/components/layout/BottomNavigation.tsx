@@ -27,9 +27,9 @@ const BottomNavigation = () => {
                         <span className="text-xs">Home</span>
                     </button>
                     <button 
-                        onClick={() => navigate('/')}
+                        onClick={() => navigate('/discover')}
                         className={`flex flex-col items-center justify-center space-y-1 px-2 py-1 flex-1 transition-colors ${
-                            isActive('/') ? 'text-[#009688]' : 'text-gray-400'
+                            isActive('/discover') ? 'text-[#009688]' : 'text-gray-400'
                         }`}
                     >
                         <Compass className="w-5 h-5" />
