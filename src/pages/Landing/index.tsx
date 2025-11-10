@@ -1,7 +1,5 @@
 import HeroBanner from './components/HeroBanner'
-import Girls from './components/girls'
-import Men from './components/men'
-import Anime from './components/anime'
+import { GirlsGrid, MenGrid, AnimeGrid } from './components/CharacterGrids'
 import PromoBanner from './components/PromoBanner'
 import ExperienceSection from './components/ExperienceSection'
 import FAQSection from './components/FAQSection'
@@ -24,13 +22,13 @@ const LandingPage = () => {
   const renderCharacterGrid = () => {
     switch (activeTab) {
       case 'girls':
-        return <Girls />
+        return <GirlsGrid />
       case 'guys':
-        return <Men />
+        return <MenGrid />
       case 'anime':
-        return <Anime />
+        return <AnimeGrid />
       default:
-        return <Girls />
+        return <GirlsGrid />
     }
   }
 
@@ -50,7 +48,7 @@ const LandingPage = () => {
   return (
     <Layout>
       {/* Mobile Navigation */}
-      <nav className="hidden min-[320px]:flex md:hidden mb-6">
+      <nav className="hidden min-[320px]:flex md:hidden">
         <ul className="flex w-full items-center gap-2 bg-[#1A1A24] p-2">
           {tabs.map(({ key, label, Icon }) => {
             const isActive = activeTab === key
@@ -60,8 +58,8 @@ const LandingPage = () => {
                   type="button"
                   onClick={() => setActiveTab(key)}
                   className={`flex w-full items-center justify-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-all ${isActive
-                      ? 'outline-2 outline-[#009688]'
-                      : 'text-gray-300 hover:bg-white/5'
+                    ? 'outline-2 outline-[#009688]'
+                    : 'text-gray-300 hover:bg-white/5'
                     }`}
                   aria-pressed={isActive}
                 >
@@ -73,14 +71,12 @@ const LandingPage = () => {
           })}
         </ul>
       </nav>
+      {/* Hero Banner */}
+      <HeroBanner />
       <div className="landing-page max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-
-        {/* Hero Banner */}
-        <HeroBanner />
-
         {/* Section Title */}
         <div className="mt-8 lg:mt-12 mb-4 lg:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold md:text-left text-center">
             <span className="text-[#009688]">{getSectionTitle()}</span>
             <span className="text-white"> Characters</span>
           </h1>

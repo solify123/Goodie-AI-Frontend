@@ -1,7 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { SidebarProvider } from './contexts/SidebarContext'
 import { LandingTabProvider } from './contexts/LandingTabContext'
+import { GlobalProvider } from './contexts/GlobalContext'
 import LandingPage from './pages/Landing'
+import DiscoverPage from './pages/Discover'
 import { Toaster } from 'sonner'
 import CollectionPage from './pages/Collection'
 import GenerateImagePage from './pages/GenerateImage'
@@ -12,35 +14,38 @@ import ProfilePage from './pages/auth/profile'
 
 function App() {
   return (
-    <SidebarProvider>
-      <LandingTabProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/chat" element={<ChatPage />} />
-            <Route path="/collection" element={<CollectionPage />} />
-            <Route path="/generate" element={<GenerateImagePage />} />
-            <Route path="/create-character" element={<CreateCharacterPage />} />
-            <Route path="/my-ai" element={<MyAIPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-          </Routes>
-          <Toaster
-            position="top-right"
-            theme="dark"
-            richColors
-            closeButton
-            toastOptions={{
-              style: {
-                background: '#1a1a1a',
-                border: '1px solid #374151',
-                color: '#fff',
-              },
-              className: 'sonner-toast',
-            }}
-          />
-        </Router>
-      </LandingTabProvider>
-    </SidebarProvider>
+    <GlobalProvider>
+      <SidebarProvider>
+        <LandingTabProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/discover" element={<DiscoverPage />} />
+              <Route path="/chat" element={<ChatPage />} />
+              <Route path="/collection" element={<CollectionPage />} />
+              <Route path="/generate" element={<GenerateImagePage />} />
+              <Route path="/create-character" element={<CreateCharacterPage />} />
+              <Route path="/my-ai" element={<MyAIPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+            </Routes>
+            <Toaster
+              position="top-right"
+              theme="dark"
+              richColors
+              closeButton
+              toastOptions={{
+                style: {
+                  background: '#1a1a1a',
+                  border: '1px solid #374151',
+                  color: '#fff',
+                },
+                className: 'sonner-toast',
+              }}
+            />
+          </Router>
+        </LandingTabProvider>
+      </SidebarProvider>
+    </GlobalProvider>
   )
 }
 

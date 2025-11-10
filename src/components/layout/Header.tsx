@@ -227,8 +227,8 @@ const Header = () => {
                   px-2.5 py-1.5 leading-tight px-5 text-sm shadow-[0_6px_20px_-10px_rgba(0,150,136,0.45)]
                   hover:bg-[#009688]/30 hover:border-[#009688]/60 hover:shadow-[0_10px_30px_-12px_rgba(0,150,136,0.6)] whitespace-nowrap"
                 >
-                  <span className="hidden sm:inline">Create Free Account</span>
-                  <span className="sm:hidden">Sign Up</span>
+                  <span className="hidden lg:inline">Create Free Account</span>
+                  <span className="lg:hidden">Sign Up</span>
                 </button>
                 <button
                   onClick={() => setShowLoginModal(true)}
