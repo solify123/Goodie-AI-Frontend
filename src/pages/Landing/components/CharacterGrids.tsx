@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import girlsData from './girls.json' with { type: 'json' }
-import menData from './men.json' with { type: 'json' }
-import animeData from './anime.json' with { type: 'json' }
+import girlsData from '../../../config/girls.json' with { type: 'json' }
+import menData from '../../../config/men.json' with { type: 'json' }
+import animeData from '../../../config/anime.json' with { type: 'json' }
 import { useGlobalContext } from '../../../contexts/GlobalContext'
 
 type Character = {

@@ -11,6 +11,8 @@ import ChatPage from './pages/Chat'
 import CreateCharacterPage from './pages/CreateCharacter'
 import MyAIPage from './pages/MyAI'
 import ProfilePage from './pages/auth/profile'
+import SubscriptionsPage from './pages/subscriptions'
+import { CreateCharacterGenderProvider } from './contexts/CreateCharacterGenderContext'
 
 function App() {
   return (
@@ -24,9 +26,17 @@ function App() {
               <Route path="/chat" element={<ChatPage />} />
               <Route path="/collection" element={<CollectionPage />} />
               <Route path="/generate" element={<GenerateImagePage />} />
-              <Route path="/create-character" element={<CreateCharacterPage />} />
+              <Route
+                path="/create-character"
+                element={
+                  <CreateCharacterGenderProvider>
+                    <CreateCharacterPage />
+                  </CreateCharacterGenderProvider>
+                }
+              />
               <Route path="/my-ai" element={<MyAIPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/subscriptions" element={<SubscriptionsPage />} />
             </Routes>
             <Toaster
               position="top-right"

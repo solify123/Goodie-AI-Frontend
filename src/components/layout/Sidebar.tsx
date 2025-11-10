@@ -50,11 +50,10 @@ const Sidebar = ({
   return (
     <aside
       className={
-        `fixed flex flex-col pb-16 md:pb-0 justify-between align-start overflow-y-auto left-0 bg-[#0f0f0f]/95 backdrop-blur supports-[backdrop-filter]:bg-[#0f0f0f]/90 border-r border-gray-800 z-40 transform ${
-          isCollapsed ? '-translate-x-full md:translate-x-0 md:w-16' : 'translate-x-0 md:w-58'
+        `fixed flex flex-col pb-16 md:pb-0 justify-between align-start overflow-y-auto left-0 bg-[#0f0f0f]/95 backdrop-blur supports-[backdrop-filter]:bg-[#0f0f0f]/90 border-r border-gray-800 z-40 transform ${isCollapsed ? '-translate-x-full md:translate-x-0 md:w-16' : 'translate-x-0 md:w-58'
         } w-66 ${hasHeader ? 'mt-[61px]' : 'mt-0'} shadow-[0_0_0_1px_rgba(255,255,255,0.02)]`
       }
-      style={{ 
+      style={{
         height: hasHeader ? 'calc(100vh - 60px)' : '100vh',
         overflowY: 'auto'
       }}
@@ -92,6 +91,7 @@ const Sidebar = ({
 
         {/* Premium Button */}
         <button
+          onClick={() => navigate('/subscriptions')}
           className={`flex items-center cursor-pointer w-full md:w-fit mx-auto rounded-md font-semibold transition-all duration-200
                   bg-[#009688]/20 text-white border border-[#009688]/40 backdrop-blur
                   px-2.5 py-1.5 leading-tight px-5 text-sm shadow-[0_6px_20px_-10px_rgba(0,150,136,0.45)]
@@ -127,7 +127,7 @@ const Sidebar = ({
             </button>
           )
         })}
-        
+
         {
           isCollapsed ? null : (
             <div className="space-y-2 text-[10px] text-gray-500 flex justify-center align-center pt-3">

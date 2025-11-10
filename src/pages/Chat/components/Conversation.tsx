@@ -130,7 +130,7 @@ const Conversation = ({
           )}
           <div className="w-10 h-10 sm:w-10 sm:h-10 rounded-full overflow-hidden flex-shrink-0 bg-[#1f1f1f]">
             {chatAvatar ? (
-              <img src={chatAvatar} alt={chatName ?? 'Chat Avatar'} className="w-full h-full object-cover" />
+              <img src={chatAvatar} alt={chatName ?? 'Chat Avatar'} className="w-full h-full object-cover object-top" />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-white">
                 {(chatName ?? 'AI').charAt(0).toUpperCase()}

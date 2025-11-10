@@ -1,5 +1,6 @@
 import { X } from 'lucide-react'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 interface ContactUsModalProps {
   isOpen: boolean
@@ -10,10 +11,13 @@ const ContactUsModal = ({ isOpen, onClose }: ContactUsModalProps) => {
   const [message, setMessage] = useState('')
 
   const handleSend = () => {
-    // Handle send message logic here
-    console.log('Message sent:', message)
+    if (!message) {
+      toast.error('Please enter a message!')
+      return
+    }
     setMessage('')
     onClose()
+    toast.success('Message sent!')
   }
 
   if (!isOpen) return null
@@ -32,7 +36,7 @@ const ContactUsModal = ({ isOpen, onClose }: ContactUsModalProps) => {
           </div>
           <button
             onClick={onClose}
-            className="text-white hover:text-gray-300 transition-colors ml-4 flex-shrink-0"
+            className="text-white cursor-pointer hover:text-gray-300 transition-colors ml-4 flex-shrink-0"
           >
             <X className="w-6 h-6" />
           </button>
@@ -52,7 +56,7 @@ const ContactUsModal = ({ isOpen, onClose }: ContactUsModalProps) => {
         <div className="flex justify-center">
           <button
             onClick={handleSend}
-            className="bg-[#009688] hover:bg-[#00897b] text-white px-12 py-3 rounded-lg font-medium transition-colors"
+            className="bg-[#009688] cursor-pointer hover:bg-[#00897b] text-white px-12 py-3 rounded-lg font-medium transition-colors"
           >
             Send
           </button>

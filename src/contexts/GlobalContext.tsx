@@ -86,7 +86,7 @@ const defaultArthurMessages: GlobalMessage[] = [
       'An image of a man from the chest down, wearing a white button-up shirt with rolled-up sleeves, white pants, and a black belt with a watch on his left wrist.',
     timestamp: getCurrentTime(),
     isImage: true,
-    imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face',
+    imageUrl: 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
     userId: 'ai',
   },
   {
@@ -141,7 +141,7 @@ const buildChat = (name: string, avatar: string, description?: string, initialMe
 
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [chats, setChats] = useState<GlobalChat[]>([
-    buildChat('Arthur Murphy', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face', undefined, defaultArthurMessages),
+    buildChat('Arthur Murphy', 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90', undefined, defaultArthurMessages),
   ])
   const [activeChatId, setActiveChatId] = useState<string | null>(chats[0]?.id ?? null)
 

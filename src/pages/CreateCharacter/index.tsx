@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Layout from '../../components/layout'
 import BottomNavigation from '../../components/layout/BottomNavigation'
-import { ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Mars, Venus } from 'lucide-react'
 import ProgressStepper from './components/ProgressStepper'
 import StyleSelection from './components/StyleSelection'
 import createCharacterBanner1 from '../../assets/images/create-character-banner1.png'
@@ -21,9 +21,12 @@ import RelationshipSelection from './components/RelationshipSelection'
 import ClothingSelection from './components/ClothingSelection'
 import Summary from './components/Summary'
 import { toast } from 'sonner'
+import { useCreateCharacterGender } from '../../contexts/CreateCharacterGenderContext'
 
 const CreateCharacterPage = () => {
   const [currentStep, setCurrentStep] = useState(1)
+  const [activeTab, setActiveTab] = useState<'girls' | 'guys'>('girls')
+  const { setGender } = useCreateCharacterGender()
 
   // Countdown timer state
   const [timeLeft, setTimeLeft] = useState({
@@ -31,6 +34,19 @@ const CreateCharacterPage = () => {
     minutes: 22,
     seconds: 30
   })
+
+  const tabs = [
+    { key: 'girls', label: 'Girls', Icon: Venus },
+    { key: 'guys', label: 'Guys', Icon: Mars },
+  ] as const
+
+  useEffect(() => {
+    if (activeTab === 'girls') {
+      setGender('girls')
+    } else if (activeTab === 'guys') {
+      setGender('guys')
+    }
+  }, [activeTab])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -59,20 +75,35 @@ const CreateCharacterPage = () => {
   }, [])
 
   const [characterData, setCharacterData] = useState({
-    style: '',
-    ethnicity: '',
+    style: {
+      value: '',
+      image: ''
+    },
+    ethnicity: {
+      value: '',
+      image: ''
+    },
     age: 27,
-    eyeColor: '',
+    eyeColor: {
+      value: '',
+      image: ''
+    },
     hairColor: '',
-    hairStyle: '',
-    bodyType: '',
+    hairStyle: {
+      value: '',
+      image: ''
+    },
+    bodyType: {
+      value: '',
+      image: ''
+    },
     height: 180,
     skinTone: '',
     personality: '',
-    voice: '',
-    interests: [] as string[],
+    voice: 0,
+    interests: [],
     occupation: '',
-    hobbies: [] as string[],
+    hobbies: [],
     fashionStyle: '',
     relationship: '',
     clothing: ''
@@ -84,18 +115,22 @@ const CreateCharacterPage = () => {
     setCharacterData(prev => ({ ...prev, [key]: value }))
   }
 
+  useEffect(() => {
+    console.log('Character data:', characterData)
+  }, [characterData])
+
   const canProceed = () => {
     switch (currentStep) {
       case 1:
-        return characterData.style !== ''
+        return characterData.style.value !== ''
       case 2:
-        return characterData.ethnicity !== '' && characterData.eyeColor !== ''
+        return characterData.ethnicity.value !== '' && characterData.eyeColor.value !== ''
       case 3:
-        return characterData.hairStyle !== '' && characterData.hairColor !== ''
+        return characterData.hairStyle.value !== '' && characterData.hairColor !== ''
       case 4:
-        return characterData.bodyType !== ''
+        return characterData.bodyType.value !== ''
       case 5:
-        return characterData.personality !== '' && characterData.voice !== ''
+        return characterData.personality !== '' && characterData.voice !== 0
       case 6:
         return characterData.occupation !== '' && characterData.hobbies.length > 0
       case 7:
@@ -122,6 +157,7 @@ const CreateCharacterPage = () => {
 
   const handleComplete = () => {
     toast.warning("Now you are offline!")
+    console.log('Character data:', characterData)
     // Save character and proceed to next page
     // Here you would typically navigate to the next page or show success message
   }
@@ -143,8 +179,8 @@ const CreateCharacterPage = () => {
             {/* Choose Style Section */}
             <div className="mb-6 sm:mb-8 md:mb-12">
               <StyleSelection
-                selected={characterData.style}
-                onSelect={(value) => handleUpdateData('style', value)}
+                selected={characterData.style.value}
+                onSelect={(value) => handleUpdateData('style', { value: value.value, image: value.image })}
               />
             </div>
           </>
@@ -155,8 +191,8 @@ const CreateCharacterPage = () => {
             {/* Choose Ethnicity Section */}
             <div className="mb-6 sm:mb-8 md:mb-12">
               <EthnicitySelection
-                selected={characterData.ethnicity}
-                onSelect={(value: string) => handleUpdateData('ethnicity', value)}
+                selected={characterData.ethnicity.value}
+                onSelect={(value) => handleUpdateData('ethnicity', { value: value.value, image: value.image })}
               />
             </div>
 
@@ -171,8 +207,8 @@ const CreateCharacterPage = () => {
             {/* Choose Eye Color Section */}
             <div className="mb-6 sm:mb-8 md:mb-12">
               <EyeColorSelection
-                selected={characterData.eyeColor}
-                onSelect={(value: string) => handleUpdateData('eyeColor', value)}
+                selected={characterData.eyeColor.value}
+                onSelect={(value) => handleUpdateData('eyeColor', { value: value.value, image: value.image })}
               />
             </div>
           </>
@@ -183,8 +219,8 @@ const CreateCharacterPage = () => {
             {/* Choose Hair Style Section */}
             <div className="mb-6 sm:mb-8 md:mb-12">
               <HairStyleSelection
-                selected={characterData.hairStyle}
-                onSelect={(value: string) => handleUpdateData('hairStyle', value)}
+                selected={characterData.hairStyle.value}
+                onSelect={(value) => handleUpdateData('hairStyle', { value: value.value, image: value.image })}
               />
             </div>
 
@@ -203,8 +239,8 @@ const CreateCharacterPage = () => {
             {/* Choose Body Type Section */}
             <div className="mb-6 sm:mb-8 md:mb-12">
               <BodyTypeSelection
-                selected={characterData.bodyType}
-                onSelect={(value) => handleUpdateData('bodyType', value)}
+                selected={characterData.bodyType.value}
+                onSelect={(value) => handleUpdateData('bodyType', { value: value.value, image: value.image })}
               />
             </div>
           </>
@@ -223,8 +259,8 @@ const CreateCharacterPage = () => {
             {/* Choose Voice Section */}
             <div className="mb-6 sm:mb-8 md:mb-12">
               <VoiceSelection
-                selected={characterData.voice}
-                onSelect={(value: string) => handleUpdateData('voice', value)}
+                selected={characterData.voice.toString()}
+                onSelect={(value: string) => handleUpdateData('voice', Number(value))}
               />
             </div>
           </>
@@ -294,61 +330,92 @@ const CreateCharacterPage = () => {
   return (
     <Layout>
       <div className="flex flex-col min-h-screen w-full">
+        {/* Mobile Navigation */}
+        <nav className="hidden min-[320px]:flex md:hidden">
+          <ul className="flex w-full items-center gap-2 bg-[#1A1A24] p-2">
+            {tabs.map(({ key, label, Icon }) => {
+              const isActive = activeTab === key
+              return (
+                <li key={key} className="flex-1">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab(key)}
+                    className={`flex w-full items-center justify-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-all ${isActive
+                      ? 'outline-2 outline-[#009688]'
+                      : 'text-gray-300 hover:bg-white/5'
+                      }`}
+                    aria-pressed={isActive}
+                  >
+                    <Icon className="h-4 w-4" />
+                    {label}
+                  </button>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
         {/* Halloween Sale Banner - 4 Divs Structure */}
         <div className="w-full mb-4 sm:mb-6 relative overflow-hidden" style={{ height: '56px', backgroundColor: '#1A0F33' }}>
           {/* Red line at bottom */}
           <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-red-600 z-10"></div>
 
           {/* Div 1: Left - banner1 - 30% */}
-          <div className="absolute left-0 top-0 bottom-0 w-[15%] overflow-hidden z-0">
+          <div className="absolute left-0 top-0 bottom-0 w-[180px] overflow-hidden z-0">
             <img
               src={createCharacterBanner1}
               alt="Left Character"
-              className="w-full h-full object-cover"
+              className="w-full h-full"
             />
           </div>
 
-          {/* Div 2: banner2 - 30% */}
-          <div className="absolute left-[30%] top-0 bottom-0 w-[60%] overflow-hidden z-0">
-            <img
-              src={createCharacterBanner2}
-              alt="Center Character"
-              className="w-[] h-[90%] object-cover"
-            />
-          </div>
+          <div className="absolute left-0 top-0 bottom-0 w-full z-10 h-full flex justify-center items-center gap-3">
+            {/* Div 2: banner2 - 30% */}
+            <div className="py-2 h-full">
+              <img
+                src={createCharacterBanner2}
+                alt="Center Character"
+                className="w-full h-full aspect-12/1 hidden lg:block"
+              />
+              <img
+                src="https://candy.ai/assets/promotions/halloween/banner/free/en/mobile-central-8f4f50b434877c24895e7345f23100c60c06b3c7dd5605419a6f5d2926a59987.webp"
+                alt="Center Character"
+                className="w-full h-full block lg:hidden"
+              />
+            </div>
 
-          {/* Div 3: Timer - 10% */}
-          <div className="absolute left-[73%] top-0 bottom-0 w-[10%] flex items-center justify-center gap-1 z-20">
-            {/* Countdown Timer Section */}
-            <div className="flex items-center gap-1 sm:gap-2">
-              {/* Hours */}
-              <div className="flex flex-col items-center border-r border-white/20 pr-1 sm:pr-2">
-                <span className="text-white font-bold text-[15px] leading-none">
-                  {String(timeLeft.hours).padStart(2, '0')}
-                </span>
-                <span className="text-gray-400 text-[8px] sm:text-[10px] md:text-xs">Hrs</span>
-              </div>
+            {/* Div 3: Timer - 10% */}
+            <div className="w-auto flex items-center justify-center max-w-[180px] gap-1 z-20">
+              {/* Countdown Timer Section */}
+              <div className="flex items-center gap-1 sm:gap-2">
+                {/* Hours */}
+                <div className="flex flex-col items-center border-r border-white/20 pr-1 sm:pr-2">
+                  <span className="text-white font-bold text-[15px] leading-none">
+                    {String(timeLeft.hours).padStart(2, '0')}
+                  </span>
+                  <span className="text-gray-400 text-[8px] sm:text-[10px] md:text-xs">Hrs</span>
+                </div>
 
-              {/* Minutes */}
-              <div className="flex flex-col items-center border-r border-white/20 pr-1 sm:pr-2">
-                <span className="text-white font-bold text-[15px] leading-none">
-                  {String(timeLeft.minutes).padStart(2, '0')}
-                </span>
-                <span className="text-gray-400 text-[8px] sm:text-[10px] md:text-xs">Min</span>
-              </div>
+                {/* Minutes */}
+                <div className="flex flex-col items-center border-r border-white/20 pr-1 sm:pr-2">
+                  <span className="text-white font-bold text-[15px] leading-none">
+                    {String(timeLeft.minutes).padStart(2, '0')}
+                  </span>
+                  <span className="text-gray-400 text-[8px] sm:text-[10px] md:text-xs">Min</span>
+                </div>
 
-              {/* Seconds */}
-              <div className="flex flex-col items-center">
-                <span className="text-white font-bold text-[15px] leading-none">
-                  {String(timeLeft.seconds).padStart(2, '0')}
-                </span>
-                <span className="text-gray-400 text-[8px] sm:text-[10px] md:text-xs">Sec</span>
+                {/* Seconds */}
+                <div className="flex flex-col items-center">
+                  <span className="text-white font-bold text-[15px] leading-none">
+                    {String(timeLeft.seconds).padStart(2, '0')}
+                  </span>
+                  <span className="text-gray-400 text-[8px] sm:text-[10px] md:text-xs">Sec</span>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Div 4: Right - banner4 - 30% */}
-          <div className="absolute left-[85%] top-0 bottom-0 w-[15%] overflow-hidden z-0">
+          <div className="absolute hidden 2xl:block left-[85%] top-0 bottom-0 w-[15%] overflow-hidden z-0">
             <img
               src={createCharacterBanner3}
               alt="Right Character"
@@ -357,9 +424,9 @@ const CreateCharacterPage = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-center px-2 sm:px-4 md:p-6 w-full pb-24 md:pb-6" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 6rem)' }}>
+        <div className="flex flex-col items-center px-2 sm:px-4 md:p-6 w-full pb-24 md:pb-6 gap-8" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 6rem)' }}>
           {/* Page Header - OUTSIDE the card */}
-          <div className="flex items-center justify-center gap-x-2 sm:gap-x-3 mx-auto mb-3 sm:mb-4 lg:mb-6 mt-2 sm:mt-5 md:mt-0">
+          <div className="flex items-center justify-center gap-x-2 sm:gap-x-3 mx-auto sm:mb-4 mt-2 sm:mt-5 md:mt-0">
             <img
               src="https://candy.ai/assets/sidebar-icons/edit-tools-bbf2bf2c112195dace08ca66624f3aaee6cdce6fb94e6712f6ec1ecf3e1576e0.svg"
               alt="Edit Tools"
@@ -388,13 +455,13 @@ const CreateCharacterPage = () => {
                   currentStep !== 1 && (
                     <button
                       onClick={handlePrevious}
-                      className={`flex cursor-pointer items-center space-x-1 sm:space-x-2 px-2 sm:px-4 lg:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all text-xs sm:text-base ${currentStep === 1
+                      className={`flex cursor-pointer items-center px-5 py-3 rounded-lg gap-4 font-medium transition-all text-sm sm:text-base ${currentStep === 1
                         ? 'text-gray-600 cursor-not-allowed'
                         : 'text-white border-2 border-white/20 hover:border-gray-600'
                         }`}
                     >
-                      <span>←</span>
-                      <span className="hidden sm:inline">Previous</span>
+                      <ChevronLeft className="w-4 h-4" />
+                      <span>Previous</span>
                     </button>
                   )
                 }
@@ -402,7 +469,7 @@ const CreateCharacterPage = () => {
                 <button
                   onClick={handleNext}
                   disabled={!canProceed()}
-                  className={`flex cursor-pointer items-center space-x-2 px-4 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-lg font-medium transition-all text-sm sm:text-base ${!canProceed()
+                  className={`flex cursor-pointer items-center ${currentStep === 1 ? 'w-[300px] mx-auto' : 'w-auto'} justify-center sm:mx-0 space-x-2 px-9 py-3 rounded-lg font-medium transition-all text-sm sm:text-base ${!canProceed()
                     ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
                     : 'bg-gradient-to-r to-[#00bfa5] to-[#00897b] text-white hover:from-[#00897b] hover:to-[#00796b] shadow-lg shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]'
                     }`}

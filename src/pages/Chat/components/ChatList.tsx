@@ -76,7 +76,7 @@ const ChatList = ({ chats, activeChatId, onChatSelect, onShowResetModal, onShowD
                   <img
                     src={chat.avatar}
                     alt={chat.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
                 {/* Chat Info */}

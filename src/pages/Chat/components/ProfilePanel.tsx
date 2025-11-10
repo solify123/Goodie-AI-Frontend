@@ -20,7 +20,7 @@ const InfoItem = ({ icon, label, value }: { icon: React.ReactNode, label: string
 
 const ProfilePanel = ({ handleCall }: ProfilePanelProps) => {
   const images = [
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face',
+    'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
     'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=400&fit=crop&crop=face',
     'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=300&h=400&fit=crop&crop=face'
   ]
@@ -49,7 +49,7 @@ const ProfilePanel = ({ handleCall }: ProfilePanelProps) => {
           <img
             src={images[currentImageIndex]}
             alt="Charles Weston"
-            className="w-full h-120 object-cover"
+            className="w-full h-120 object-cover object-top"
           />
 
           {/* Navigation Arrows */}
