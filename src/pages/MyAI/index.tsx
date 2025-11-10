@@ -10,7 +10,7 @@ const sampleAIs = [
     name: 'Arthur Murphy',
     age: 30,
     description: 'Passionate dancer and avid gamer, blending rhythm and strategy in every move he makes.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face',
+    image: 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
     isOnline: true
   }
 ]
@@ -25,7 +25,7 @@ const CreateNewAICard = () => {
   return (
     <div 
       onClick={handleCreateNew}
-      className="cursor-pointer w-full aspect-[3/4] max-w-[300px] bg-gradient-to-b from-[#b2dfdb] via-[#80cbc4] to-[#26a69a] rounded-2xl flex flex-col items-center justify-center hover:from-[#80cbc4] hover:via-[#4db6ac] hover:to-[#009688] transition-all duration-300 shadow-lg hover:shadow-xl"
+      className="cursor-pointer w-full py-5 sm:aspect-[3/4] bg-gradient-to-b from-[#b2dfdb] via-[#80cbc4] to-[#26a69a] rounded-2xl flex flex-col items-center justify-center hover:from-[#80cbc4] hover:via-[#4db6ac] hover:to-[#009688] transition-all duration-300 shadow-lg hover:shadow-xl"
     >
       <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 shadow-lg">
         <Plus className="w-10 h-10 text-[#009688]" />
@@ -44,13 +44,13 @@ const AICharacterCard = ({ ai }: { ai: typeof sampleAIs[0] }) => {
   }
 
   return (
-    <div className="relative w-full aspect-[3/4] max-w-[300px] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">
+    <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">
       {/* Character Image */}
       <div className="relative w-full h-full" onClick={handleChat}>
         <img 
           src={ai.image} 
           alt={ai.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-top"
         />
         
         {/* Chat Bubble Icon - small in top right */}
@@ -77,7 +77,7 @@ const MyAIPage = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-24 md:pb-8" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 6rem)' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-24 md:pb-8" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 6rem)' }}>
           {/* Header */}
           <div className="mb-8 sm:mb-10">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
@@ -87,7 +87,7 @@ const MyAIPage = () => {
           </div>
 
           {/* Cards - Horizontal layout */}
-          <div className="flex flex-wrap gap-6 sm:gap-8 items-start">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 items-start">
             <CreateNewAICard />
             {sampleAIs.map((ai) => (
               <AICharacterCard key={ai.id} ai={ai} />

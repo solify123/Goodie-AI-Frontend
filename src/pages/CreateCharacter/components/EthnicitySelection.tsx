@@ -6,7 +6,7 @@ interface EthnicityOption {
 
 interface EthnicitySelectionProps {
   selected: string
-  onSelect: (value: string) => void
+  onSelect: (value: { value: string; image: string }) => void
 }
 
 const EthnicitySelection = ({ selected, onSelect }: EthnicitySelectionProps) => {
@@ -14,27 +14,27 @@ const EthnicitySelection = ({ selected, onSelect }: EthnicitySelectionProps) => 
     {
       value: 'caucasian',
       label: 'Caucasian',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-2/male/realistic/caucasian-ed56574f5d51f25a23fc0d1d43e59db692008f431ced30660853cbd2a8ce055c.webp'
     },
     {
       value: 'latino',
       label: 'Latino',
-      image: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=400&h=500&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-2/male/realistic/latino-cf3c1d87cf1dcb9922a312d287790ce15476aa107b7f3f8f20aa778bca6fa932.webp'
     },
     {
       value: 'asian',
       label: 'Asian',
-      image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=500&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-2/male/realistic/asian-a6c32f7e7618c3c6883f85d60b354179ec1b0a9b992a05ae1df2eebd9d39c4e4.webp'
     },
     {
       value: 'arab',
       label: 'Arab',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=500&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-2/male/realistic/arab-846c6d54e5307a1fa43a74423bba76614163a7fa628917b48cffda7b29650513.webp'
     },
     {
       value: 'black-afro',
       label: 'Black/Afro',
-      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-2/male/realistic/black_afro-2e24fc8677fdc96aeb25ad784f06be3c44af4a42749b14e7ce36f879dc6d093c.webp'
     }
   ]
 
@@ -48,7 +48,7 @@ const EthnicitySelection = ({ selected, onSelect }: EthnicitySelectionProps) => 
         {ethnicities.map((ethnicity) => (
           <button
             key={ethnicity.value}
-            onClick={() => onSelect(ethnicity.value)}
+            onClick={() => onSelect({ value: ethnicity.value, image: ethnicity.image })}
             className={`group relative transition-all duration-300 cursor-pointer ${
               selected === ethnicity.value
                 ? 'scale-105'

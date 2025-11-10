@@ -10,7 +10,7 @@ interface BodyTypeOption {
 
 interface BodyTypeSelectionProps {
   selected: string
-  onSelect: (value: string) => void
+  onSelect: (value: { value: string; image: string }) => void
 }
 
 const BodyTypeSelection = ({ selected, onSelect }: BodyTypeSelectionProps) => {
@@ -42,7 +42,7 @@ const BodyTypeSelection = ({ selected, onSelect }: BodyTypeSelectionProps) => {
         {bodyTypes.map((bodyType) => (
           <button
             key={bodyType.value}
-            onClick={() => onSelect(bodyType.value)}
+            onClick={() => onSelect({ value: bodyType.value, image: bodyType.image })}
             className={`group relative transition-all duration-300 cursor-pointer ${
               selected === bodyType.value
                 ? 'scale-105'

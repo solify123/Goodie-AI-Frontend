@@ -6,7 +6,7 @@ interface HairStyleOption {
 
 interface HairStyleSelectionProps {
   selected: string
-  onSelect: (value: string) => void
+  onSelect: (value: { value: string; image: string }) => void
 }
 
 const HairStyleSelection = ({ selected, onSelect }: HairStyleSelectionProps) => {
@@ -14,42 +14,42 @@ const HairStyleSelection = ({ selected, onSelect }: HairStyleSelectionProps) => 
     {
       value: 'buzz-cut',
       label: 'Buzz cut',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-3/male/realistic/buzz_cut-1601bf98b9bbcd6d7e2f9652ef71f094382a05c6c9d4620ee5fe2b6983dd7e23.webp'
     },
     {
       value: 'long',
       label: 'Long',
-      image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-3/male/realistic/long-b2542c461e0c89049d56342907da18ab5370ce9438ae39f7174d4e164012be5e.webp'
     },
     {
       value: 'slicked-back',
       label: 'Slicked Back',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-3/male/realistic/slicked_back-28722d0ad4441c1d8b086fcaf466495e9d9b427f0486b7969b60fd71145270ed.webp'
     },
     {
       value: 'short',
       label: 'Short',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-3/male/realistic/short-d92b15523423874797de92201b7e5ee1fffb6810ce60fd9ad3048bc46591b8f5.webp'
     },
     {
       value: 'bun',
       label: 'Bun',
-      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-3/male/realistic/bun-425aeb09eb23dcf2445b1e6031b471bcb62f75970e3c066c7305153e503bf335.webp'
     },
     {
       value: 'dreadlocks',
       label: 'Dreadlocks',
-      image: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&h=200&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-3/male/realistic/dreadlocks-526e2ad0f05b1731ecf7c3981499c14803edcf87c217d62b2864a11605e0dcbd.webp'
     },
     {
       value: 'curly',
       label: 'Curly',
-      image: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-3/male/realistic/curly-903730838fd306a7d177eb5ea57e7b412b38495f6f72d93c1447c5f4f688842a.webp'
     },
     {
       value: 'bald',
       label: 'Bald',
-      image: 'https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=200&h=200&fit=crop&crop=face'
+      image: 'https://candy.ai/assets/create-char/step-3/male/realistic/bald-a0d5209fee7d63aced22b3e9b587fa3da9c331823c3066258df9b9ef948257fe.webp'
     }
   ]
 
@@ -63,7 +63,7 @@ const HairStyleSelection = ({ selected, onSelect }: HairStyleSelectionProps) => 
         {hairStyles.map((style) => (
           <button
             key={style.value}
-            onClick={() => onSelect(style.value)}
+            onClick={() => onSelect({ value: style.value, image: style.image })}
             className={`group relative cursor-pointer transition-all duration-300 ${
               selected === style.value
                 ? 'scale-105'

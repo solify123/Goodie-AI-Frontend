@@ -24,18 +24,18 @@ const CollectionPage = () => {
     {
       id: 1,
       name: 'Charles Weston',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face',
+      avatar: 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
       images: [
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face',
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face'
+        'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
+        'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90'
       ]
     },
     {
       id: 2,
       name: 'Arthur Murphy',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face',
+      avatar: 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
       images: [
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face'
+        'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90'
       ]
     }
   ]
@@ -142,7 +142,7 @@ const CollectionPage = () => {
                     <img
                       src={selectedCharacter.avatar}
                       alt={selectedCharacter.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-top"
                     />
                   </div>
                   <h1 className="text-[14px] lg:text-2xl md:text-[24px] sm:text-[18px] xs:text-[14px] font-bold text-white">
@@ -202,7 +202,7 @@ const CollectionPage = () => {
                   <img
                     src={image}
                     alt={`${selectedCharacter.name} ${index + 1}`}
-                    className="w-full h-full object-cover rounded-lg relative z-10"
+                    className="w-full h-full object-cover rounded-lg relative z-10 object-top"
                   />
                 </div>
               </div>
@@ -247,7 +247,7 @@ const CollectionPage = () => {
                 <img
                   src={modalCharacter.images[selectedImageIndex]}
                   alt={`${modalCharacter.name} ${selectedImageIndex + 1}`}
-                  className="w-full h-full object-contain rounded-lg"
+                  className="w-full h-full object-contain rounded-lg object-top"
                 />
                 {/* Close Button */}
                 <button
@@ -280,7 +280,7 @@ const CollectionPage = () => {
                 onClick={() => setShowSortDropdown(!showSortDropdown)}
                 className="flex items-center space-x-2 w-[90px] justify-end cursor-pointer"
               >
-                <span className="text-sm font-semibold mr-1 hidden sm:block">Sort by</span>
+                <span className="text-sm font-semibold mr-2 hidden sm:block">Sort by</span>
                 <ArrowDownWideNarrow className="w-4 h-4" />
               </button>
 
@@ -330,7 +330,7 @@ const CollectionPage = () => {
                     <img
                       src={character.avatar}
                       alt={character.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-top"
                     />
                   </div>
 
@@ -353,7 +353,7 @@ const CollectionPage = () => {
                   <img
                     src={character.images[0]}
                     alt={character.name}
-                    className="w-full h-full object-cover rounded-lg relative z-10"
+                    className="w-full h-full object-cover rounded-lg relative z-10 object-top"
                   />
                 </div>
               </div>
@@ -405,7 +405,7 @@ const CollectionPage = () => {
                 <img
                   src={modalCharacter.images[selectedImageIndex]}
                   alt={`${modalCharacter.name} ${selectedImageIndex + 1}`}
-                  className="max-w-full max-h-[85vh] object-contain rounded-lg"
+                  className="max-w-full max-h-[85vh] object-contain rounded-lg object-top"
                 />
               </div>
 

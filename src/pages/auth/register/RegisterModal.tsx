@@ -73,10 +73,8 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegistrationSuccess
       <div className="relative w-full max-w-[50rem] mx-4 bg-[#1A1A1A] rounded-2xl overflow-hidden shadow-2xl">
         <div className="w-full flex flex-col md:flex-row">
           {/* Left Side - Image/Branding */}
-          <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-purple-900/60 via-[#00695c]/40 to-purple-800/60 relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 via-[#00796b]/50 to-purple-900/80"></div>
-            {/* Placeholder for background image - add your actual image */}
-            <div className="relative w-full h-full flex items-end p-8">
+          <div className="hidden md:flex md:w-1/2 relative">
+            <div className="relative w-full h-full flex items-end p-8 register-background">
               <div className="text-left">
                 <h1 className="text-4xl font-bold">
                   <span className="text-white">Goodie</span>

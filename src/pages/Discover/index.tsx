@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, ChevronUp, Heart, Loader2 } from 'lucide-react'
-import characters from '../Landing/components/girls.json' with { type: 'json' }
+import characters from '../../config/girls.json' with { type: 'json' }
 
 const DiscoverPage = () => {
   const navigate = useNavigate()

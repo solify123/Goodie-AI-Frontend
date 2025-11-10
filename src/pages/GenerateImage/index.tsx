@@ -16,8 +16,18 @@ import dot5_2 from '../../assets/images/dots/5-2.svg'
 import SelectCharaters from './components/selectCharaters'
 
 
+interface CharacterPayload {
+  id: number | string
+  name: string
+  image: string
+}
+
 const GenerateImagePage = () => {
-    const [selectedCharacter] = useState('Charles Weston')
+    const [selectedCharacter, setSelectedCharacter] = useState<CharacterPayload>({
+        id: 1,
+        name: 'Charles Weston',
+        image: 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90'
+    })
     const [prompt, setPrompt] = useState('Standing against a graffiti-covered wall, wearing a leather jacket and ripped jeans, with a rebellious look.')
     const [activeTab, setActiveTab] = useState('Action')
     const [selectedCount, setSelectedCount] = useState(1)
@@ -178,7 +188,15 @@ const GenerateImagePage = () => {
     return (
         <Layout>
             {
-                selectCharater ? <SelectCharaters setSelectCharater={setSelectCharater} /> : (
+                selectCharater ? (
+                    <SelectCharaters
+                        setSelectCharater={setSelectCharater}
+                        onCharacterSelect={(character) => {
+                            setSelectedCharacter(character)
+                        }}
+                        preselectedId={selectedCharacter?.id ?? null}
+                    />
+                ) : (
                     <>
                         <div className="w-full h-full flex flex-col lg:flex-row">
                             {/* Left Panel - Generate Image Controls */}
@@ -195,9 +213,9 @@ const GenerateImagePage = () => {
                                     <div className="flex-shrink-0 w-full 2xl:w-1/3">
                                         <div className="relative w-55 mx-auto 2xl:w-full">
                                             <img
-                                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face"
-                                                alt={selectedCharacter}
-                                                className="w-full aspect-[1/1] rounded-[32px] object-cover"
+                                                src={selectedCharacter?.image}
+                                                alt={selectedCharacter?.name}
+                                                className="w-full aspect-[1/1] rounded-[32px] object-cover object-top"
                                             />
                                             <button onClick={() => setSelectCharater(true)} className="absolute top-2 right-2 w-9 h-9 rounded-full bg-[#1a1a1a] border border-gray-700 flex items-center justify-center cursor-pointer hover:bg-[#2a2a2a] transition-colors">
                                                 <RefreshCw className="w-5 h-5 text-gray-400" />
@@ -205,11 +223,11 @@ const GenerateImagePage = () => {
 
                                             {/* Character Name */}
                                             <div className="w-full hidden md:block absolute bottom-0 left-0 pl-3 pb-3 bg-gradient-to-t from-black/40 via-transparent to-transparent">
-                                                <p className="text-white font-medium">{selectedCharacter}</p>
+                                                <p className="text-white font-medium">{selectedCharacter?.name}</p>
                                             </div>
                                         </div>
                                         <div className="w-full text-center py-3 pl-3 pb-3">
-                                            <p className="text-white font-medium">{selectedCharacter}</p>
+                                            <p className="text-white font-medium">{selectedCharacter?.name}</p>
                                         </div>
                                     </div>
 
@@ -318,7 +336,7 @@ const GenerateImagePage = () => {
                             </div>
 
                             {/* Right Panel - Generated Images */}
-                            <div className="w-full lg:w-1/2 bg-[#0f0f0f] py-6 px-4 sm:px-6 lg:px-14 overflow-y-auto">
+                            <div className="w-full lg:w-1/2 bg-[#0f0f0f] py-6 px-4 sm:px-6 lg:px-14 overflow-y-auto md:pb-6 pb-24">
                                 <div>
                                     <h2 className="text-md font-semibold">Generated Images</h2>
                                     <p className="mb-8 mt-3 text-xs leading-4 text-[#969696]">
@@ -347,12 +365,12 @@ const GenerateImagePage = () => {
                                     </div>
 
                                     {/* Generated Image Display */}
-                                    <div className="space-y-4 w-full grid gap-2 sm:gap-3 md:gap-4 grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 auto-rows-fr">
+                                    <div className="space-y-4 w-full grid gap-2 sm:gap-3 md:gap-4 grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 auto-rows-fr">
                                         <div className="aspect-[2/3] relative rounded-3xl overflow-hidden bg-[#1a1a1a]">
                                             <img
-                                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=1600&fit=crop&crop=face"
+                                                src="https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90"
                                                 alt="Generated"
-                                                onClick={() => handleOpenImage('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1600&h=2000&fit=crop&crop=face')}
+                                                onClick={() => handleOpenImage('https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90')}
                                                 className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-all duration-300 rounded-3xl"
                                             />
                                         </div>

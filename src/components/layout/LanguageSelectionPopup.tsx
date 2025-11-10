@@ -1,5 +1,6 @@
 import { X, Check } from 'lucide-react'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 interface Language {
   name: string
@@ -29,6 +30,12 @@ const LanguageSelectionPopup = ({ isOpen, onClose, onLanguageSelect }: LanguageS
 
   if (!isOpen) return null
 
+  const handleLanguageSelect = (language: Language) => {
+    setSelectedLanguage(language.code)
+    onLanguageSelect(language)
+    toast.success(`Language changed to ${language.name}`)
+  }
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-[#1a1a1a] rounded-xl shadow-2xl w-96 max-w-[90vw] relative">
@@ -53,10 +60,7 @@ const LanguageSelectionPopup = ({ isOpen, onClose, onLanguageSelect }: LanguageS
             {fullySupportedLanguages.map((language) => (
               <button
                 key={language.code}
-                onClick={() => {
-                  setSelectedLanguage(language.code)
-                  onLanguageSelect(language)
-                }}
+                onClick={() => handleLanguageSelect(language)}
                 className={`cursor-pointer w-full flex items-center justify-between p-3 rounded-lg border transition-all duration-200 ${
                   language.selected
                     ? 'border-[#009688] bg-[#009688]/5'

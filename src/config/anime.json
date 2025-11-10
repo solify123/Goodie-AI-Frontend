@@ -236,5 +236,12 @@
     "description": "Anya is a tour guide in Seoul with Russian and Korean roots. She loves meeting new people and making every tour feel like an adventure. She loves meeting new people and lives for the thrill of spontaneity over long-term plans.",
     "defaultImage": "/images/anime/1/anime (34).png",
     "hoverImage": "/images/anime/2/anime (34).png"
+  },
+  {
+    "name": "Scott",
+    "age": "38",
+    "description": "Physical therapist and beach lover. Scott is known for his adventurous spirit and strong, empathetic nature, he enjoys an active lifestyle and values honesty and loyalty in his relationships.",
+    "defaultImage": "/images/anime/1/anime (35).png",
+    "hoverImage": "/images/anime/2/anime (34).png"
   }
 ]

@@ -10,7 +10,7 @@ interface EyeColorOption {
 
 interface EyeColorSelectionProps {
   selected: string
-  onSelect: (value: string) => void
+  onSelect: (value: { value: string; image: string }) => void
 }
 
 const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
@@ -42,12 +42,12 @@ const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
         {eyeColors.map((color) => (
           <button
             key={color.value}
-            onClick={() => onSelect(color.value)}
+            onClick={() => onSelect({ value: color.value, image: color.image })}
             className="group relative cursor-pointer transition-all duration-300"
           >
             {/* Eye Color Display with Label */}
             <div className="relative">
-              <div className="relative w-[126px] h-[56px] rounded-2xl overflow-hidden">
+              <div className="relative w-[100px] sm:w-[126px] h-[56px] rounded-2xl overflow-hidden">
                 <img 
                   src={color.image} 
                   alt={color.label + " Eye Color"} 

@@ -8,6 +8,7 @@ import { useSidebar } from '../../contexts/SidebarContext'
 import { toast } from 'sonner'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLandingTab } from '../../contexts/LandingTabContext'
+import { useCreateCharacterGenderOptional } from '../../contexts/CreateCharacterGenderContext'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -22,8 +23,10 @@ const Header = () => {
   const { user, isAuthenticated, logout } = useAuth()
   const { toggleSidebar } = useSidebar()
   const { activeTab, setActiveTab } = useLandingTab()
+  const createCharacterGender = useCreateCharacterGenderOptional()
 
   const isLandingPage = location.pathname === '/'
+  const isCreateCharacterPage = location.pathname.startsWith('/create-character')
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -111,11 +114,11 @@ const Header = () => {
             </div>
 
             {/* soft divider */}
-            {isLandingPage && (
+            {(isLandingPage || isCreateCharacterPage) && (
               <div className="hidden md:block h-10 w-px bg-gradient-to-b from-transparent via-gray-800 to-transparent" />
             )}
 
-            {/* Category Tabs - Only show on landing page */}
+            {/* Category Tabs */}
             {isLandingPage && (
               <div className="hidden md:flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-3 ml-4 py-2">
                 <button
@@ -147,6 +150,35 @@ const Header = () => {
                     ? 'text-[#009688] bg-[#009688]/10 ring-1 ring-[#009688]/40'
                     : 'text-gray-300 hover:text-white hover:bg-white/5'
                     }`}
+                >
+                  <Mars />
+                  <span>Guys</span>
+                </button>
+              </div>
+            )}
+            
+            {isCreateCharacterPage && createCharacterGender && (
+              <div className="hidden md:flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-3 ml-4 py-2">
+                <button
+                  onClick={() => createCharacterGender.setGender('girls')}
+                  aria-current={createCharacterGender.gender === 'girls'}
+                  className={`flex items-center rounded-full px-3.5 py-1 cursor-pointer space-x-1.5 sm:space-x-2 font-medium transition-all text-xs font-semibold sm:text-[14px] ${
+                    createCharacterGender.gender === 'girls'
+                      ? 'text-[#009688] bg-[#009688]/10 ring-1 ring-[#009688]/40'
+                      : 'text-gray-300 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <Venus />
+                  <span>Girls</span>
+                </button>
+                <button
+                  onClick={() => createCharacterGender.setGender('guys')}
+                  aria-current={createCharacterGender.gender === 'guys'}
+                  className={`flex items-center rounded-full px-3.5 py-1 cursor-pointer space-x-1.5 sm:space-x-2 font-medium transition-all text-xs font-semibold sm:text-[14px] ${
+                    createCharacterGender.gender === 'guys'
+                      ? 'text-[#009688] bg-[#009688]/10 ring-1 ring-[#009688]/40'
+                      : 'text-gray-300 hover:text-white hover:bg-white/5'
+                  }`}
                 >
                   <Mars />
                   <span>Guys</span>
