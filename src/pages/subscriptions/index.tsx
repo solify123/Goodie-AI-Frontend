@@ -426,7 +426,7 @@ const SubscriptionsPage = () => {
 
                         <div className="px-4 pb-6">
                             <div className="flex flex-col gap-3 md:gap-5" data-controller="subscription" data-subscription-current-plan-value="" data-subscription-is-free-or-inactive-value="true" id="subscription-controller">
-                                <div className="relative cursor-pointer sub-gradient-active" data-plan-price="47.88" data-action="click-&gt;subscription#setActive" data-plan-type="yearly">
+                                <div onClick={() => handlePlanSelect('12')} className={`relative cursor-pointer ${activePlan === '12' ? 'sub-gradient-active' : 'sub-gradient'}`}>
 
                                     <div className="w-full px-4 pt-5 pb-5 h-[72px] sm:h-20  border-[#2A2A2A] border-2 rounded-lg justify-center items-center inline-flex relative">
                                         <div className="px-2 py-0.5 bg-primary rounded-[5px] justify-center items-center gap-2.5 flex absolute -top-[1px] left-4 transform -translate-y-1/2 z-10">
@@ -474,7 +474,8 @@ const SubscriptionsPage = () => {
                                         </div>
                                     </div>
 
-                                </div>    <div className="relative cursor-pointer sub-gradient" data-plan-price="23.97" data-action="click-&gt;subscription#setActive" data-plan-type="quarterly">
+                                </div>
+                                <div onClick={() => handlePlanSelect('3')} className={`relative cursor-pointer ${activePlan === '3' ? 'sub-gradient-active' : 'sub-gradient'}`}>
 
                                     <div className="w-full px-4 pt-5 pb-5 h-[72px] sm:h-20  border-[#2A2A2A] border-2 rounded-lg justify-center items-center inline-flex relative">
                                         <div className="w-full self-stretch justify-between items-center inline-flex">
@@ -517,8 +518,8 @@ const SubscriptionsPage = () => {
                                         </div>
                                     </div>
 
-                                </div>    <div className="relative cursor-pointer sub-gradient" data-plan-price="12.99" data-action="click-&gt;subscription#setActive" data-plan-type="monthly">
-
+                                </div>
+                                <div onClick={() => handlePlanSelect('1')} className={`relative cursor-pointer ${activePlan === '1' ? 'sub-gradient-active' : 'sub-gradient'}`}>
                                     <div className="w-full px-4 pt-5 pb-5 h-[72px] sm:h-20  border-[#2A2A2A] border-2 rounded-lg justify-center items-center inline-flex relative">
                                         <div className="w-full self-stretch justify-between items-center inline-flex">
                                             <div className="flex-col justify-start items-start inline-flex">
@@ -551,7 +552,9 @@ const SubscriptionsPage = () => {
                                         </div>
                                     </div>
 
-                                </div>  <div className="flex flex-col gap-[12px]">
+                                </div>
+
+                                <div className="flex flex-col gap-[12px]">
                                     <div className="flex">
                                         <img src="https://candy.ai/assets/subscription/green_shield-f7397ac8fe4d87bb33e28e4e67e1a7c1620aa24f2802b6fbf8e4741f328d336b.svg" className="w-5 h-5 pr-1" alt="" />
                                         <div className="text-neutral-400 text-[11px] font-medium font-['Poppins'] leading-none pt-1 ml-0">
