@@ -1,5 +1,5 @@
 import axios from 'axios'
-import API_CONFIG from '../config/api.config'
+import API_CONFIG from '../config/api.config';
 
 // Create axios instance with default config
 const authAxios = axios.create({
@@ -72,5 +72,18 @@ export const authApi = {
   oauthCallback: async (provider: string, code: string) => {
     const response = await publicAxios.get(`/auth/oauth/callback?provider=${provider}&code=${code}`)
     return response.data
+  },
+
+  /**
+   * Verify token with backend
+   */
+  verifyToken: async (token: string) => {
+    const response = await publicAxios.get('/auth/oauth/verify-token', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response.data
   }
 }
+

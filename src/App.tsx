@@ -12,6 +12,7 @@ import CreateCharacterPage from './pages/CreateCharacter'
 import MyAIPage from './pages/MyAI'
 import ProfilePage from './pages/auth/profile'
 import SubscriptionsPage from './pages/subscriptions'
+import AuthCallbackPage from './pages/auth/callback'
 import { CreateCharacterGenderProvider } from './contexts/CreateCharacterGenderContext'
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
               <Route path="/my-ai" element={<MyAIPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/subscriptions" element={<SubscriptionsPage />} />
+              <Route path="/auth/callback" element={<AuthCallbackPage />} />
             </Routes>
             <Toaster
               position="top-right"
