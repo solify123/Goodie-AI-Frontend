@@ -1,4 +1,4 @@
-import apiService, { type ApiResponse } from './api.service'
+import { authApi } from '../api/auth.api'
 
 export interface User {
   id: string
@@ -29,95 +29,163 @@ export interface RegisterCredentials {
   password: string
 }
 
-class AuthService {
+export interface ApiResponse<T = any> {
+  success: boolean
+  message?: string
+  data?: T
+  error?: string
+  errors?: any[]
+}
+
+// Helper functions for token management
+const saveAuthData = (authData: AuthResponse) => {
+  const { session, user } = authData
+  
+  if (session) {
+    localStorage.setItem('access_token', session.access_token)
+    localStorage.setItem('refresh_token', session.refresh_token)
+    localStorage.setItem('token_expires_in', session.expires_in.toString())
+  }
+  
+  if (user) {
+    localStorage.setItem('user', JSON.stringify(user))
+  }
+}
+
+const clearAuthData = () => {
+  localStorage.removeItem('access_token')
+  localStorage.removeItem('refresh_token')
+  localStorage.removeItem('token_expires_in')
+  localStorage.removeItem('user')
+}
+
+export const authService = {
   /**
    * Register a new user
    */
-  async register(credentials: RegisterCredentials): Promise<ApiResponse<AuthResponse>> {
+  register: async (credentials: RegisterCredentials) => {
     try {
-      const response = await apiService.post<AuthResponse>('/auth/register', credentials)
+      const response = await authApi.register(credentials)
       
       if (response.success && response.data?.session) {
-        this.saveAuthData(response.data)
+        saveAuthData(response.data)
       }
       
       return response
     } catch (error: any) {
-      throw new Error(error.message || 'Registration failed')
+      return {
+        success: false,
+        error: error.response?.data?.message || error.message || 'Registration failed'
+      } as ApiResponse<AuthResponse>
     }
-  }
+  },
 
   /**
    * Login user
    */
-  async login(credentials: LoginCredentials): Promise<ApiResponse<AuthResponse>> {
+  login: async (credentials: LoginCredentials) => {
     try {
-      const response = await apiService.post<AuthResponse>('/auth/login', credentials)
+      const response = await authApi.login(credentials)
       
       if (response.success && response.data?.session) {
-        this.saveAuthData(response.data)
+        saveAuthData(response.data)
       }
       
       return response
     } catch (error: any) {
-      throw new Error(error.message || 'Login failed')
+      return {
+        success: false,
+        error: error.response?.data?.message || error.message || 'Login failed'
+      } as ApiResponse<AuthResponse>
     }
-  }
+  },
 
   /**
    * Logout user
    */
-  async logout(): Promise<void> {
+  logout: async () => {
     try {
-      await apiService.post('/auth/logout')
+      await authApi.logout()
     } catch (error) {
       console.error('Logout error:', error)
     } finally {
-      this.clearAuthData()
+      clearAuthData()
     }
-  }
+  },
 
   /**
    * Get current user
    */
-  async getCurrentUser(): Promise<ApiResponse<User>> {
-    return apiService.get<User>('/auth/me')
-  }
+  getCurrentUser: async () => {
+    try {
+      const response = await authApi.getCurrentUser()
+      return response
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.message || error.message || 'Failed to get current user'
+      } as ApiResponse<User>
+    }
+  },
 
   /**
    * Resend confirmation email
    */
-  async resendConfirmation(email: string): Promise<ApiResponse> {
-    return apiService.post('/auth/resend-confirmation', { email })
-  }
+  resendConfirmation: async (email: string) => {
+    try {
+      const response = await authApi.resendConfirmation(email)
+      return response
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.message || error.message || 'Failed to resend confirmation'
+      } as ApiResponse
+    }
+  },
 
   /**
    * Request password reset
    */
-  async forgotPassword(email: string): Promise<ApiResponse> {
-    return apiService.post('/auth/forgot-password', { email })
-  }
+  forgotPassword: async (email: string) => {
+    try {
+      const response = await authApi.forgotPassword(email)
+      return response
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.message || error.message || 'Failed to send password reset'
+      } as ApiResponse
+    }
+  },
 
   /**
    * Reset password
    */
-  async resetPassword(newPassword: string): Promise<ApiResponse> {
-    return apiService.post('/auth/reset-password', { newPassword })
-  }
+  resetPassword: async (newPassword: string) => {
+    try {
+      const response = await authApi.resetPassword(newPassword)
+      return response
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.message || error.message || 'Failed to reset password'
+      } as ApiResponse
+    }
+  },
 
   /**
    * Check if user is authenticated
    */
-  isAuthenticated(): boolean {
+  isAuthenticated: (): boolean => {
     const token = localStorage.getItem('access_token')
-    const user = this.getUser()
+    const user = authService.getUser()
     return !!(token && user)
-  }
+  },
 
   /**
    * Get stored user
    */
-  getUser(): User | null {
+  getUser: (): User | null => {
     const userStr = localStorage.getItem('user')
     if (!userStr) return null
     
@@ -126,42 +194,23 @@ class AuthService {
     } catch {
       return null
     }
-  }
-
-  /**
-   * Save authentication data to localStorage
-   */
-  private saveAuthData(authData: AuthResponse) {
-    const { session, user } = authData
-    
-    if (session) {
-      apiService.setToken(session.access_token)
-      localStorage.setItem('refresh_token', session.refresh_token)
-      localStorage.setItem('token_expires_in', session.expires_in.toString())
-    }
-    
-    if (user) {
-      localStorage.setItem('user', JSON.stringify(user))
-    }
-  }
+  },
 
   /**
    * Clear all authentication data
    */
-  private clearAuthData() {
-    apiService.clearToken()
-    localStorage.removeItem('user')
-  }
+  clearAuth: (): void => {
+    clearAuthData()
+  },
 
   /**
    * OAuth sign in URL generator
    */
-  getOAuthUrl(provider: 'google' | 'discord' | 'twitter'): string {
-    // This would need to be implemented based on your Supabase setup
-    // For now, return a placeholder
-    return `${apiService['baseURL']}/auth/oauth/${provider}`
+  getOAuthUrl: (provider: 'google' | 'discord' | 'twitter'): string => {
+    const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+    return `${baseURL}/auth/oauth/${provider}`
   }
 }
 
-export default new AuthService()
+export default authService
 
