@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { X, Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react'
 import authService from '../../../services/auth.service'
+import { supabase } from '../../../config/supabase.config'
 import { toast } from 'sonner'
 
 interface LoginModalProps {
@@ -53,9 +54,25 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
     }
   }
 
-  const handleGoogleSignIn = () => {
-    const oauthUrl = authService.getOAuthUrl('google')
-    window.location.href = oauthUrl
+  const handleGoogleSignIn = async () => {
+    // Store that this is a login flow
+    localStorage.setItem('oauth_flow', 'login')
+    
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        // Where Google/Supabase should redirect after login.
+        redirectTo: `${window.location.origin}/auth/callback?flow=login`
+      }
+    })
+    if (error) {
+      console.error('OAuth error', error)
+      toast.error('Google sign in failed', {
+        description: error.message || 'Failed to initiate Google sign in',
+      })
+      localStorage.removeItem('oauth_flow')
+    }
+    // when using redirect, signInWithOAuth redirects the browser
   }
 
   const handleDiscordSignIn = () => {

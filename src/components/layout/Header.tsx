@@ -40,6 +40,15 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  // Check if we should show login modal after OAuth register
+  useEffect(() => {
+    const showLoginModalFlag = localStorage.getItem('show_login_modal')
+    if (showLoginModalFlag === 'true') {
+      localStorage.removeItem('show_login_modal')
+      setShowLoginModal(true)
+    }
+  }, [])
+
   const handleSwitchToLogin = () => {
     setShowRegisterModal(false)
     setShowConfirmModal(false)
@@ -76,6 +85,7 @@ const Header = () => {
       toast.success('Logged out', {
         description: 'You have been successfully logged out.',
       })
+      navigate("/");
     } catch (error) {
       toast.error('Logout failed', {
         description: 'An error occurred while logging out.',
