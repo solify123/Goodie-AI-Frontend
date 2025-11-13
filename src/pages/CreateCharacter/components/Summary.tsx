@@ -1,7 +1,9 @@
 import {
   Briefcase,
   Gamepad2,
-  Shirt
+  Shirt,
+  Loader2,
+  X
 } from 'lucide-react'
 import { personalities } from './PersonalitySelection'
 import { relationships } from './RelationshipSelection'
@@ -30,22 +32,24 @@ interface SummaryProps {
       value: string
       image: string
     }
-    height: number
-    skinTone: string
     personality: string
-    voice: number
-    interests: string[]
+    voice: string
     occupation: string
     hobbies: string[]
-    fashionStyle: string
     relationship: string
     clothing: string
   }
   onPrevious: () => void
   onComplete: () => void
+  isLoading?: boolean
+  characterResult?: {
+    name: string
+    image: string
+  } | null
+  onCloseModal?: () => void
 }
 
-const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
+const Summary = ({ characterData, onPrevious, onComplete, isLoading = false, characterResult = null, onCloseModal }: SummaryProps) => {
   const getStyleImage = (style: { value: string, image: string }) => {
     return <img src={style.image} alt="Style" className="object-cover object-top rounded-xl lg:w-[120px] lg:h-[120px] w-[88px] h-[88px]" />
   }
@@ -86,24 +90,24 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
     </div>
   }
 
-  const getVoiceIcon = (voiceNumber: number) => {
+  const getVoiceIcon = (voice: string) => {
     return <div className="lg:w-[120px] lg:h-[120px] w-[88px] h-[88px] relative pl-[9.50px] pr-[8.50px] pt-5 pb-2.5 flex flex-col items-center gap-4 justify-center bg-stone-900 rounded-[10px] border border-zinc-800">
       <div className="m-auto text-white flex flex-col items-center gap-y-4">
         <div data-audio-target="wrapper" className="toggle-play-button button-transform cursor-pointer w-8 md:w-12 w-8 md:h-12 p-1 justify-center items-center inline-flex rounded-full bg-white" data-controller="audio" data-action="click-&gt;audio#togglePlay">
           <div className="relative">
             <div className="flex items-center justify-center w-6 h-6 md:w-9 md:h-9 text-black">
-              <svg id="play-icon" className="text-black w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"></path>
+              <svg id="play-icon" className="text-black w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"></path>
               </svg>
             </div>
             <div className="hidden w-6 h-6 md:w-9 md:h-9 text-black">
-              <svg id="pause-icon" className="text-black" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5"></path>
+              <svg id="pause-icon" className="text-black" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5"></path>
               </svg>
             </div>
           </div>
         </div>
-        <div className="text-xs font-medium text-[#E1E1E1]">{voiceNumber}</div>
+        <div className="text-xs font-medium text-[#E1E1E1]">{voice}</div>
       </div>
     </div>
   }
@@ -173,7 +177,7 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
     {
       label: 'Voice',
       value: characterData.voice,
-      image: getVoiceIcon(characterData.voice),
+      image: getVoiceIcon(characterData.voice.toString()),
       displayValue: characterData.voice
     },
     {
@@ -245,19 +249,30 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
         <div className="flex flex-col sm:flex-row-reverse justify-between items-center gap-4 w-full">
           <button
             onClick={onComplete}
-            className="w-full sm:w-auto relative flex cursor-pointer items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-[#009688] text-white rounded-xl hover:bg-[#00897b] transition-all duration-300 text-sm sm:text-base"
+            disabled={isLoading}
+            className="w-full sm:w-auto relative flex cursor-pointer items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-2.5 bg-[#009688] text-white rounded-xl hover:bg-[#00897b] transition-all duration-300 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span className="text-[10px] sm:text-xs bg-[blueviolet] text-[#b2dfdb] px-1.5 sm:px-2 py-0.5 sm:py-1 rounded absolute -top-2 -right-2">
               Free Trial
             </span>
-            Bring my AI to life
-            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
+            {isLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                Creating...
+              </>
+            ) : (
+              <>
+                Bring my AI to life
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </>
+            )}
           </button>
           <button
             onClick={onPrevious}
-            className="w-full sm:w-auto flex cursor-pointer items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 text-white rounded-xl border border-white/20 hover:border-gray-600 transition-all duration-300 text-sm sm:text-base"
+            disabled={isLoading}
+            className="w-full sm:w-auto flex cursor-pointer items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 text-white rounded-xl border border-white/20 hover:border-gray-600 transition-all duration-300 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -266,6 +281,74 @@ const Summary = ({ characterData, onPrevious, onComplete }: SummaryProps) => {
           </button>
         </div>
       </div>
+
+      {/* Character Result Modal */}
+      {characterResult && onCloseModal && (
+        <div
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 backdrop-blur-sm"
+          style={{ animation: 'fadeIn 0.2s ease-out' }}
+          onClick={onCloseModal}
+        >
+          <div
+            className="bg-[#1a1a1a] border border-gray-700 rounded-xl shadow-xl w-full max-w-md mx-4 relative overflow-hidden"
+            style={{ animation: 'fadeInScale 0.2s ease-out' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={onCloseModal}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center cursor-pointer hover:bg-black/60 transition-colors z-10"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Character Image */}
+            <div className="w-full aspect-square relative">
+              {characterResult.image ? (
+                <img
+                  src={characterResult.image}
+                  alt={characterResult.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                  <div className="text-center text-white">
+                    <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-[#009688]" />
+                    <p className="text-sm text-gray-400">Generating image...</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Character Name and Info */}
+            <div className="p-6">
+              <h2 className="text-2xl font-bold text-white mb-2 text-center">
+                {characterResult.name}
+              </h2>
+              <p className="text-gray-300 text-sm text-center mb-6">
+                Your AI character has been created successfully!
+              </p>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={onCloseModal}
+                  className="w-full px-4 py-3 bg-[#009688] text-white rounded-lg hover:bg-[#00897b] transition-colors cursor-pointer font-medium"
+                >
+                  Start Chatting
+                </button>
+                <button
+                  onClick={onCloseModal}
+                  className="w-full px-4 py-3 border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

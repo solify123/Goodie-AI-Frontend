@@ -3,6 +3,7 @@ import girlsData from '../../../config/girls.json' with { type: 'json' }
 import menData from '../../../config/men.json' with { type: 'json' }
 import animeData from '../../../config/anime.json' with { type: 'json' }
 import { useCreateCharacterGender } from '../../../contexts/CreateCharacterGenderContext'
+import { API_CONFIG } from '../../../config/api.config'
 
 interface StyleOption {
   value: string
@@ -65,7 +66,7 @@ const StyleSelection = ({ selected, onSelect }: StyleSelectionProps) => {
         {styles.map((style) => (
           <button
             key={style.value}
-            onClick={() => onSelect({ value: style.value, image: style.image ?? '' })}
+            onClick={() => onSelect({ value: style.value, image: API_CONFIG.frontendUrl + style.image })}
             className={`group relative cursor-pointer overflow-hidden rounded-xl transition-all duration-300 ${selected === style.value
                 ? 'ring-5 ring-[#009688]'
                 : ''

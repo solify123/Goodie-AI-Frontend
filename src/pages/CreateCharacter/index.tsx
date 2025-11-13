@@ -22,23 +22,61 @@ import ClothingSelection from './components/ClothingSelection'
 import Summary from './components/Summary'
 import { toast } from 'sonner'
 import { useCreateCharacterGender } from '../../contexts/CreateCharacterGenderContext'
+import { useCharacter } from '../../hooks/useCharacter'
 
 const CreateCharacterPage = () => {
+  const { createCharacter } = useCharacter()
+  const [isCreatingCharacter, setIsCreatingCharacter] = useState(false)
+  const [characterResult, setCharacterResult] = useState<{ name: string; image: string } | null>(null)
   const [currentStep, setCurrentStep] = useState(1)
   const [activeTab, setActiveTab] = useState<'girls' | 'guys'>('girls')
-  const { setGender } = useCreateCharacterGender()
-
-  // Countdown timer state
+  const { setGender, gender } = useCreateCharacterGender()
   const [timeLeft, setTimeLeft] = useState({
     hours: 20,
     minutes: 22,
     seconds: 30
+  })
+  const [characterData, setCharacterData] = useState({
+    style: {
+      value: '',
+      image: ''
+    },
+    ethnicity: {
+      value: '',
+      image: ''
+    },
+    age: 27,
+    eyeColor: {
+      value: '',
+      image: ''
+    },
+    hairColor: '',
+    hairStyle: {
+      value: '',
+      image: ''
+    },
+    bodyType: {
+      value: '',
+      image: ''
+    },
+    gender: '',
+    personality: '',
+    voice: '',
+    occupation: '',
+    hobbies: [],
+    relationship: '',
+    clothing: ''
   })
 
   const tabs = [
     { key: 'girls', label: 'Girls', Icon: Venus },
     { key: 'guys', label: 'Guys', Icon: Mars },
   ] as const
+  const totalSteps = 9
+
+  useEffect(() => {
+    setCharacterData(prev => ({ ...prev, gender: gender }))
+  }, [gender])
 
   useEffect(() => {
     if (activeTab === 'girls') {
@@ -74,50 +112,28 @@ const CreateCharacterPage = () => {
     return () => clearInterval(timer)
   }, [])
 
-  const [characterData, setCharacterData] = useState({
-    style: {
-      value: '',
-      image: ''
-    },
-    ethnicity: {
-      value: '',
-      image: ''
-    },
-    age: 27,
-    eyeColor: {
-      value: '',
-      image: ''
-    },
-    hairColor: '',
-    hairStyle: {
-      value: '',
-      image: ''
-    },
-    bodyType: {
-      value: '',
-      image: ''
-    },
-    height: 180,
-    skinTone: '',
-    personality: '',
-    voice: 0,
-    interests: [],
-    occupation: '',
-    hobbies: [],
-    fashionStyle: '',
-    relationship: '',
-    clothing: ''
-  })
+  useEffect(() => {
+    const currentStep = localStorage.getItem('currentStep')
+    if (currentStep) {
+      setCurrentStep(Number(currentStep))
+    }
+  }, [currentStep])
 
-  const totalSteps = 9
+  useEffect(() => {
+    localStorage.setItem('characterData', JSON.stringify(characterData))
+  }, [characterData])
+
+  useEffect(() => {
+    const characterData = localStorage.getItem('characterData')
+    if (characterData) {
+      setCharacterData(JSON.parse(characterData))
+    }
+  }, [])
+
 
   const handleUpdateData = (key: string, value: any) => {
     setCharacterData(prev => ({ ...prev, [key]: value }))
   }
-
-  useEffect(() => {
-    console.log('Character data:', characterData)
-  }, [characterData])
 
   const canProceed = () => {
     switch (currentStep) {
@@ -130,7 +146,7 @@ const CreateCharacterPage = () => {
       case 4:
         return characterData.bodyType.value !== ''
       case 5:
-        return characterData.personality !== '' && characterData.voice !== 0
+        return characterData.personality !== '' && characterData.voice !== ''
       case 6:
         return characterData.occupation !== '' && characterData.hobbies.length > 0
       case 7:
@@ -148,6 +164,7 @@ const CreateCharacterPage = () => {
     if (canProceed()) {
       if (currentStep < totalSteps) {
         setCurrentStep(currentStep + 1)
+        localStorage.setItem('currentStep', (currentStep + 1).toString())
       } else {
         // Save character
         console.log('Character data:', characterData)
@@ -155,16 +172,55 @@ const CreateCharacterPage = () => {
     }
   }
 
-  const handleComplete = () => {
-    toast.warning("Now you are offline!")
-    console.log('Character data:', characterData)
-    // Save character and proceed to next page
-    // Here you would typically navigate to the next page or show success message
+  const handleComplete = async () => {
+    const attributes = {
+      style: characterData.style.value,
+      ethnicity: characterData.ethnicity.value,
+      age: characterData.age,
+      eyeColor: characterData.eyeColor.value,
+      hairColor: characterData.hairColor,
+      hairStyle: characterData.hairStyle.value,
+      bodyType: characterData.bodyType.value,
+      gender: characterData.gender,
+      personality: characterData.personality,
+      voice: characterData.voice,
+      occupation: characterData.occupation,
+      hobbies: characterData.hobbies.join(','),
+      relationship: characterData.relationship,
+      clothing: characterData.clothing,
+    }
+    localStorage.removeItem("currentStep")
+    localStorage.removeItem("characterData")
+    setIsCreatingCharacter(true)
+    setCharacterResult(null)
+    
+    try {
+      const response = await createCharacter(attributes)
+      if (response.success && response.data) {
+        setCharacterResult({
+          name: response.data.name || 'Character',
+          image: response.data.image || ''
+        })
+        toast.success('Character created successfully!')
+      } else {
+        throw new Error(response.error || 'Failed to create character')
+      }
+    } catch (error: any) {
+      console.error('Error creating character:', error)
+      toast.error(error.message || 'Failed to create character. Please try again.')
+    } finally {
+      setIsCreatingCharacter(false)
+    }
+  }
+
+  const handleCloseModal = () => {
+    setCharacterResult(null)
   }
 
   const handlePrevious = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1)
+      localStorage.setItem('currentStep', (currentStep - 1).toString())
     } else {
       // Navigate back or close
       window.history.back()
@@ -260,7 +316,7 @@ const CreateCharacterPage = () => {
             <div className="mb-6 sm:mb-8 md:mb-12">
               <VoiceSelection
                 selected={characterData.voice.toString()}
-                onSelect={(value: string) => handleUpdateData('voice', Number(value))}
+                onSelect={(value: string) => handleUpdateData('voice', value)}
               />
             </div>
           </>
@@ -318,6 +374,9 @@ const CreateCharacterPage = () => {
                 characterData={characterData}
                 onPrevious={handlePrevious}
                 onComplete={handleComplete}
+                isLoading={isCreatingCharacter}
+                characterResult={characterResult}
+                onCloseModal={handleCloseModal}
               />
             </div>
           </>
@@ -469,7 +528,7 @@ const CreateCharacterPage = () => {
                 <button
                   onClick={handleNext}
                   disabled={!canProceed()}
-                  className={`flex cursor-pointer items-center ${currentStep === 1 ? 'w-[300px] mx-auto' : 'w-auto'} justify-center sm:mx-0 space-x-2 px-9 py-3 rounded-lg font-medium transition-all text-sm sm:text-base ${!canProceed()
+                  className={`flex cursor-pointer items-center ${currentStep === 1 ? 'w-[300px] md:w-auto mx-auto' : 'w-auto'} justify-center sm:mx-0 space-x-2 px-9 py-3 rounded-lg font-medium transition-all text-sm sm:text-base ${!canProceed()
                     ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
                     : 'bg-gradient-to-r to-[#00bfa5] to-[#00897b] text-white hover:from-[#00897b] hover:to-[#00796b] shadow-lg shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]'
                     }`}

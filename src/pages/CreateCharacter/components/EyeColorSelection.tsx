@@ -1,6 +1,7 @@
 import eyeColorBrown from '../../../assets/images/eyes/eye-color-brown.png'
 import eyeColorBlue from '../../../assets/images/eyes/eye-color-blue.png'
 import eyeColorGreen from '../../../assets/images/eyes/eye-color-green.png'
+import { API_CONFIG } from '../../../config/api.config'
 
 interface EyeColorOption {
   value: string
@@ -42,7 +43,7 @@ const EyeColorSelection = ({ selected, onSelect }: EyeColorSelectionProps) => {
         {eyeColors.map((color) => (
           <button
             key={color.value}
-            onClick={() => onSelect({ value: color.value, image: color.image })}
+            onClick={() => onSelect({ value: color.value, image: API_CONFIG.frontendUrl + color.image })}
             className="group relative cursor-pointer transition-all duration-300"
           >
             {/* Eye Color Display with Label */}
