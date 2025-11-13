@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
-import { useLandingTab } from '../../../contexts/LandingTabContext'
+import { useLandingTab } from '../../../contexts/GlobalContext'
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null)

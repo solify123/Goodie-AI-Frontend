@@ -5,6 +5,8 @@ import Layout from '../../components/layout'
 import BottomNavigation from '../../components/layout/BottomNavigation'
 import { useCharacter } from '../../hooks/useCharacter'
 import { toast } from 'sonner'
+import { useGlobalContext } from '../../contexts/GlobalContext'
+import { useChats } from '../../hooks/useChats'
 
 // Default image fallback
 const DEFAULT_IMAGE = 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90'
@@ -25,13 +27,12 @@ interface Character {
 
 const CreateNewAICard = () => {
   const navigate = useNavigate()
-
   const handleCreateNew = () => {
     navigate('/create-character')
   }
 
   return (
-    <div 
+    <div
       onClick={handleCreateNew}
       className="cursor-pointer w-full py-5 sm:aspect-[3/4] bg-gradient-to-b from-[#b2dfdb] via-[#80cbc4] to-[#26a69a] rounded-2xl flex flex-col items-center justify-center hover:from-[#80cbc4] hover:via-[#4db6ac] hover:to-[#009688] transition-all duration-300 shadow-lg hover:shadow-xl"
     >
@@ -45,18 +46,36 @@ const CreateNewAICard = () => {
 
 const AICharacterCard = ({ ai }: { ai: Character }) => {
   const navigate = useNavigate()
-
-  const handleChat = (e: React.MouseEvent) => {
+  const { startChatFromCharacter } = useGlobalContext()
+  
+  const handleChat = async (e: React.MouseEvent) => {
     e.stopPropagation()
-    navigate('/chat')
+    const { createChat } = useChats()
+    let response = await createChat(ai.introduction || ai.description || '', ai.id)
+    if (response.success) {
+      if (response.message.includes('already exists')) {
+        toast.warning(response.message)
+      } else {
+        toast.success(response.message)
+        startChatFromCharacter({
+          name: ai.name,
+          avatar: ai.imageUrl || ai.image || DEFAULT_IMAGE,
+          description: ai.introduction || ai.description || '',
+          characterId: ai.id
+        })
+        navigate('/chat')
+      }
+    } else {
+      toast.error(response.message)
+    }
   }
 
   // Get image with fallback to default
   const characterImage = ai.imageUrl || ai.image || DEFAULT_IMAGE
-  
+
   // Get age from attributes or direct property
   const characterAge = ai.age || ai.attributes?.age || null
-  
+
   // Get description/introduction
   const characterDescription = ai.introduction || ai.description || ''
 
@@ -64,8 +83,8 @@ const AICharacterCard = ({ ai }: { ai: Character }) => {
     <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">
       {/* Character Image */}
       <div className="relative w-full h-full" onClick={handleChat}>
-        <img 
-          src={characterImage} 
+        <img
+          src={characterImage}
           alt={ai.name}
           className="w-full h-full object-cover object-top"
           onError={(e) => {
@@ -76,7 +95,7 @@ const AICharacterCard = ({ ai }: { ai: Character }) => {
             }
           }}
         />
-        
+
         {/* Chat Bubble Icon - small in top right */}
         <button
           onClick={handleChat}
@@ -141,35 +160,35 @@ const MyAIPage = () => {
   return (
     <Layout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-24 md:pb-8" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 6rem)' }}>
-          {/* Header */}
-          <div className="mb-8 sm:mb-10">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
-              <span className="text-white">My</span>{' '}
-              <span className="text-[#009688]">AI</span>
-            </h1>
-          </div>
-
-          {/* Loading State */}
-          {isLoading ? (
-            <div className="flex items-center justify-center py-20">
-              <Loader2 className="w-8 h-8 animate-spin text-[#009688]" />
-            </div>
-          ) : (
-            /* Cards - Horizontal layout */
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 items-start">
-              <CreateNewAICard />
-              {characters.length > 0 ? (
-                characters.map((ai) => (
-                  <AICharacterCard key={ai.id} ai={ai} />
-                ))
-              ) : (
-                <div className="col-span-full text-center py-12">
-                  <p className="text-gray-400 text-lg">No characters yet. Create your first AI character!</p>
-                </div>
-              )}
-            </div>
-          )}
+        {/* Header */}
+        <div className="mb-8 sm:mb-10">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
+            <span className="text-white">My</span>{' '}
+            <span className="text-[#009688]">AI</span>
+          </h1>
         </div>
+
+        {/* Loading State */}
+        {isLoading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-8 h-8 animate-spin text-[#009688]" />
+          </div>
+        ) : (
+          /* Cards - Horizontal layout */
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 items-start">
+            <CreateNewAICard />
+            {characters.length > 0 ? (
+              characters.map((ai) => (
+                <AICharacterCard key={ai.id} ai={ai} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-400 text-lg">No characters yet. Create your first AI character!</p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
       <BottomNavigation />
     </Layout>
   )

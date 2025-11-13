@@ -34,7 +34,7 @@ const CharacterCard = ({ character, isNew }: { character: Character; isNew: bool
         <img
           src={character.defaultImage}
           alt={character.name}
-          className="absolute inset-0 w-full h-full object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
+          className="absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-500"
         />
         <img
           src={character.hoverImage}

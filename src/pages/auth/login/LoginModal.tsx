@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { X, Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react'
-import authService from '../../../services/auth.service'
-import { supabase } from '../../../config/supabase.config'
 import { toast } from 'sonner'
+import { useAuth } from '../../../hooks/useAuth'
+import { supabase } from '../../../config/supabase.config'
 
 interface LoginModalProps {
   isOpen: boolean
@@ -11,6 +11,7 @@ interface LoginModalProps {
 }
 
 const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) => {
+  const { login } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -25,17 +26,12 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
     setLoading(true)
 
     try {
-      const response = await authService.login({ email, password })
-
+      const response = await login(email, password)
       if (response.success) {
         toast.success('Login successful!', {
           description: 'Welcome back to Goodie AI',
         })
-        // Close modal and reload or redirect
         onClose()
-        setTimeout(() => {
-          window.location.reload() // or navigate to dashboard
-        }, 500)
       } else {
         const errorMsg = response.message || 'Login failed'
         setError(errorMsg)
@@ -57,7 +53,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
   const handleGoogleSignIn = async () => {
     // Store that this is a login flow
     localStorage.setItem('oauth_flow', 'login')
-    
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -78,7 +74,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
   const handleDiscordSignIn = async () => {
     // Store that this is a login flow
     localStorage.setItem('oauth_flow', 'login')
-    
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'discord',
       options: {
@@ -96,8 +92,8 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
   }
 
   const handleXSignIn = () => {
-    const oauthUrl = authService.getOAuthUrl('twitter')
-    window.location.href = oauthUrl
+    // const oauthUrl = authService.getOAuthUrl('twitter')
+    // window.location.href = oauthUrl
   }
 
   return (

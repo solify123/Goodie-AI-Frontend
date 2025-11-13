@@ -39,24 +39,17 @@ export interface ApiResponse<T = any> {
 
 // Helper functions for token management
 const saveAuthData = (authData: AuthResponse) => {
-  const { session, user } = authData
+  const { session } = authData
   
   if (session) {
     localStorage.setItem('access_token', session.access_token)
     localStorage.setItem('refresh_token', session.refresh_token)
     localStorage.setItem('token_expires_in', session.expires_in.toString())
   }
-  
-  if (user) {
-    localStorage.setItem('user', JSON.stringify(user))
-  }
 }
 
 const clearAuthData = () => {
-  localStorage.removeItem('access_token')
-  localStorage.removeItem('refresh_token')
-  localStorage.removeItem('token_expires_in')
-  localStorage.removeItem('user')
+  localStorage.clear()
 }
 
 export const authService = {
@@ -178,22 +171,7 @@ export const authService = {
    */
   isAuthenticated: (): boolean => {
     const token = localStorage.getItem('access_token')
-    const user = authService.getUser()
-    return !!(token && user)
-  },
-
-  /**
-   * Get stored user
-   */
-  getUser: (): User | null => {
-    const userStr = localStorage.getItem('user')
-    if (!userStr) return null
-    
-    try {
-      return JSON.parse(userStr)
-    } catch {
-      return null
-    }
+    return !!token
   },
 
   /**

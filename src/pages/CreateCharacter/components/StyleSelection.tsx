@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import girlsData from '../../../config/girls.json' with { type: 'json' }
 import menData from '../../../config/men.json' with { type: 'json' }
 import animeData from '../../../config/anime.json' with { type: 'json' }
-import { useCreateCharacterGender } from '../../../contexts/CreateCharacterGenderContext'
+import { useCreateCharacterGender } from '../../../contexts/GlobalContext'
 import { API_CONFIG } from '../../../config/api.config'
 
 interface StyleOption {

@@ -5,11 +5,14 @@ import ProfilePanel from './components/ProfilePanel'
 import Layout from '../../components/layout'
 import BottomNavigation from '../../components/layout/BottomNavigation'
 import { toast } from 'sonner'
-import { Info, X, Trash2 } from 'lucide-react'
+import { Info, X, Trash2, Loader2 } from 'lucide-react'
 import { useGlobalContext, type GlobalMessage } from '../../contexts/GlobalContext'
+import { useMessage } from '../../hooks/useMessage'
+import { useChats } from '../../hooks/useChats'
 
 const ChatPage = () => {
-  const { chats, activeChatId, setActiveChat, resetChat, deleteChat, updateMessages } = useGlobalContext()
+  const { chats, setChats, activeChatId, setActiveChat, resetChat, deleteChat, updateMessages } = useGlobalContext()
+  const { getMessages, deleteMessages: deleteMessagesApi } = useMessage()
   const [showChatList, setShowChatList] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
   const [showProfilePanel, setShowProfilePanel] = useState(true)
@@ -18,11 +21,52 @@ const ChatPage = () => {
   const [pendingChatId, setPendingChatId] = useState<string | null>(null)
   const [hideHeader, setHideHeader] = useState(false)
   const [hideBottomNavigation, setHideBottomNavigation] = useState(false)
+  const [isLoadingMessages, setIsLoadingMessages] = useState(false)
 
   const activeChat = useMemo(
-    () => chats.find((chat) => chat.id === activeChatId) ?? null,
+    () => {
+      if (activeChatId) {
+        return chats.find((chat: any) => chat.id === activeChatId) ?? null
+      }
+      return null
+    },
     [activeChatId, chats],
   )
+
+  const { getChats } = useChats() 
+
+  // Load messages from backend when chat is selected
+  useEffect(() => {
+    const loadMessages = async () => {
+      if (!activeChatId) return
+      setIsLoadingMessages(true)
+      try {
+        const response = await getMessages(activeChatId)
+        if (response.success && response.data) {
+          // Convert database messages to GlobalMessage format
+          const globalMessages: GlobalMessage[] = response.data.map((msg: any) => ({
+            id: msg.id,
+            type: msg.type === 'ai' ? 'ai' : 'user',
+            content: msg.content,
+            timestamp: msg.timestamp || new Date(msg.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+            isImage: msg.isImage || false,
+            imageUrl: msg.imageUrl || undefined,
+            userId: msg.userId || (msg.type === 'ai' ? 'ai' : 'user'),
+          }))
+
+          // Update messages in context
+          updateMessages(activeChatId, () => globalMessages)
+        }
+      } catch (error: any) {
+        console.error('Error loading messages:', error)
+        toast.error('Failed to load messages')
+      } finally {
+        setIsLoadingMessages(false)
+      }
+    }
+
+    loadMessages()
+  }, [activeChatId, updateMessages])
 
   useEffect(() => {
     const checkMobile = () => {
@@ -49,16 +93,26 @@ const ChatPage = () => {
     }
   }, [activeChatId, isMobile])
 
+  useEffect(() => {
+    const fetchChats = async () => {
+      const response = await getChats()
+      if (response.success) {
+        setChats(response.data.data)
+      }
+    }
+    fetchChats()
+  }, [])
+  
   const handleChatSelect = (chatId: string) => {
     setActiveChat(chatId)
-    setHideHeader(true)
+    window.innerWidth < 1024 ? setHideHeader(true) : setHideHeader(false)
     setHideBottomNavigation(true)
     if (isMobile) {
       setShowChatList(false)
     }
   }
 
-  const handleBackToChatList = () => {
+  const handleBackToChatList = () => { 
     if (isMobile) {
       setShowChatList(true)
       setHideHeader(false)
@@ -87,12 +141,17 @@ const ChatPage = () => {
     setHideBottomNavigation(false)
   }, [])
 
-  const handleResetConfirm = useCallback(() => {
+  const handleResetConfirm = useCallback(async () => {
     if (!pendingChatId) return
-    resetChat(pendingChatId)
-    toast.success('Chat reset successfully')
-    handleCloseResetModal()
-  }, [handleCloseResetModal, pendingChatId, resetChat])
+    try {
+      await deleteMessagesApi(pendingChatId)
+      resetChat(pendingChatId)
+      toast.success('Chat reset successfully')
+      handleCloseResetModal()
+    } catch (error: any) {
+      toast.error('Failed to reset chat')
+    }
+  }, [handleCloseResetModal, pendingChatId, resetChat, deleteMessagesApi])
 
   const openDeleteModal = useCallback((chatId: string) => {
     setPendingChatId(chatId)
@@ -108,12 +167,17 @@ const ChatPage = () => {
     setHideBottomNavigation(false)
   }, [])
 
-  const handleConfirmDelete = useCallback(() => {
+  const handleConfirmDelete = useCallback(async () => {
     if (!pendingChatId) return
-    deleteChat(pendingChatId)
-    toast.success('Chat deleted successfully')
-    handleCloseDeleteModal()
-  }, [deleteChat, handleCloseDeleteModal, pendingChatId])
+    try {
+      await deleteMessagesApi(pendingChatId)
+      deleteChat(pendingChatId)
+      toast.success('Chat deleted successfully')
+      handleCloseDeleteModal()
+    } catch (error: any) {
+      toast.error('Failed to delete chat')
+    }
+  }, [deleteChat, handleCloseDeleteModal, pendingChatId, deleteMessagesApi])
 
   const handleConversationDelete = useCallback(
     (chatId: string | null) => {
@@ -160,18 +224,25 @@ const ChatPage = () => {
           {activeChat ? (
             <div className="flex-1 flex min-h-0">
               <div className="flex-1 min-w-0">
-                <Conversation
-                  onBack={handleBackToChatList}
-                  selectedChatId={activeChatId}
-                  chatName={activeChat.name}
-                  chatAvatar={activeChat.avatar}
-                  onToggleProfilePanel={() => setShowProfilePanel(!showProfilePanel)}
-                  onShowResetModal={() => openResetModal(activeChat.id)}
-                  handleCall={handleCall}
-                  onConversationDelete={handleConversationDelete}
-                  messages={activeChat.messages}
-                  setMessages={boundSetMessages}
-                />
+                {isLoadingMessages ? (
+                  <div className="flex items-center justify-center h-full">
+                    <Loader2 className="w-8 h-8 animate-spin text-[#009688]" />
+                  </div>
+                ) : (
+                  <Conversation
+                    onBack={handleBackToChatList}
+                    selectedChatId={activeChatId}
+                    chatName={activeChat.characters.name}
+                    chatAvatar={activeChat.characters.imageUrl}
+                    characterId={activeChat.character_id}
+                    onToggleProfilePanel={() => setShowProfilePanel(!showProfilePanel)}
+                    onShowResetModal={() => openResetModal(activeChat.id)}
+                    handleCall={handleCall}
+                    onConversationDelete={handleConversationDelete}
+                    messages={activeChat.messages}
+                    setMessages={boundSetMessages}
+                  />
+                )}
               </div>
               {/* Profile Panel - Hidden on mobile/tablet */}
               {showProfilePanel && (

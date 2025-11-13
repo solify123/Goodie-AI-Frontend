@@ -13,7 +13,7 @@ import {
   Gem,
 } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useSidebar } from '../../contexts/SidebarContext'
+import { useSidebar } from '../../contexts/GlobalContext'
 
 interface SidebarProps {
   setShowLanguagePopup: (show: boolean) => void
