@@ -178,12 +178,6 @@ const Header = () => {
           <div className="flex items-center space-x-1.5 flex-shrink-0 px-3 py-3.5">
             {isAuthenticated ? (
               <>
-                {/* Premium Badge */}
-                {/* <button className="cursor-pointer hidden lg:flex items-center space-x-2 bg-gradient-to-r from-[#009688] to-[#00bfa5] text-white px-4 py-2 rounded-md font-medium hover:from-[#00897b] hover:to-[#00a78f] transition-all duration-200 shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]">
-                  <Diamond className="w-4 h-4" />
-                  <span>Premium 70% OFF</span>
-                </button> */}
-
                 {/* Profile Dropdown */}
                 <div className="relative" ref={dropdownRef}>
                   <button

@@ -10,8 +10,8 @@ export const useMessage = () => {
     }
   }
 
-  const sendMessage = async (chatId: string, content: string, characterId?: string) => {
-    const response = await messageService.sendMessage(chatId, content, characterId)
+  const sendMessage = async (chatId: string, content: string, characterId?: string, timestamp?: string) => {
+    const response = await messageService.sendMessage(chatId, content, characterId, timestamp)
     if (response.success) {
       return response
     } else {

@@ -15,7 +15,6 @@ export interface GlobalMessage {
   isImage?: boolean
   imageUrl?: string
   hasAudio?: boolean
-  userId: string
 }
 
 export interface GlobalChat {
@@ -176,8 +175,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     ) => {
       const messageId = message.id ?? generateId()
       const timestamp = message.timestamp ?? getCurrentTime()
-      const userId = message.userId ?? (message.type === 'ai' ? 'ai' : 'user')
-      const newMessage: GlobalMessage = { ...message, id: messageId, timestamp, userId }
+      const newMessage: GlobalMessage = { ...message, id: messageId, timestamp }
 
       setChats((prev) =>
         prev.map((chat) => {
@@ -214,12 +212,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     setChats((prev) =>
       prev.map((chat) => {
         if (chat.id !== chatId) return chat
-        const baseMessages = chat.messages.map((msg: any) => ({
-          ...msg,
-          id: generateId(),
-          timestamp: getCurrentTime(),
-          userId: msg.user_id,
-        }))
+        const baseMessages = [chat.messages[0]]
         return {
           ...chat,
           messages: baseMessages,

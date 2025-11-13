@@ -43,14 +43,7 @@ const Conversation = ({
   const isProcessingResponseRef = useRef(false)
 
   // Get current time in 12-hour format
-  const getCurrentTime = () => {
-    const now = new Date()
-    const hours = now.getHours()
-    const minutes = now.getMinutes()
-    const ampm = hours >= 12 ? 'PM' : 'AM'
-    const displayHours = hours % 12 || 12
-    return `${displayHours}:${minutes.toString().padStart(2, '0')}${ampm}`
-  }
+  const getCurrentTime = () => new Date().toISOString()
 
   // Convert database message to GlobalMessage format
   const mapDbMessageToGlobal = (dbMessage: any): GlobalMessage => {
@@ -61,7 +54,6 @@ const Conversation = ({
       timestamp: dbMessage.timestamp || getCurrentTime(),
       isImage: dbMessage.isImage || false,
       imageUrl: dbMessage.imageUrl || undefined,
-      userId: dbMessage.userId || (dbMessage.type === 'ai' ? 'ai' : 'user'),
     }
   }
 
@@ -76,21 +68,20 @@ const Conversation = ({
 
     // Optimistically add user message
     const tempUserMessageId = `temp-${Date.now()}`
+    const timeStamp = getCurrentTime()
     const tempUserMessage: GlobalMessage = {
       id: tempUserMessageId,
       type: 'user',
       content: userMessageContent,
       timestamp: getCurrentTime(),
-      userId: 'user',
     }
     setMessages((prev) => [...prev, tempUserMessage])
 
     try {
       // Send message to backend
-      const response = await sendMessage(selectedChatId, userMessageContent, characterId)
+      const response = await sendMessage(selectedChatId, userMessageContent, characterId, timeStamp)
       if (response.success && response.data) {
         // Replace temp message with real user message
-        // Add AI response
         const userMsg = mapDbMessageToGlobal(response.data.userMessage)
         const aiMsg = mapDbMessageToGlobal(response.data.aiMessage)
 
@@ -245,7 +236,9 @@ const Conversation = ({
                     </div>
                   </div>
                 )}
-                <span className="text-xs text-gray-300 sm:text-gray-400 opacity-70">{msg.timestamp}</span>
+                <span className="text-xs text-gray-300 sm:text-gray-400 opacity-70">
+                  {new Date(msg.timestamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })} 
+                </span>
               </div>
             </div>
           </div>
@@ -263,7 +256,7 @@ const Conversation = ({
                 ))}
               </div>
               <div className="flex items-center gap-2 mt-1.5 sm:mt-2">
-                <span className="text-xs text-gray-300 sm:text-gray-400 opacity-70">Generating...</span>
+                <span className="text-xs text-gray-300 sm:text-gray-400 opacity-70">Typing...</span>
               </div>
             </div>
           </div>

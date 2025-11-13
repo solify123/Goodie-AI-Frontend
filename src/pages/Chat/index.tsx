@@ -22,6 +22,8 @@ const ChatPage = () => {
   const [hideHeader, setHideHeader] = useState(false)
   const [hideBottomNavigation, setHideBottomNavigation] = useState(false)
   const [isLoadingMessages, setIsLoadingMessages] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isResetting, setIsResetting] = useState(false)
 
   const activeChat = useMemo(
     () => {
@@ -33,7 +35,7 @@ const ChatPage = () => {
     [activeChatId, chats],
   )
 
-  const { getChats } = useChats() 
+  const { getChats, deleteChat: deleteChatHook } = useChats()
 
   // Load messages from backend when chat is selected
   useEffect(() => {
@@ -102,7 +104,7 @@ const ChatPage = () => {
     }
     fetchChats()
   }, [])
-  
+
   const handleChatSelect = (chatId: string) => {
     setActiveChat(chatId)
     window.innerWidth < 1024 ? setHideHeader(true) : setHideHeader(false)
@@ -112,7 +114,7 @@ const ChatPage = () => {
     }
   }
 
-  const handleBackToChatList = () => { 
+  const handleBackToChatList = () => {
     if (isMobile) {
       setShowChatList(true)
       setHideHeader(false)
@@ -128,8 +130,9 @@ const ChatPage = () => {
     (chatId: string) => {
       setPendingChatId(chatId)
       setShowResetModal(true)
-      setHideHeader(true)
-      setHideBottomNavigation(true)
+      setHideHeader(false)
+      setHideBottomNavigation(false)
+      setIsResetting(false)
     },
     [],
   )
@@ -143,41 +146,54 @@ const ChatPage = () => {
 
   const handleResetConfirm = useCallback(async () => {
     if (!pendingChatId) return
+    setIsResetting(true)
     try {
-      await deleteMessagesApi(pendingChatId)
+      const result = await deleteMessagesApi(pendingChatId)
+      if (result.success) {
+        toast.success('Chat reset successfully')
+        handleCloseResetModal()
+      } else {
+        toast.error('Failed to reset chat')
+      }
       resetChat(pendingChatId)
-      toast.success('Chat reset successfully')
-      handleCloseResetModal()
     } catch (error: any) {
       toast.error('Failed to reset chat')
+    } finally {
+      setIsResetting(false)
     }
-  }, [handleCloseResetModal, pendingChatId, resetChat, deleteMessagesApi])
+  }, [handleCloseResetModal, pendingChatId, resetChat])
 
   const openDeleteModal = useCallback((chatId: string) => {
     setPendingChatId(chatId)
     setShowDeleteModal(true)
-    setHideHeader(true)
-    setHideBottomNavigation(true)
+    setHideHeader(false)
+    setHideBottomNavigation(false)
+    setIsDeleting(false)
   }, [])
 
   const handleCloseDeleteModal = useCallback(() => {
+    if (isDeleting) return // Prevent closing during deletion
     setShowDeleteModal(false)
     setPendingChatId(null)
     setHideHeader(false)
     setHideBottomNavigation(false)
-  }, [])
+    setIsDeleting(false)
+  }, [isDeleting])
 
   const handleConfirmDelete = useCallback(async () => {
-    if (!pendingChatId) return
+    if (!pendingChatId || isDeleting) return
+    setIsDeleting(true)
     try {
-      await deleteMessagesApi(pendingChatId)
+      await deleteChatHook(pendingChatId)
       deleteChat(pendingChatId)
       toast.success('Chat deleted successfully')
       handleCloseDeleteModal()
     } catch (error: any) {
       toast.error('Failed to delete chat')
+    } finally {
+      setIsDeleting(false)
     }
-  }, [deleteChat, handleCloseDeleteModal, pendingChatId, deleteMessagesApi])
+  }, [deleteChatHook, deleteChat, handleCloseDeleteModal, pendingChatId, isDeleting])
 
   const handleConversationDelete = useCallback(
     (chatId: string | null) => {
@@ -199,7 +215,7 @@ const ChatPage = () => {
         updateMessages(activeChatId, () => next)
       }
     },
-    [activeChatId, updateMessages],
+    [activeChatId, updateMessages]
   )
   return (
     <Layout hideHeader={hideHeader}>
@@ -287,9 +303,17 @@ const ChatPage = () => {
                   </button>
                   <button
                     onClick={handleResetConfirm}
-                    className="flex-1 px-4 py-2 bg-[#009688] text-white rounded-lg hover:bg-[#00897b] transition-colors cursor-pointer"
+                    disabled={isResetting}
+                    className="flex-1 px-4 py-2 bg-[#009688] text-white rounded-lg hover:bg-[#00897b] transition-colors cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                   >
-                    Yes, Confirm
+                    {isResetting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Resetting...</span>
+                      </>
+                    ) : (
+                      <span>Yes, Confirm</span>
+                    )}
                   </button>
                 </div>
                 <div className="flex items-start space-x-2 text-xs text-gray-400">
@@ -327,15 +351,24 @@ const ChatPage = () => {
                 <div className="flex space-x-3 mb-4">
                   <button
                     onClick={handleCloseDeleteModal}
-                    className="flex-1 px-4 py-2 border border-gray-600 text-gray-200 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+                    disabled={isDeleting}
+                    className="flex-1 px-4 py-2 border border-gray-600 text-gray-200 rounded-lg hover:bg-white/5 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleConfirmDelete}
-                    className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors cursor-pointer"
+                    disabled={isDeleting}
+                    className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                   >
-                    Delete Chat
+                    {isDeleting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Deleting...</span>
+                      </>
+                    ) : (
+                      <span>Delete Chat</span>
+                    )}
                   </button>
                 </div>
                 <div className="flex items-start space-x-2 text-xs text-gray-400">

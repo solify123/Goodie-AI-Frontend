@@ -37,5 +37,24 @@ export const chatsService = {
                 error: error.response?.data?.error || error.response?.data?.message || error.message || 'Failed to get chats'
             }
         }
+    },
+
+    deleteChat: async (chatId: string) => {
+        try {
+            const response = await chatsApi.deleteChat(chatId)
+            if (response.success) {
+                return response
+            } else {
+                return {
+                    success: false,
+                    error: response.error || response.message || 'Failed to delete chat'
+                }
+            }
+        } catch (error: any) {
+            return {
+                success: false,
+                error: error.response?.data?.error || error.response?.data?.message || error.message || 'Failed to delete chat'
+            }
+        }
     }
 }
