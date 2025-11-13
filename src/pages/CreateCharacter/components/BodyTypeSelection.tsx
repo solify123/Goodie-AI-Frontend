@@ -1,6 +1,7 @@
 import slim from '../../../assets/images/body/1.jpg'
 import muscular from '../../../assets/images/body/2.jpg'
 import wide from '../../../assets/images/body/3.jpg'
+import { API_CONFIG } from '../../../config/api.config'
 
 interface BodyTypeOption {
   value: string
@@ -42,7 +43,7 @@ const BodyTypeSelection = ({ selected, onSelect }: BodyTypeSelectionProps) => {
         {bodyTypes.map((bodyType) => (
           <button
             key={bodyType.value}
-            onClick={() => onSelect({ value: bodyType.value, image: bodyType.image })}
+            onClick={() => onSelect({ value: bodyType.value, image: API_CONFIG.frontendUrl + bodyType.image })}
             className={`group relative transition-all duration-300 cursor-pointer ${
               selected === bodyType.value
                 ? 'scale-105'

@@ -4,6 +4,7 @@ export const API_CONFIG = {
   headers: {
     'Content-Type': 'application/json',
   },
+  frontendUrl: import.meta.env.VITE_FRONTEND_URL || 'http://localhost:5173',
 }
 
 export const SUPABASE_CONFIG = {

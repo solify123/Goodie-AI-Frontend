@@ -1,19 +1,27 @@
-import { Plus } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Plus, Loader2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
 import BottomNavigation from '../../components/layout/BottomNavigation'
+import { useCharacter } from '../../hooks/useCharacter'
+import { toast } from 'sonner'
 
-// Sample AI character data - in a real app this would come from an API
-const sampleAIs = [
-  {
-    id: 1,
-    name: 'Arthur Murphy',
-    age: 30,
-    description: 'Passionate dancer and avid gamer, blending rhythm and strategy in every move he makes.',
-    image: 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
-    isOnline: true
+// Default image fallback
+const DEFAULT_IMAGE = 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90'
+
+interface Character {
+  id: string
+  name: string
+  attributes?: {
+    age?: number
   }
-]
+  age?: number
+  introduction?: string
+  description?: string
+  imageUrl?: string
+  image?: string
+  isOnline?: boolean
+}
 
 const CreateNewAICard = () => {
   const navigate = useNavigate()
@@ -35,7 +43,7 @@ const CreateNewAICard = () => {
   )
 }
 
-const AICharacterCard = ({ ai }: { ai: typeof sampleAIs[0] }) => {
+const AICharacterCard = ({ ai }: { ai: Character }) => {
   const navigate = useNavigate()
 
   const handleChat = (e: React.MouseEvent) => {
@@ -43,18 +51,35 @@ const AICharacterCard = ({ ai }: { ai: typeof sampleAIs[0] }) => {
     navigate('/chat')
   }
 
+  // Get image with fallback to default
+  const characterImage = ai.imageUrl || ai.image || DEFAULT_IMAGE
+  
+  // Get age from attributes or direct property
+  const characterAge = ai.age || ai.attributes?.age || null
+  
+  // Get description/introduction
+  const characterDescription = ai.introduction || ai.description || ''
+
   return (
     <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">
       {/* Character Image */}
       <div className="relative w-full h-full" onClick={handleChat}>
         <img 
-          src={ai.image} 
+          src={characterImage} 
           alt={ai.name}
           className="w-full h-full object-cover object-top"
+          onError={(e) => {
+            // Fallback to default image if image fails to load
+            const target = e.target as HTMLImageElement
+            if (target.src !== DEFAULT_IMAGE) {
+              target.src = DEFAULT_IMAGE
+            }
+          }}
         />
         
         {/* Chat Bubble Icon - small in top right */}
         <button
+          onClick={handleChat}
           className="absolute cursor-pointer top-3 right-3 w-8 h-8 bg-[#009688] rounded-full flex items-center justify-center hover:bg-[#00897b] transition-colors shadow-lg z-10"
         >
           <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -65,8 +90,12 @@ const AICharacterCard = ({ ai }: { ai: typeof sampleAIs[0] }) => {
         {/* Character Info Overlay - dark overlay at bottom */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent p-5 sm:p-6">
           <h3 className="text-white text-2xl font-bold mb-1">{ai.name}</h3>
-          <p className="text-white text-sm mb-2 font-medium">{ai.age} years</p>
-          <p className="text-white text-sm leading-relaxed">{ai.description}</p>
+          {characterAge && (
+            <p className="text-white text-sm mb-2 font-medium">{characterAge} years</p>
+          )}
+          {characterDescription && (
+            <p className="text-white text-sm leading-relaxed">{characterDescription}</p>
+          )}
         </div>
       </div>
     </div>
@@ -74,6 +103,40 @@ const AICharacterCard = ({ ai }: { ai: typeof sampleAIs[0] }) => {
 }
 
 const MyAIPage = () => {
+  const { getCharacters } = useCharacter()
+  const [characters, setCharacters] = useState<Character[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchCharacters = async () => {
+      try {
+        setIsLoading(true)
+        const response = await getCharacters()
+        if (response.success && response.data) {
+          // Transform the data to match our Character interface
+          const transformedCharacters = (Array.isArray(response.data) ? response.data : []).map((char: any) => ({
+            id: char.id || String(Date.now() + Math.random()),
+            name: char.name || 'Character',
+            age: char.attributes?.age || char.age,
+            attributes: char.attributes,
+            introduction: char.introduction || char.description,
+            description: char.description || char.introduction,
+            imageUrl: char.imageUrl || char.image,
+            image: char.image || char.imageUrl,
+            isOnline: char.isOnline || false
+          }))
+          setCharacters(transformedCharacters)
+        }
+      } catch (error: any) {
+        console.error('Error fetching characters:', error)
+        toast.error('Failed to load characters. Please try again.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchCharacters()
+  }, [])
 
   return (
     <Layout>
@@ -86,13 +149,26 @@ const MyAIPage = () => {
             </h1>
           </div>
 
-          {/* Cards - Horizontal layout */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 items-start">
-            <CreateNewAICard />
-            {sampleAIs.map((ai) => (
-              <AICharacterCard key={ai.id} ai={ai} />
-            ))}
-          </div>
+          {/* Loading State */}
+          {isLoading ? (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-[#009688]" />
+            </div>
+          ) : (
+            /* Cards - Horizontal layout */
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 items-start">
+              <CreateNewAICard />
+              {characters.length > 0 ? (
+                characters.map((ai) => (
+                  <AICharacterCard key={ai.id} ai={ai} />
+                ))
+              ) : (
+                <div className="col-span-full text-center py-12">
+                  <p className="text-gray-400 text-lg">No characters yet. Create your first AI character!</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       <BottomNavigation />
     </Layout>
