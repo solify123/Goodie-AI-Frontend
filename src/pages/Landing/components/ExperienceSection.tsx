@@ -1,4 +1,4 @@
-import { useLandingTab } from '../../../contexts/LandingTabContext'
+import { useLandingTab } from '../../../contexts/GlobalContext'
 
 const ExperienceSection = () => {
   const { activeTab } = useLandingTab()

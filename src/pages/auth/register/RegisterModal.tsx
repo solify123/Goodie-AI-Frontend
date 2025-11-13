@@ -75,9 +75,24 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegistrationSuccess
     // when using redirect, signInWithOAuth redirects the browser
   }
 
-  const handleDiscordSignIn = () => {
-    const oauthUrl = authService.getOAuthUrl('discord')
-    window.location.href = oauthUrl
+  const handleDiscordSignIn = async () => {
+    // Store that this is a registration flow
+    localStorage.setItem('oauth_flow', 'register')
+    
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'discord',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?flow=register`
+      }
+    })
+    if (error) {
+      console.error('OAuth error', error)
+      toast.error('Discord sign in failed', {
+        description: error.message || 'Failed to initiate Discord sign in',
+      })
+      localStorage.removeItem('oauth_flow')
+    }
+    // when using redirect, signInWithOAuth redirects the browser
   }
 
   const handleXSignIn = () => {

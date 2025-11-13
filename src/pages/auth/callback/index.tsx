@@ -103,13 +103,22 @@ export default function AuthCallback() {
 
         // Send user info to backend
         try {
+          const provider =
+            // Prefer app_metadata.provider provided by Supabase
+            // @ts-ignore - app_metadata exists at runtime
+            (user?.app_metadata && (user as any).app_metadata.provider) ||
+            // Fallback to user_metadata.provider if present
+            // @ts-ignore
+            (user?.user_metadata && (user as any).user_metadata.provider) ||
+            'google'
+
           await axios.post(
             `${API_CONFIG.baseURL}/auth/oauth/login`,
             {
               id: user.id,
               email: user.email || '',
               access_token: accessToken,
-              provider: 'google',
+              provider,
               user_metadata: user.user_metadata || {}
             },
             {

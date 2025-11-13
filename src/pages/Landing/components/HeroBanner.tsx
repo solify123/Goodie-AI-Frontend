@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useLandingTab } from '../../../contexts/LandingTabContext'
+import { useLandingTab } from '../../../contexts/GlobalContext'
 import heroMen1 from '../../../assets/images/slider/men/1.jpg'
 import heroMen2 from '../../../assets/images/slider/men/2.jpg'
 import heroMen3 from '../../../assets/images/slider/men/3.jpg'

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Header from './Header'
 import Sidebar from './Sidebar'
-import { useSidebar } from '../../contexts/SidebarContext'
+import { useSidebar } from '../../contexts/GlobalContext'
 import LanguageSelectionPopup from './LanguageSelectionPopup'
 import ContactUsModal from './ContactUsModal'
 

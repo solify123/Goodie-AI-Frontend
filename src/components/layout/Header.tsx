@@ -1,30 +1,26 @@
-import { ChevronDown, User, CreditCard, LogOut, Menu, Diamond, Venus, Mars, Shell } from 'lucide-react'
+import { ChevronDown, User, CreditCard, LogOut, Menu, Venus, Mars, Shell } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { RegisterModal } from '../../pages/auth/register'
 import { LoginModal } from '../../pages/auth/login'
 import { ConfirmEmailModal } from '../../pages/auth/confirm'
 import { useAuth } from '../../hooks/useAuth'
-import { useSidebar } from '../../contexts/SidebarContext'
 import { toast } from 'sonner'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useLandingTab } from '../../contexts/LandingTabContext'
-import { useCreateCharacterGenderOptional } from '../../contexts/CreateCharacterGenderContext'
+import { useSidebar, useLandingTab, useCreateCharacterGenderOptional, useGlobalContext } from '../../contexts/GlobalContext'
 
 const Header = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [showRegisterModal, setShowRegisterModal] = useState(false)
-  const [showLoginModal, setShowLoginModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [registeredEmail, setRegisteredEmail] = useState('')
   const [showProfileMenu, setShowProfileMenu] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
-
-  const { user, isAuthenticated, logout } = useAuth()
+  const { user, isAuthenticated, showLoginModal, setShowLoginModal } = useGlobalContext()
+  const { logout } = useAuth()
   const { toggleSidebar } = useSidebar()
   const { activeTab, setActiveTab } = useLandingTab()
   const createCharacterGender = useCreateCharacterGenderOptional()
-
   const isLandingPage = location.pathname === '/'
   const isCreateCharacterPage = location.pathname.startsWith('/create-character')
 
@@ -38,15 +34,6 @@ const Header = () => {
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  // Check if we should show login modal after OAuth register
-  useEffect(() => {
-    const showLoginModalFlag = localStorage.getItem('show_login_modal')
-    if (showLoginModalFlag === 'true') {
-      localStorage.removeItem('show_login_modal')
-      setShowLoginModal(true)
-    }
   }, [])
 
   const handleSwitchToLogin = () => {
@@ -80,24 +67,16 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await logout()
       setShowProfileMenu(false)
       toast.success('Logged out', {
         description: 'You have been successfully logged out.',
       })
-      navigate("/");
+      await logout()
     } catch (error) {
       toast.error('Logout failed', {
         description: 'An error occurred while logging out.',
       })
     }
-  }
-
-  const getAvatarInitial = () => {
-    if (user?.email) {
-      return user.email.charAt(0).toUpperCase()
-    }
-    return 'U'
   }
 
   return (
@@ -166,17 +145,16 @@ const Header = () => {
                 </button>
               </div>
             )}
-            
+
             {isCreateCharacterPage && createCharacterGender && (
               <div className="hidden md:flex items-center space-x-2 sm:space-x-3 pl-2 sm:pl-3 ml-4 py-2">
                 <button
                   onClick={() => createCharacterGender.setGender('girls')}
                   aria-current={createCharacterGender.gender === 'girls'}
-                  className={`flex items-center rounded-full px-3.5 py-1 cursor-pointer space-x-1.5 sm:space-x-2 font-medium transition-all text-xs font-semibold sm:text-[14px] ${
-                    createCharacterGender.gender === 'girls'
-                      ? 'text-[#009688] bg-[#009688]/10 ring-1 ring-[#009688]/40'
-                      : 'text-gray-300 hover:text-white hover:bg-white/5'
-                  }`}
+                  className={`flex items-center rounded-full px-3.5 py-1 cursor-pointer space-x-1.5 sm:space-x-2 font-medium transition-all text-xs font-semibold sm:text-[14px] ${createCharacterGender.gender === 'girls'
+                    ? 'text-[#009688] bg-[#009688]/10 ring-1 ring-[#009688]/40'
+                    : 'text-gray-300 hover:text-white hover:bg-white/5'
+                    }`}
                 >
                   <Venus />
                   <span>Girls</span>
@@ -184,11 +162,10 @@ const Header = () => {
                 <button
                   onClick={() => createCharacterGender.setGender('guys')}
                   aria-current={createCharacterGender.gender === 'guys'}
-                  className={`flex items-center rounded-full px-3.5 py-1 cursor-pointer space-x-1.5 sm:space-x-2 font-medium transition-all text-xs font-semibold sm:text-[14px] ${
-                    createCharacterGender.gender === 'guys'
-                      ? 'text-[#009688] bg-[#009688]/10 ring-1 ring-[#009688]/40'
-                      : 'text-gray-300 hover:text-white hover:bg-white/5'
-                  }`}
+                  className={`flex items-center rounded-full px-3.5 py-1 cursor-pointer space-x-1.5 sm:space-x-2 font-medium transition-all text-xs font-semibold sm:text-[14px] ${createCharacterGender.gender === 'guys'
+                    ? 'text-[#009688] bg-[#009688]/10 ring-1 ring-[#009688]/40'
+                    : 'text-gray-300 hover:text-white hover:bg-white/5'
+                    }`}
                 >
                   <Mars />
                   <span>Guys</span>
@@ -199,13 +176,13 @@ const Header = () => {
 
           {/* Right Section: Premium Badge + Profile */}
           <div className="flex items-center space-x-1.5 flex-shrink-0 px-3 py-3.5">
-            {isAuthenticated && user ? (
+            {isAuthenticated ? (
               <>
                 {/* Premium Badge */}
-                <button className="cursor-pointer hidden lg:flex items-center space-x-2 bg-gradient-to-r from-[#009688] to-[#00bfa5] text-white px-4 py-2 rounded-md font-medium hover:from-[#00897b] hover:to-[#00a78f] transition-all duration-200 shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]">
+                {/* <button className="cursor-pointer hidden lg:flex items-center space-x-2 bg-gradient-to-r from-[#009688] to-[#00bfa5] text-white px-4 py-2 rounded-md font-medium hover:from-[#00897b] hover:to-[#00a78f] transition-all duration-200 shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]">
                   <Diamond className="w-4 h-4" />
                   <span>Premium 70% OFF</span>
-                </button>
+                </button> */}
 
                 {/* Profile Dropdown */}
                 <div className="relative" ref={dropdownRef}>
@@ -214,8 +191,8 @@ const Header = () => {
                     className="cursor-pointer flex items-center space-x-2 text-white hover:text-[#009688] transition-colors"
                   >
                     {/* Avatar */}
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-br to-[#00bfa5] to-[#00897b] flex items-center justify-center font-semibold shadow-md">
-                      {getAvatarInitial()}
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br to-[#00bfa5] to-[#00897b] flex items-center justify-center font-semibold shadow-md">
+                      {user?.email?.charAt(0).toUpperCase() || 'U'}
                     </div>
                     <span className="hidden md:block font-medium">My Profile</span>
                     <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${showProfileMenu ? 'rotate-180' : ''}`} />

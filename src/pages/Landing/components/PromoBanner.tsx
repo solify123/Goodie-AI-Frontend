@@ -1,5 +1,5 @@
 import { Sparkles } from 'lucide-react'
-import { useLandingTab } from '../../../contexts/LandingTabContext'
+import { useLandingTab } from '../../../contexts/GlobalContext'
 
 const PromoBanner = () => {
   const { activeTab } = useLandingTab()

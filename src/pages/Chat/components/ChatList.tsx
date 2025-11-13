@@ -11,19 +11,19 @@ interface ChatListProps {
 }
 
 const ChatList = ({ chats, activeChatId, onChatSelect, onShowResetModal, onShowDeleteModal }: ChatListProps) => {
-  const [searchQuery, setSearchQuery] = useState('')
+const DEFAULT_IMAGE = 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90'
+const [searchQuery, setSearchQuery] = useState('')
 
   const filteredChats = useMemo(() => {
     if (!searchQuery.trim()) {
       return chats
     }
-    return chats.filter((chat) => chat.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    return chats.filter((chat) => chat.characters.name.toLowerCase().includes(searchQuery.toLowerCase()))
   }, [chats, searchQuery])
 
   const handleClearSearch = () => {
     setSearchQuery('')
   }
-
   return (
     <div className="flex flex-col h-full md:h-auto" style={{ height: 'calc(100vh - 86px)' }}>
       {/* Header */}
@@ -71,31 +71,28 @@ const ChatList = ({ chats, activeChatId, onChatSelect, onShowResetModal, onShowD
               }`}
             >
               <div className="flex items-center space-x-3">
-                {/* Avatar */}
                 <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
                   <img
-                    src={chat.avatar}
-                    alt={chat.name}
+                    src={chat.characters.imgUrl || DEFAULT_IMAGE}
+                    alt={chat.characters.name}
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
-                {/* Chat Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <h3 className="text-white font-bold sm:font-medium text-base sm:text-sm truncate">
-                      {chat.name}
+                      {chat.characters.name}
                     </h3>
                     <div className="flex items-center space-x-2 flex-shrink-0 ml-2">
                       <span className="text-gray-400 text-xs sm:text-xs">
-                        {chat.timestamp}
+                        {new Date(chat.created_at).toLocaleDateString()}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <p className="text-gray-400 text-sm sm:text-sm truncate max-w-[150px]">
-                      {chat.lastMessage}
+                      {chat.messages[chat.messages.length - 1].content}
                     </p>
-                    {/* Action buttons - visible on mobile */}
                     <div className="items-center space-x-1">
                       <button
                         onClick={(e) => {

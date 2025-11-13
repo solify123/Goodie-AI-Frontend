@@ -5,7 +5,7 @@ import ExperienceSection from './components/ExperienceSection'
 import FAQSection from './components/FAQSection'
 import Layout from '../../components/layout'
 import Footer from '../../components/layout/Footer'
-import { useLandingTab } from '../../contexts/LandingTabContext'
+import { useLandingTab } from '../../contexts/GlobalContext'
 import BottomNavigation from '../../components/layout/BottomNavigation'
 import { Mars, Sparkles, Venus } from 'lucide-react'
 

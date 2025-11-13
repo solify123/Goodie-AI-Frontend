@@ -21,7 +21,7 @@ import RelationshipSelection from './components/RelationshipSelection'
 import ClothingSelection from './components/ClothingSelection'
 import Summary from './components/Summary'
 import { toast } from 'sonner'
-import { useCreateCharacterGender } from '../../contexts/CreateCharacterGenderContext'
+import { useCreateCharacterGender } from '../../contexts/GlobalContext'
 import { useCharacter } from '../../hooks/useCharacter'
 
 const CreateCharacterPage = () => {

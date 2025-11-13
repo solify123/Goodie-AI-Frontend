@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import authService, { type User } from '../services/auth.service'
+// import authService, { type User } from '../services/auth.service'
+import { useGlobalContext } from '../contexts/GlobalContext'
+import { authService } from '../services/auth.service'
 
 export const useAuth = () => {
-  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-
+  const { isAuthenticated, setIsAuthenticated, user, setUser } = useGlobalContext()
   useEffect(() => {
     checkAuth()
   }, [])
@@ -13,11 +13,9 @@ export const useAuth = () => {
   const checkAuth = async () => {
     try {
       if (authService.isAuthenticated()) {
+        setIsAuthenticated(true)
         const response = await authService.getCurrentUser()
-        if (response.success && response.data) {
-          setUser(response.data)
-          setIsAuthenticated(true)
-        } else {
+        if (!(response.success && response.data)) {
           setUser(null)
           setIsAuthenticated(false)
         }
@@ -50,9 +48,9 @@ export const useAuth = () => {
   }
 
   const logout = async () => {
-    await authService.logout()
     setUser(null)
     setIsAuthenticated(false)
+    await authService.logout()
   }
 
   return {

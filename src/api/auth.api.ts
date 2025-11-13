@@ -1,5 +1,5 @@
 import axios from 'axios'
-import API_CONFIG from '../config/api.config';
+import API_CONFIG from '../config/api.config'
 
 // Create axios instance with default config
 const authAxios = axios.create({
@@ -35,42 +35,42 @@ const publicAxios = axios.create({
 
 export const authApi = {
   register: async (credentials: { email: string; password: string }) => {
-    const response = await publicAxios.post('/auth/register', credentials)
+    const response = await publicAxios.post('/v1/auth/register', credentials)
     return response.data
   },
 
   login: async (credentials: { email: string; password: string }) => {
-    const response = await publicAxios.post('/auth/login', credentials)
+    const response = await publicAxios.post('/v1/auth/login', credentials)
     return response.data
   },
 
   logout: async () => {
-    const response = await authAxios.post('/auth/logout')
+    const response = await authAxios.post('/v1/auth/logout')
     return response.data
   },
 
   getCurrentUser: async () => {
-    const response = await authAxios.get('/auth/me')
+    const response = await authAxios.get('/v1/auth/me')
     return response.data
   },
 
   resendConfirmation: async (email: string) => {
-    const response = await publicAxios.post('/auth/resend-confirmation', { email })
+    const response = await publicAxios.post('/v1/auth/resend-confirmation', { email })
     return response.data
   },
 
   forgotPassword: async (email: string) => {
-    const response = await publicAxios.post('/auth/forgot-password', { email })
+    const response = await publicAxios.post('/v1/auth/forgot-password', { email })
     return response.data
   },
 
   resetPassword: async (newPassword: string) => {
-    const response = await authAxios.post('/auth/reset-password', { newPassword })
+    const response = await authAxios.post('/v1/auth/reset-password', { newPassword })
     return response.data
   },
 
   oauthCallback: async (provider: string, code: string) => {
-    const response = await publicAxios.get(`/auth/oauth/callback?provider=${provider}&code=${code}`)
+    const response = await publicAxios.get(`/v1/auth/oauth/callback?provider=${provider}&code=${code}`)
     return response.data
   },
 

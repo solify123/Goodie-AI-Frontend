@@ -1,12 +1,15 @@
-import { Phone, MoreVertical, PanelRightClose, ChevronDown, ArrowLeft, Send, ChevronUp, RefreshCw, Trash2 } from 'lucide-react'
+import { Phone, MoreVertical, PanelRightClose, ChevronDown, ArrowLeft, Send, ChevronUp, RefreshCw, Trash2, Loader2 } from 'lucide-react'
 import { useState, useRef, useEffect, type Dispatch, type SetStateAction } from 'react'
 import type { GlobalMessage } from '../../../contexts/GlobalContext'
+import { useMessage } from '../../../hooks/useMessage'
+import { toast } from 'sonner'
 
 interface ConversationProps {
   onBack?: () => void
   selectedChatId?: string | null
   chatName?: string
   chatAvatar?: string
+  characterId?: string
   onToggleProfilePanel?: () => void
   onShowResetModal: () => void
   handleCall?: () => void
@@ -20,6 +23,7 @@ const Conversation = ({
   selectedChatId,
   chatName,
   chatAvatar,
+  characterId,
   onToggleProfilePanel,
   onShowResetModal,
   handleCall,
@@ -27,16 +31,16 @@ const Conversation = ({
   messages,
   setMessages
 }: ConversationProps) => {
+  const { sendMessage } = useMessage()
   const [message, setMessage] = useState('')
   const [showAskDropdown, setShowAskDropdown] = useState(false)
   const [showMoreDropdown, setShowMoreDropdown] = useState(false)
+  const [isSending, setIsSending] = useState(false)
 
   const askDropdownRef = useRef<HTMLDivElement>(null)
   const moreDropdownRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const isProcessingResponseRef = useRef(false)
-
-  const generateMessageId = () => Math.random().toString(36).slice(2, 11)
 
   // Get current time in 12-hour format
   const getCurrentTime = () => {
@@ -48,44 +52,65 @@ const Conversation = ({
     return `${displayHours}:${minutes.toString().padStart(2, '0')}${ampm}`
   }
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  // Convert database message to GlobalMessage format
+  const mapDbMessageToGlobal = (dbMessage: any): GlobalMessage => {
+    return {
+      id: dbMessage.id,
+      type: dbMessage.type === 'ai' ? 'ai' : 'user',
+      content: dbMessage.content,
+      timestamp: dbMessage.timestamp || getCurrentTime(),
+      isImage: dbMessage.isImage || false,
+      imageUrl: dbMessage.imageUrl || undefined,
+      userId: dbMessage.userId || (dbMessage.type === 'ai' ? 'ai' : 'user'),
+    }
+  }
+
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (message.trim() && !isProcessingResponseRef.current) {
-      const userMessageContent = message.trim()
+    if (!message.trim() || isProcessingResponseRef.current || !selectedChatId) return
 
-      // Add user message
-      setMessages((prev) => {
-        const userMessage: GlobalMessage = {
-          id: generateMessageId(),
-          type: 'user',
-          content: userMessageContent,
-          timestamp: getCurrentTime(),
-          userId: 'user',
-        }
-        return [...prev, userMessage]
-      })
+    const userMessageContent = message.trim()
+    setMessage('')
+    setIsSending(true)
+    isProcessingResponseRef.current = true
 
-      // Clear input immediately
-      setMessage('')
+    // Optimistically add user message
+    const tempUserMessageId = `temp-${Date.now()}`
+    const tempUserMessage: GlobalMessage = {
+      id: tempUserMessageId,
+      type: 'user',
+      content: userMessageContent,
+      timestamp: getCurrentTime(),
+      userId: 'user',
+    }
+    setMessages((prev) => [...prev, tempUserMessage])
 
-      // Set processing flag to prevent duplicates
-      isProcessingResponseRef.current = true
+    try {
+      // Send message to backend
+      const response = await sendMessage(selectedChatId, userMessageContent, characterId)
+      if (response.success && response.data) {
+        // Replace temp message with real user message
+        // Add AI response
+        const userMsg = mapDbMessageToGlobal(response.data.userMessage)
+        const aiMsg = mapDbMessageToGlobal(response.data.aiMessage)
 
-      // Add dummy AI response after a short delay (outside of setState callback)
-      setTimeout(() => {
-        setMessages((prevMsgs) => {
-          const aiResponse: GlobalMessage = {
-            id: generateMessageId(),
-            type: 'ai',
-            content: 'Hello you are right now in offline',
-            timestamp: getCurrentTime(),
-            userId: 'ai',
-          }
-          // Reset processing flag after adding response
-          isProcessingResponseRef.current = false
-          return [...prevMsgs, aiResponse]
+        setMessages((prev) => {
+          // Remove temp message and add real messages
+          const filtered = prev.filter((msg) => msg.id !== tempUserMessageId)
+          return [...filtered, userMsg, aiMsg]
         })
-      }, 500)
+      } else {
+        // Remove temp message on error
+        setMessages((prev) => prev.filter((msg) => msg.id !== tempUserMessageId))
+        toast.error(response.error || 'Failed to send message')
+      }
+    } catch (error: any) {
+      // Remove temp message on error
+      setMessages((prev) => prev.filter((msg) => msg.id !== tempUserMessageId))
+      toast.error(error.message || 'Failed to send message')
+    } finally {
+      setIsSending(false)
+      isProcessingResponseRef.current = false
     }
   }
 
@@ -225,6 +250,24 @@ const Conversation = ({
             </div>
           </div>
         ))}
+        {isSending && (
+          <div className="flex justify-start items-start space-x-2">
+            <div className="max-w-[85%] sm:max-w-xs md:max-w-md lg:max-w-lg px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg">
+              <div className="flex items-center space-x-1 bg-[#252525] px-3 py-2 rounded-tl-3xl rounded-tr-3xl rounded-br-3xl rounded-bl-[4px]">
+                {[0, 1, 2].map((dot) => (
+                  <span
+                    key={dot}
+                    className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+                    style={{ animationDelay: `${dot * 0.2}s` }}
+                  />
+                ))}
+              </div>
+              <div className="flex items-center gap-2 mt-1.5 sm:mt-2">
+                <span className="text-xs text-gray-300 sm:text-gray-400 opacity-70">Generating...</span>
+              </div>
+            </div>
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
       {/* Message Input */}
@@ -288,9 +331,14 @@ const Conversation = ({
           {/* Send Button */}
           <button
             type="submit"
-            className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-[#009688] to-[#00bfa5] hover:from-[#00897b] hover:to-[#00a78f] transition-all flex items-center justify-center cursor-pointer shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)]"
+            disabled={isSending || !message.trim()}
+            className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-[#009688] to-[#00bfa5] hover:from-[#00897b] hover:to-[#00a78f] transition-all flex items-center justify-center cursor-pointer shadow-[0_6px_20px_-10px_rgba(0,150,136,0.55)] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Send className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+            {isSending ? (
+              <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-white animate-spin" />
+            ) : (
+              <Send className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+            )}
           </button>
         </form>
       </div>

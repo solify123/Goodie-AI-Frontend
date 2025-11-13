@@ -1,6 +1,11 @@
-import { createContext, useContext, useMemo, useState, useCallback, type ReactNode } from 'react'
+import { createContext, useContext, useMemo, useState, useCallback, useEffect, type ReactNode } from 'react'
+import type { User } from '../services/auth.service'
 
+// ==================== Types ====================
 type MessageType = 'ai' | 'user'
+
+export type CreateCharacterGender = 'girls' | 'guys'
+type LandingTabType = 'guys' | 'girls' | 'anime'
 
 export interface GlobalMessage {
   id: string
@@ -15,163 +20,153 @@ export interface GlobalMessage {
 
 export interface GlobalChat {
   id: string
-  name: string
-  avatar: string
-  description?: string
-  messages: GlobalMessage[]
-  initialMessages: GlobalMessage[]
-  lastMessage: string
-  timestamp: string
+  character_id: string
+  characters: any
+  messages: any[]
+  user_id: string
+  created_at: string
 }
 
 interface CharacterPayload {
   name: string
   avatar: string
   description?: string
+  characterId?: string
 }
 
+// ==================== Context Interface ====================
 interface GlobalContextType {
+  // Chat related
   chats: GlobalChat[]
+  setChats: (chats: GlobalChat[]) => void
   activeChatId: string | null
   setActiveChat: (chatId: string) => void
-  startChatFromCharacter: (payload: CharacterPayload) => string
+  startChatFromCharacter: (payload: CharacterPayload) => void
   appendMessage: (chatId: string, message: Omit<GlobalMessage, 'id' | 'timestamp'> & Partial<Pick<GlobalMessage, 'id' | 'timestamp'>>) => GlobalMessage | null
   updateMessages: (chatId: string, updater: (prev: GlobalMessage[]) => GlobalMessage[]) => void
   resetChat: (chatId: string) => void
   deleteChat: (chatId: string) => void
+  
+  // Sidebar related
+  isCollapsed: boolean
+  toggleSidebar: () => void
+  setIsCollapsed: (isCollapsed: boolean) => void
+  
+  // Landing tab related
+  activeTab: LandingTabType
+  setActiveTab: (tab: LandingTabType) => void
+  
+  // Create character gender related
+  gender: CreateCharacterGender
+  setGender: (gender: CreateCharacterGender) => void
+  
+  // Auth related
+  isAuthenticated: boolean
+  setIsAuthenticated: (isAuthenticated: boolean) => void
+  user: User | null
+  setUser: (user: User | null) => void
+  showLoginModal: boolean
+  setShowLoginModal: (showLoginModal: boolean) => void
 }
 
+// ==================== Context Creation ====================
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined)
 
+// ==================== Helper Functions ====================
 const generateId = () => Math.random().toString(36).slice(2, 11)
 
 const getCurrentTime = () => {
   return new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
 }
 
-const buildInitialMessages = (name: string, description?: string, avatar?: string): GlobalMessage[] => {
-  const intro = description ?? `Hi, I'm ${name}. It's great to meet you!`
-  const timestamp = getCurrentTime()
-  const messages: GlobalMessage[] = [
-    {
-      id: generateId(),
-      type: 'ai',
-      content: intro,
-      timestamp,
-      hasAudio: true,
-      userId: 'ai',
-    },
-  ]
+// const buildInitialMessages = (name: string, description?: string): GlobalMessage[] => {
+//   const intro = description ?? `Hi, I'm ${name}. It's great to meet you!`
+//   const timestamp = getCurrentTime()
+//   const messages: GlobalMessage[] = [
+//     {
+//       id: generateId(),
+//       type: 'ai',
+//       content: intro,
+//       timestamp,
+//       hasAudio: true,
+//       userId: 'ai',
+//     },
+//   ]
 
-  if (avatar) {
-    messages.unshift({
-      id: generateId(),
-      type: 'ai',
-      content: `A portrait of ${name}.`,
-      timestamp,
-      isImage: true,
-      imageUrl: avatar,
-      userId: 'ai',
-    })
-  }
+//   return messages
+// }
 
-  return messages
-}
-
-const defaultArthurMessages: GlobalMessage[] = [
-  {
-    id: generateId(),
-    type: 'ai',
-    content:
-      'An image of a man from the chest down, wearing a white button-up shirt with rolled-up sleeves, white pants, and a black belt with a watch on his left wrist.',
-    timestamp: getCurrentTime(),
-    isImage: true,
-    imageUrl: 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
-    userId: 'ai',
-  },
-  {
-    id: generateId(),
-    type: 'user',
-    content: 'how old are you?',
-    timestamp: getCurrentTime(),
-    userId: 'user',
-  },
-  {
-    id: generateId(),
-    type: 'ai',
-    content:
-      "*laughs softly* Oh, you're curious now huh? Well, let's just say I'm mature enough to know what I want...and young enough to enjoy every minute of it. 😉",
-    timestamp: getCurrentTime(),
-    hasAudio: true,
-    userId: 'ai',
-  },
-  {
-    id: generateId(),
-    type: 'user',
-    content: 'what is your name?',
-    timestamp: getCurrentTime(),
-    userId: 'user',
-  },
-  {
-    id: generateId(),
-    type: 'ai',
-    content: "*chuckles* My name's Arthur Murphy, but most people call me Art. What should I call you, cutie?",
-    timestamp: getCurrentTime(),
-    hasAudio: true,
-    userId: 'ai',
-  },
-]
-
-const buildChat = (name: string, avatar: string, description?: string, initialMessages?: GlobalMessage[]): GlobalChat => {
-  const messages = initialMessages ? initialMessages.map((msg) => ({ ...msg })) : buildInitialMessages(name, description, avatar)
-  const lastMessage = messages[messages.length - 1]?.content ?? ''
-  const timestamp = messages[messages.length - 1]?.timestamp ?? getCurrentTime()
-
+const buildChat = (character_id: string, characters: any, messages: any[], user_id: string, created_at: string): GlobalChat => {
   return {
     id: generateId(),
-    name,
-    avatar,
-    description,
+    character_id,
+    characters,
     messages,
-    initialMessages: messages.map((msg) => ({ ...msg })),
-    lastMessage,
-    timestamp,
+    user_id,
+    created_at,
   }
 }
 
+// ==================== Provider Component ====================
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
-  const [chats, setChats] = useState<GlobalChat[]>([
-    buildChat('Arthur Murphy', 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90', undefined, defaultArthurMessages),
-  ])
+  // Chat state
+  const [chats, setChats] = useState<GlobalChat[]>([])
   const [activeChatId, setActiveChatId] = useState<string | null>(chats[0]?.id ?? null)
 
+  // Sidebar state
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 1280
+    }
+    return false
+  })
+
+  // Landing tab state
+  const [activeTab, setActiveTab] = useState<LandingTabType>('girls')
+
+  // Create character gender state
+  const [gender, setGender] = useState<CreateCharacterGender>('guys')
+
+  // Auth state
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+
+  // Sidebar resize handler
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1280) {
+        setIsCollapsed(true)
+      } else {
+        setIsCollapsed(false)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // ==================== Chat Functions ====================
   const setActiveChat = useCallback((chatId: string) => {
     setActiveChatId(chatId)
   }, [])
 
   const startChatFromCharacter = useCallback(
-    ({ name, avatar, description }: CharacterPayload) => {
-      let chatId = ''
-
+    ({ characterId }: CharacterPayload) => {
       setChats((prev) => {
-        const existing = prev.find((chat) => chat.name.toLowerCase() === name.toLowerCase())
+        // Find existing chat by characterId if provided, otherwise by name
+        const existing = characterId 
+          ? prev.find((chat) => (chat as any).characterId === characterId)
+          : prev.find((chat) => chat.character_id === characterId)
+        
         if (existing) {
-          chatId = existing.id
           return prev
         }
-        const newChat = buildChat(name, avatar, description)
-        chatId = newChat.id
+        const newChat = buildChat(characterId ?? '', [], [], '', new Date().toISOString())       // Add characterId to chat if provided
         return [newChat, ...prev]
       })
-
-      if (!chatId) {
-        return ''
-      }
-
-      setActiveChat(chatId)
-      return chatId
     },
-    [chats, setActiveChat],
+    [],
   )
 
   const appendMessage = useCallback(
@@ -207,12 +202,9 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
       prev.map((chat) => {
         if (chat.id !== chatId) return chat
         const updatedMessages = updater(chat.messages)
-        const last = updatedMessages[updatedMessages.length - 1]
         return {
           ...chat,
           messages: updatedMessages,
-          lastMessage: last?.content ?? chat.lastMessage,
-          timestamp: last?.timestamp ?? chat.timestamp,
         }
       }),
     )
@@ -222,18 +214,15 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     setChats((prev) =>
       prev.map((chat) => {
         if (chat.id !== chatId) return chat
-        const baseMessages = chat.initialMessages.map((msg) => ({
+        const baseMessages = chat.messages.map((msg: any) => ({
           ...msg,
           id: generateId(),
           timestamp: getCurrentTime(),
-          userId: msg.userId,
+          userId: msg.user_id,
         }))
-        const last = baseMessages[baseMessages.length - 1]
         return {
           ...chat,
           messages: baseMessages,
-          lastMessage: last?.content ?? chat.lastMessage,
-          timestamp: last?.timestamp ?? chat.timestamp,
         }
       }),
     )
@@ -250,9 +239,17 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     })
   }, [])
 
+  // ==================== Sidebar Functions ====================
+  const toggleSidebar = useCallback(() => {
+    setIsCollapsed((prev) => !prev)
+  }, [])
+
+  // ==================== Context Value ====================
   const value = useMemo<GlobalContextType>(
     () => ({
+      // Chat
       chats,
+      setChats,
       activeChatId,
       setActiveChat,
       startChatFromCharacter,
@@ -260,13 +257,51 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
       updateMessages,
       resetChat,
       deleteChat,
+      // Sidebar
+      isCollapsed,
+      toggleSidebar,
+      setIsCollapsed,
+      // Landing tab
+      activeTab,
+      setActiveTab,
+      // Create character gender
+      gender,
+      setGender,
+      // Auth
+      isAuthenticated,
+      setIsAuthenticated,
+      user,
+      setUser,
+      showLoginModal,
+      setShowLoginModal
     }),
-    [activeChatId, appendMessage, chats, deleteChat, resetChat, setActiveChat, startChatFromCharacter, updateMessages],
+    [
+      chats,
+      setChats,
+      activeChatId,
+      setActiveChat,
+      startChatFromCharacter,
+      appendMessage,
+      updateMessages,
+      resetChat,
+      deleteChat,
+      isCollapsed,
+      toggleSidebar,
+      activeTab,
+      gender,
+      isAuthenticated,
+      setIsAuthenticated,
+      user,
+      setUser,
+      showLoginModal,
+      setShowLoginModal
+    ],
   )
 
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
 }
 
+// ==================== Main Hook ====================
 export const useGlobalContext = () => {
   const context = useContext(GlobalContext)
   if (!context) {
@@ -275,3 +310,37 @@ export const useGlobalContext = () => {
   return context
 }
 
+// ==================== Specific Hooks for Backward Compatibility ====================
+export const useSidebar = () => {
+  const context = useGlobalContext()
+  return {
+    isCollapsed: context.isCollapsed,
+    toggleSidebar: context.toggleSidebar,
+    setIsCollapsed: context.setIsCollapsed,
+  }
+}
+
+export const useLandingTab = () => {
+  const context = useGlobalContext()
+  return {
+    activeTab: context.activeTab,
+    setActiveTab: context.setActiveTab,
+  }
+}
+
+export const useCreateCharacterGender = () => {
+  const context = useGlobalContext()
+  return {
+    gender: context.gender,
+    setGender: context.setGender,
+  }
+}
+
+export const useCreateCharacterGenderOptional = () => {
+  const context = useContext(GlobalContext)
+  if (!context) return null
+  return {
+    gender: context.gender,
+    setGender: context.setGender,
+  }
+}
