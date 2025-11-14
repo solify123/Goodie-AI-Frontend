@@ -12,6 +12,7 @@ export const useAuth = () => {
 
   const checkAuth = async () => {
     try {
+      console.log("Authenticate ==================>")
       if (authService.isAuthenticated()) {
         setIsAuthenticated(true)
         const response = await authService.getCurrentUser()

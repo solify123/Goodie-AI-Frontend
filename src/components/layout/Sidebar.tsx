@@ -11,6 +11,7 @@ import {
   Mail,
   Award,
   Gem,
+  Home,
 } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSidebar } from '../../contexts/GlobalContext'
@@ -31,7 +32,8 @@ const Sidebar = ({
   const { isCollapsed, setIsCollapsed } = useSidebar()
 
   const mainFeatures = [
-    { name: 'Explore', icon: Compass, path: '/' },
+    { name: 'Explore', icon: Home, path: '/' },
+    { name: 'Discover', icon: Compass, path: '/discover' },
     { name: 'Chat', icon: MessageCircle, path: '/chat' },
     { name: 'Collection', icon: FolderHeart, path: '/collection' },
     { name: 'Generate Image', icon: Image, path: '/generate' },

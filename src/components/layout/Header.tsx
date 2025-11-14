@@ -209,7 +209,7 @@ const Header = () => {
                       <button
                         onClick={() => {
                           setShowProfileMenu(false)
-                          // Navigate to subscription
+                          navigate('/subscriptions')
                         }}
                         className="cursor-pointer w-full flex items-center space-x-3 px-4 py-3 text-white hover:bg-white/10 transition-colors"
                       >
