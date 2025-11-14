@@ -30,11 +30,12 @@ export const messageApi = {
     return response.data
   },
 
-  sendMessage: async (chatId: string, content: string, characterId?: string) => {
+  sendMessage: async (chatId: string, content: string, characterId?: string, timestamp?: string) => {
     const response = await messageAxios.post('/v1/messages/send', {
       chatId,
       content,
-      characterId
+      characterId,
+      timestamp
     })
     return response.data
   },

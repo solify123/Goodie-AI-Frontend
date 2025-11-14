@@ -1,10 +1,12 @@
-import { Phone, MoreVertical, PanelRightClose, ChevronDown, ArrowLeft, Send, ChevronUp, RefreshCw, Trash2, Loader2 } from 'lucide-react'
+import { Phone, MoreVertical, PanelRightClose, ChevronDown, ArrowLeft, Send, ChevronUp, RefreshCw, Trash2, Loader2, Volume2, VolumeX } from 'lucide-react'
 import { useState, useRef, useEffect, type Dispatch, type SetStateAction } from 'react'
 import type { GlobalMessage } from '../../../contexts/GlobalContext'
 import { useMessage } from '../../../hooks/useMessage'
 import { toast } from 'sonner'
+import { API_CONFIG } from '../../../config/api.config'
 
 interface ConversationProps {
+  gender?: string
   onBack?: () => void
   selectedChatId?: string | null
   chatName?: string
@@ -19,6 +21,7 @@ interface ConversationProps {
 }
 
 const Conversation = ({
+  gender,
   onBack,
   selectedChatId,
   chatName,
@@ -41,16 +44,11 @@ const Conversation = ({
   const moreDropdownRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const isProcessingResponseRef = useRef(false)
-
+  const [playingMessageId, setPlayingMessageId] = useState<string | null>(null)
+  const speechUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
+  
   // Get current time in 12-hour format
-  const getCurrentTime = () => {
-    const now = new Date()
-    const hours = now.getHours()
-    const minutes = now.getMinutes()
-    const ampm = hours >= 12 ? 'PM' : 'AM'
-    const displayHours = hours % 12 || 12
-    return `${displayHours}:${minutes.toString().padStart(2, '0')}${ampm}`
-  }
+  const getCurrentTime = () => new Date().toISOString()
 
   // Convert database message to GlobalMessage format
   const mapDbMessageToGlobal = (dbMessage: any): GlobalMessage => {
@@ -61,7 +59,6 @@ const Conversation = ({
       timestamp: dbMessage.timestamp || getCurrentTime(),
       isImage: dbMessage.isImage || false,
       imageUrl: dbMessage.imageUrl || undefined,
-      userId: dbMessage.userId || (dbMessage.type === 'ai' ? 'ai' : 'user'),
     }
   }
 
@@ -76,21 +73,20 @@ const Conversation = ({
 
     // Optimistically add user message
     const tempUserMessageId = `temp-${Date.now()}`
+    const timeStamp = getCurrentTime()
     const tempUserMessage: GlobalMessage = {
       id: tempUserMessageId,
       type: 'user',
       content: userMessageContent,
       timestamp: getCurrentTime(),
-      userId: 'user',
     }
     setMessages((prev) => [...prev, tempUserMessage])
 
     try {
       // Send message to backend
-      const response = await sendMessage(selectedChatId, userMessageContent, characterId)
+      const response = await sendMessage(selectedChatId, userMessageContent, characterId, timeStamp)
       if (response.success && response.data) {
         // Replace temp message with real user message
-        // Add AI response
         const userMsg = mapDbMessageToGlobal(response.data.userMessage)
         const aiMsg = mapDbMessageToGlobal(response.data.aiMessage)
 
@@ -119,6 +115,71 @@ const Conversation = ({
     onConversationDelete?.(selectedChatId ?? null)
   }
 
+  const handlePlayAudio = (messageId: string, content: string) => {
+    // If clicking the same message that's playing, stop it
+    if (playingMessageId === messageId && window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel()
+      setPlayingMessageId(null)
+      speechUtteranceRef.current = null
+      return
+    }
+
+    // Stop any currently playing audio
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel()
+    }
+
+    // Load voices if not already loaded
+    let synthVoices = window.speechSynthesis.getVoices()
+    if (synthVoices.length === 0) {
+      // Wait for voices to load
+      window.speechSynthesis.onvoiceschanged = () => {
+        synthVoices = window.speechSynthesis.getVoices()
+        startSpeech(messageId, content, synthVoices)
+      }
+      return
+    }
+
+    startSpeech(messageId, content, synthVoices)
+  }
+
+  const startSpeech = (messageId: string, content: string, voices: SpeechSynthesisVoice[]) => {
+    let selectVoice = gender === 'girls' ? voices[5] : voices[6]
+
+    // Fallback to first available voice if index doesn't exist
+    if (!selectVoice && voices.length > 0) {
+      selectVoice = voices[0]
+    }
+
+    const speech = new SpeechSynthesisUtterance(content)
+    speech.lang = "en-US"
+    speech.voice = selectVoice || null
+
+    // Set up event handlers
+    speech.onend = () => {
+      setPlayingMessageId(null)
+      speechUtteranceRef.current = null
+    }
+
+    speech.onerror = () => {
+      setPlayingMessageId(null)
+      speechUtteranceRef.current = null
+    }
+
+    speechUtteranceRef.current = speech
+    setPlayingMessageId(messageId)
+    window.speechSynthesis.speak(speech)
+  }
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel()
+      }
+    }
+  }, [])
+
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -138,7 +199,6 @@ const Conversation = ({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-
   return (
     <div className="flex flex-col h-[100vh]" style={window.innerWidth <= 1024 ? { height: "100vh" } : { height: 'calc(100vh - 65px)' }}>
       {/* Header */}
@@ -157,9 +217,7 @@ const Conversation = ({
             {chatAvatar ? (
               <img src={chatAvatar} alt={chatName ?? 'Chat Avatar'} className="w-full h-full object-cover object-top" />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-white">
-                {(chatName ?? 'AI').charAt(0).toUpperCase()}
-              </div>
+              <img src={gender === "girls" ? API_CONFIG.DEFAULT_FEMALE_IMAGE : API_CONFIG.DEFAULT_MALE_IMAGE} alt={chatName ?? 'Chat Avatar'} className="w-full h-full object-cover object-top" />
             )}
           </div>
           <h3 className="text-white font-medium text-base sm:text-base truncate">{chatName ?? 'AI Companion'}</h3>
@@ -235,17 +293,27 @@ const Conversation = ({
                 <p className={`text-sm sm:text-sm leading-relaxed bg-[#252525] p-3 ${msg.type === "ai" ? 'rounded-tl-3xl rounded-tr-3xl rounded-br-3xl rounded-bl-[4px]' : 'rounded-tl-3xl rounded-tr-3xl rounded-bl-3xl rounded-br-[4px] bg-gradient-blue'} `}>{msg.content}</p>
               )}
               <div className={`flex items-center justify-start gap-2 mt-1.5 sm:mt-2`}>
-                {msg.hasAudio && (
-                  <div className="flex items-center space-x-1.5 ml-2 cursor-pointer">
-                    {/* Voice message icon indicator */}
-                    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-purple-500/20 flex items-center justify-center p-1">
-                      <svg className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  </div>
-                )}
-                <span className="text-xs text-gray-300 sm:text-gray-400 opacity-70">{msg.timestamp}</span>
+                <div className="flex items-center space-x-1.5 ml-2 cursor-pointer">
+                  {/* Voice message icon indicator */}
+                  {
+                    msg.type === "ai" && (<div
+                      onClick={() => handlePlayAudio(msg.id, msg.content)}
+                      className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center p-1 transition-colors ${playingMessageId === msg.id
+                          ? 'bg-purple-500/40 animate-pulse'
+                          : 'bg-purple-500/20 hover:bg-purple-500/30'
+                        }`}
+                    >
+                      {playingMessageId === msg.id ? (
+                        <VolumeX className="w-3 h-3 sm:w-4 sm:h-4 text-purple-300" />
+                      ) : (
+                        <Volume2 className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
+                      )}
+                    </div>)
+                  }
+                </div>
+                <span className="text-xs text-gray-300 sm:text-gray-400 opacity-70">
+                  {new Date(msg.timestamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
+                </span>
               </div>
             </div>
           </div>
@@ -263,7 +331,7 @@ const Conversation = ({
                 ))}
               </div>
               <div className="flex items-center gap-2 mt-1.5 sm:mt-2">
-                <span className="text-xs text-gray-300 sm:text-gray-400 opacity-70">Generating...</span>
+                <span className="text-xs text-gray-300 sm:text-gray-400 opacity-70">Typing...</span>
               </div>
             </div>
           </div>

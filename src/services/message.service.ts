@@ -20,9 +20,9 @@ export const messageService = {
     }
   },
 
-  sendMessage: async (chatId: string, content: string, characterId?: string) => {
+  sendMessage: async (chatId: string, content: string, characterId?: string, timestamp?: string) => {
     try {
-      const response = await messageApi.sendMessage(chatId, content, characterId)
+      const response = await messageApi.sendMessage(chatId, content, characterId, timestamp)
       if (response.success) {
         return response
       } else {

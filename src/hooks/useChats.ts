@@ -18,6 +18,15 @@ export const useChats = () => {
             throw new Error(response.error)
         }
     }
+
+    const deleteChat = async (chatId: string) => {
+        const response = await chatsService.deleteChat(chatId)
+        if (response.success) {
+            return response
+        } else {
+            throw new Error(response.error)
+        }
+    }
     
-    return { createChat, getChats }
+    return { createChat, getChats, deleteChat }
 }

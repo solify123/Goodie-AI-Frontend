@@ -36,5 +36,10 @@ export const chatsApi = {
     getChats: async () => {
         const response = await chatsAxios.get('/v1/chats')
         return response.data
+    },
+
+    deleteChat: async (chatId: string) => {
+        const response = await chatsAxios.delete(`/v1/chats/${chatId}`)
+        return response.data
     }
 }

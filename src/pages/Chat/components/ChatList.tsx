@@ -1,6 +1,7 @@
 import { Search, X, RotateCcw, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import type { GlobalChat } from '../../../contexts/GlobalContext'
+import { API_CONFIG } from '../../../config/api.config'
 
 interface ChatListProps {
   chats: GlobalChat[]
@@ -11,8 +12,7 @@ interface ChatListProps {
 }
 
 const ChatList = ({ chats, activeChatId, onChatSelect, onShowResetModal, onShowDeleteModal }: ChatListProps) => {
-const DEFAULT_IMAGE = 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90'
-const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
 
   const filteredChats = useMemo(() => {
     if (!searchQuery.trim()) {
@@ -24,6 +24,7 @@ const [searchQuery, setSearchQuery] = useState('')
   const handleClearSearch = () => {
     setSearchQuery('')
   }
+
   return (
     <div className="flex flex-col h-full md:h-auto" style={{ height: 'calc(100vh - 86px)' }}>
       {/* Header */}
@@ -63,60 +64,59 @@ const [searchQuery, setSearchQuery] = useState('')
           filteredChats.map((chat) => {
             const isActive = chat.id === activeChatId
             return (
-            <div
-              key={chat.id}
-              onClick={() => onChatSelect?.(chat.id)}
-              className={`py-2 px-3 rounded-lg border-b border-gray-800 cursor-pointer transition-colors ${
-                isActive ? 'bg-[#2a2a2a]' : 'hover:bg-[#2a2a2a]'
-              }`}
-            >
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-                  <img
-                    src={chat.characters.imgUrl || DEFAULT_IMAGE}
-                    alt={chat.characters.name}
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-white font-bold sm:font-medium text-base sm:text-sm truncate">
-                      {chat.characters.name}
-                    </h3>
-                    <div className="flex items-center space-x-2 flex-shrink-0 ml-2">
-                      <span className="text-gray-400 text-xs sm:text-xs">
-                        {new Date(chat.created_at).toLocaleDateString()}
-                      </span>
-                    </div>
+              <div
+                key={chat.id}
+                onClick={() => onChatSelect?.(chat.id)}
+                className={`py-2 px-3 rounded-lg border-b border-gray-800 cursor-pointer transition-colors ${isActive ? 'bg-[#2a2a2a]' : 'hover:bg-[#2a2a2a]'
+                  }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                    <img
+                      src={chat.characters.imgUrl || chat.characters.attributes?.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE}
+                      alt={chat.characters.name}
+                      className="w-full h-full object-cover object-top"
+                    />
                   </div>
-                  <div className="flex items-center justify-between">
-                    <p className="text-gray-400 text-sm sm:text-sm truncate max-w-[150px]">
-                      {chat.messages[chat.messages.length - 1].content}
-                    </p>
-                    <div className="items-center space-x-1">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          onShowResetModal?.(chat.id)
-                        }}
-                        className="text-gray-400 hover:text-gray-300 p-1 cursor-pointer"
-                      >
-                        <RotateCcw className="w-4 h-4" />
-                      </button>
-                    <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          onShowDeleteModal?.(chat.id)
-                        }}
-                        className="text-gray-400 hover:text-red-400 p-1 cursor-pointer"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-white font-bold sm:font-medium text-base sm:text-sm truncate">
+                        {chat.characters.name}
+                      </h3>
+                      <div className="flex items-center space-x-2 flex-shrink-0 ml-2">
+                        <span className="text-gray-400 text-xs sm:text-xs">
+                          {new Date(chat.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <p className="text-gray-400 text-sm sm:text-sm truncate max-w-[150px]">
+                        {chat.messages[chat.messages.length - 1]?.content}
+                      </p>
+                      <div className="items-center space-x-1">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            onShowResetModal?.(chat.id)
+                          }}
+                          className="text-gray-400 hover:text-gray-300 p-1 cursor-pointer"
+                        >
+                          <RotateCcw className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            onShowDeleteModal?.(chat.id)
+                          }}
+                          className="text-gray-400 hover:text-red-400 p-1 cursor-pointer"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
             )
           })
         )}

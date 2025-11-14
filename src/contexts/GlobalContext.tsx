@@ -15,7 +15,6 @@ export interface GlobalMessage {
   isImage?: boolean
   imageUrl?: string
   hasAudio?: boolean
-  userId: string
 }
 
 export interface GlobalChat {
@@ -78,23 +77,6 @@ const generateId = () => Math.random().toString(36).slice(2, 11)
 const getCurrentTime = () => {
   return new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
 }
-
-// const buildInitialMessages = (name: string, description?: string): GlobalMessage[] => {
-//   const intro = description ?? `Hi, I'm ${name}. It's great to meet you!`
-//   const timestamp = getCurrentTime()
-//   const messages: GlobalMessage[] = [
-//     {
-//       id: generateId(),
-//       type: 'ai',
-//       content: intro,
-//       timestamp,
-//       hasAudio: true,
-//       userId: 'ai',
-//     },
-//   ]
-
-//   return messages
-// }
 
 const buildChat = (character_id: string, characters: any, messages: any[], user_id: string, created_at: string): GlobalChat => {
   return {
@@ -176,8 +158,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     ) => {
       const messageId = message.id ?? generateId()
       const timestamp = message.timestamp ?? getCurrentTime()
-      const userId = message.userId ?? (message.type === 'ai' ? 'ai' : 'user')
-      const newMessage: GlobalMessage = { ...message, id: messageId, timestamp, userId }
+      const newMessage: GlobalMessage = { ...message, id: messageId, timestamp }
 
       setChats((prev) =>
         prev.map((chat) => {
@@ -214,12 +195,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     setChats((prev) =>
       prev.map((chat) => {
         if (chat.id !== chatId) return chat
-        const baseMessages = chat.messages.map((msg: any) => ({
-          ...msg,
-          id: generateId(),
-          timestamp: getCurrentTime(),
-          userId: msg.user_id,
-        }))
+        const baseMessages = [chat.messages[0]]
         return {
           ...chat,
           messages: baseMessages,

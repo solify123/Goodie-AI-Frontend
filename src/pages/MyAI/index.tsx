@@ -7,16 +7,12 @@ import { useCharacter } from '../../hooks/useCharacter'
 import { toast } from 'sonner'
 import { useGlobalContext } from '../../contexts/GlobalContext'
 import { useChats } from '../../hooks/useChats'
-
-// Default image fallback
-const DEFAULT_IMAGE = 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90'
+import { API_CONFIG } from '../../config/api.config'
 
 interface Character {
   id: string
   name: string
-  attributes?: {
-    age?: number
-  }
+  attributes: any
   age?: number
   introduction?: string
   description?: string
@@ -59,7 +55,7 @@ const AICharacterCard = ({ ai }: { ai: Character }) => {
         toast.success(response.message)
         startChatFromCharacter({
           name: ai.name,
-          avatar: ai.imageUrl || ai.image || DEFAULT_IMAGE,
+          avatar: ai.imageUrl || ai.image || ai?.attributes?.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE,
           description: ai.introduction || ai.description || '',
           characterId: ai.id
         })
@@ -71,7 +67,7 @@ const AICharacterCard = ({ ai }: { ai: Character }) => {
   }
 
   // Get image with fallback to default
-  const characterImage = ai.imageUrl || ai.image || DEFAULT_IMAGE
+  const characterImage = ai.imageUrl || ai.image || ai?.attributes?.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE
 
   // Get age from attributes or direct property
   const characterAge = ai.age || ai.attributes?.age || null
@@ -90,8 +86,8 @@ const AICharacterCard = ({ ai }: { ai: Character }) => {
           onError={(e) => {
             // Fallback to default image if image fails to load
             const target = e.target as HTMLImageElement
-            if (target.src !== DEFAULT_IMAGE) {
-              target.src = DEFAULT_IMAGE
+            if (target.src !== (ai?.attributes?.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE)) {
+              target.src = (ai?.attributes?.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE)
             }
           }}
         />
