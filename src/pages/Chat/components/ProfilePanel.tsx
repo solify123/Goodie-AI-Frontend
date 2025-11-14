@@ -1,9 +1,15 @@
 import { Phone, Sparkles, ChevronLeft, ChevronRight, User, Globe, Heart, Briefcase, Target, Star, Dumbbell } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { BodyTypes } from '../../../config/api.config'
+import { Ethnicities } from '../../../config/api.config'
+import { Relationships } from '../../../config/api.config'
+import { Occupations } from '../../../config/api.config'
+import { Personnel } from '../../../config/api.config'
 
 interface ProfilePanelProps {
   handleCall?: () => void
+  activeChat: any
 }
 
 const InfoItem = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string }) => (
@@ -18,20 +24,25 @@ const InfoItem = ({ icon, label, value }: { icon: React.ReactNode, label: string
   </div>
 )
 
-const ProfilePanel = ({ handleCall }: ProfilePanelProps) => {
-  const images = [
+const ProfilePanel = ({ handleCall, activeChat }: ProfilePanelProps) => {
+  const gender = activeChat.characters.attributes.gender;
+  const male_images = [
     'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
-    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=400&fit=crop&crop=face',
-    'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=300&h=400&fit=crop&crop=face'
+    'https://cdn.candy.ai/330509-7525a5f1-0513-4179-9c19-b00259ec8868-webp90'
+  ]
+
+  const female_images = [
+    'https://goodie-ai.vercel.app/images/girls/1/girl%20(12).png',
+    'https://goodie-ai.vercel.app/images/girls/2/girl%20(12).png'
   ]
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % images.length)
+    setCurrentImageIndex((prev) => (prev + 1) % (gender === "girls" ? female_images : male_images).length)
   }
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
+    setCurrentImageIndex((prev) => (prev - 1 + (gender === "girls" ? female_images : male_images).length) % (gender === "girls" ? female_images : male_images).length)
   }
 
   const navigate = useNavigate()
@@ -47,7 +58,7 @@ const ProfilePanel = ({ handleCall }: ProfilePanelProps) => {
         {/* Character Image Carousel */}
         <div className="relative group">
           <img
-            src={images[currentImageIndex]}
+            src={(gender === "girls" ? female_images : male_images)[currentImageIndex]}
             alt="Charles Weston"
             className="w-full h-120 object-cover object-top"
           />
@@ -69,7 +80,7 @@ const ProfilePanel = ({ handleCall }: ProfilePanelProps) => {
 
           {/* Pagination Dots */}
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-1.5">
-            {images.map((_, index) => (
+            {(gender === "girls" ? female_images : male_images).map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
@@ -85,10 +96,8 @@ const ProfilePanel = ({ handleCall }: ProfilePanelProps) => {
         {/* Character Info */}
         <div className="space-y-4 p-4">
           <div>
-            <h2 className="text-white text-2xl font-bold mb-2">Charles Weston</h2>
-            <p className="text-gray-300 text-sm leading-relaxed">
-              Distinguished and affluent businessman with a passion for luxury and excellence.
-            </p>
+            <h2 className="text-white text-2xl font-bold mb-2">{activeChat.characters.name}</h2>
+            <p className="text-gray-300 text-sm leading-relaxed">{activeChat.characters.introduction}</p>
           </div>
 
           {/* Action Buttons */}
@@ -109,14 +118,14 @@ const ProfilePanel = ({ handleCall }: ProfilePanelProps) => {
           <h3 className="text-white font-semibold">About me:</h3>
 
           <div className="space-y-2.5 grid grid-cols-2 gap-3 lg:gap-6 pb-12 lg:pb-0 w-full overflow-hidden">
-            <InfoItem icon={<User className="w-4 h-4" />} label="AGE" value="49" />
-            <InfoItem icon={<Dumbbell className="w-4 h-4" />} label="BODY" value="Fit" />
-            <InfoItem icon={<Globe className="w-4 h-4" />} label="ETHNICITY" value="Caucasian" />
-            <InfoItem icon={<Globe className="w-4 h-4" />} label="LANGUAGE" value="English" />
-            <InfoItem icon={<Heart className="w-4 h-4" />} label="RELATIONSHIP" value="None" />
-            <InfoItem icon={<Briefcase className="w-4 h-4" />} label="OCCUPATION" value="Successful Entrepreneur" />
-            <InfoItem icon={<Target className="w-4 h-4" />} label="HOBBIES" value="Luxury Travel, Vintage Car Collection" />
-            <InfoItem icon={<Star className="w-4 h-4" />} label="PERSONALITY" value="Charismatic and Confident" />
+            <InfoItem icon={<User className="w-4 h-4" />} label="AGE" value={activeChat.characters.attributes.age} />
+            <InfoItem icon={<Dumbbell className="w-4 h-4" />} label="BODY" value={BodyTypes[activeChat.characters.attributes.bodyType as keyof typeof BodyTypes] || activeChat.characters.attributes.bodyType} />
+            <InfoItem icon={<Globe className="w-4 h-4" />} label="ETHNICITY" value={Ethnicities[activeChat.characters.attributes.ethnicity as keyof typeof Ethnicities] || activeChat.characters.attributes.ethnicity} />
+            <InfoItem icon={<Globe className="w-4 h-4" />} label="LANGUAGE" value={"English"} />
+            <InfoItem icon={<Heart className="w-4 h-4" />} label="RELATIONSHIP" value={Relationships[activeChat.characters.attributes.relationship as keyof typeof Relationships] || activeChat.characters.attributes.relationship} />
+            <InfoItem icon={<Briefcase className="w-4 h-4" />} label="OCCUPATION" value={Occupations[activeChat.characters.attributes.occupation as keyof typeof Occupations] || activeChat.characters.attributes.occupation} />
+            <InfoItem icon={<Target className="w-4 h-4" />} label="HOBBIES" value={activeChat.characters.attributes.hobbies} />
+            <InfoItem icon={<Star className="w-4 h-4" />} label="PERSONALITY" value={Personnel[activeChat.characters.attributes.personality as keyof typeof Personnel] || activeChat.characters.attributes.personality} />
           </div>
         </div>
       </div>

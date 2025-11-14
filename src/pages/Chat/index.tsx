@@ -217,6 +217,7 @@ const ChatPage = () => {
     },
     [activeChatId, updateMessages]
   )
+
   return (
     <Layout hideHeader={hideHeader}>
       <div className="chat-page w-full flex flex-col lg:flex-row h-full pb-0">
@@ -251,6 +252,7 @@ const ChatPage = () => {
                     chatName={activeChat.characters.name}
                     chatAvatar={activeChat.characters.imageUrl}
                     characterId={activeChat.character_id}
+                    gender={activeChat.characters.attributes.gender}
                     onToggleProfilePanel={() => setShowProfilePanel(!showProfilePanel)}
                     onShowResetModal={() => openResetModal(activeChat.id)}
                     handleCall={handleCall}
@@ -261,9 +263,12 @@ const ChatPage = () => {
                 )}
               </div>
               {/* Profile Panel - Hidden on mobile/tablet */}
-              {showProfilePanel && (
+              {showProfilePanel && activeChat && (
                 <div className="hidden xl:block w-[30%] bg-[#1a1a1a] border-l border-gray-800 flex-shrink-0">
-                  <ProfilePanel handleCall={handleCall} />
+                  <ProfilePanel
+                    handleCall={handleCall}
+                    activeChat={activeChat}
+                  />
                 </div>
               )}
             </div>

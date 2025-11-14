@@ -78,23 +78,6 @@ const getCurrentTime = () => {
   return new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
 }
 
-// const buildInitialMessages = (name: string, description?: string): GlobalMessage[] => {
-//   const intro = description ?? `Hi, I'm ${name}. It's great to meet you!`
-//   const timestamp = getCurrentTime()
-//   const messages: GlobalMessage[] = [
-//     {
-//       id: generateId(),
-//       type: 'ai',
-//       content: intro,
-//       timestamp,
-//       hasAudio: true,
-//       userId: 'ai',
-//     },
-//   ]
-
-//   return messages
-// }
-
 const buildChat = (character_id: string, characters: any, messages: any[], user_id: string, created_at: string): GlobalChat => {
   return {
     id: generateId(),
