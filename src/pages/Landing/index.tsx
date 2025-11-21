@@ -8,10 +8,28 @@ import Footer from '../../components/layout/Footer'
 import { useLandingTab } from '../../contexts/GlobalContext'
 import BottomNavigation from '../../components/layout/BottomNavigation'
 import { Mars, Sparkles, Venus } from 'lucide-react'
+import { useCharacter } from '../../hooks/useCharacter'
+import { useEffect, useState } from 'react'
 
 const LandingPage = () => {
   const { activeTab, setActiveTab } = useLandingTab()
+  const { getCharacters } = useCharacter()
+  const [characters, setCharacters] = useState<any[]>([])
 
+  useEffect(() => {
+    const fetchCharacters = async () => {
+      try {
+        const response = await getCharacters()
+        if (response.success && response.data) {
+          setCharacters(Array.isArray(response.data) ? response.data : [])
+        }
+      } catch (error) {
+        console.error('Error fetching characters:', error)
+      }
+    }
+    fetchCharacters()
+  }, [])
+  
   const tabs = [
     { key: 'girls', label: 'Girls', Icon: Venus },
     { key: 'anime', label: 'Anime', Icon: Sparkles },
@@ -22,13 +40,13 @@ const LandingPage = () => {
   const renderCharacterGrid = () => {
     switch (activeTab) {
       case 'girls':
-        return <GirlsGrid />
+        return <GirlsGrid characters={characters} />
       case 'guys':
-        return <MenGrid />
+        return <MenGrid characters={characters} />
       case 'anime':
-        return <AnimeGrid />
+        return <AnimeGrid characters={characters} />
       default:
-        return <GirlsGrid />
+        return <GirlsGrid characters={characters} />
     }
   }
 
