@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 import { useGlobalContext } from '../../contexts/GlobalContext'
 import { useChats } from '../../hooks/useChats'
 import { API_CONFIG } from '../../config/api.config'
+import useMyAI from '../../hooks/useMyAI'
 
 interface Character {
   id: string
@@ -16,8 +17,7 @@ interface Character {
   age?: number
   introduction?: string
   description?: string
-  imageUrl?: string
-  image?: string
+  imgUrl?: string
   isOnline?: boolean
 }
 
@@ -55,7 +55,7 @@ const AICharacterCard = ({ ai }: { ai: Character }) => {
         toast.success(response.message)
         startChatFromCharacter({
           name: ai.name,
-          avatar: ai.imageUrl || ai.image || ai?.attributes?.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE,
+          avatar: ai.imgUrl || (ai?.attributes?.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE),
           description: ai.introduction || ai.description || '',
           characterId: ai.id
         })
@@ -67,8 +67,8 @@ const AICharacterCard = ({ ai }: { ai: Character }) => {
   }
 
   // Get image with fallback to default
-  const characterImage = ai.imageUrl || ai.image || ai?.attributes?.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE
-
+  const characterImage = ai.imgUrl || (ai?.attributes?.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE)
+  
   // Get age from attributes or direct property
   const characterAge = ai.age || ai.attributes?.age || null
 
@@ -119,8 +119,20 @@ const AICharacterCard = ({ ai }: { ai: Character }) => {
 
 const MyAIPage = () => {
   const { getCharacters } = useCharacter()
+  const { getMyAI } = useMyAI()
   const [characters, setCharacters] = useState<Character[]>([])
   const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchMyAI = async () => {
+      const response = await getMyAI()
+      if (response.success && response.data) {
+        console.log(response.data, "response.data")
+        setCharacters(response.data)
+      }
+    }
+    fetchMyAI()
+  }, [])
 
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -136,8 +148,7 @@ const MyAIPage = () => {
             attributes: char.attributes,
             introduction: char.introduction || char.description,
             description: char.description || char.introduction,
-            imageUrl: char.imageUrl || char.image,
-            image: char.image || char.imageUrl,
+            imgUrl: char.imgUrl || char.image,
             isOnline: char.isOnline || false
           }))
           setCharacters(transformedCharacters)

@@ -1,21 +1,10 @@
 import { useNavigate } from 'react-router-dom'
-import girlsData from '../../../config/girls.json' with { type: 'json' }
-import menData from '../../../config/men.json' with { type: 'json' }
-import animeData from '../../../config/anime.json' with { type: 'json' }
 import { useGlobalContext } from '../../../contexts/GlobalContext'
 
-type Character = {
-  name: string
-  age: string
-  description: string
-  defaultImage: string
-  hoverImage: string
-}
-
-const CharacterCard = ({ character, isNew }: { character: Character; isNew: boolean }) => {
+const CharacterCard = ({ character, isNew }: { character: any; isNew: boolean }) => {
   const navigate = useNavigate()
   const { startChatFromCharacter } = useGlobalContext()
-
+  
   const handleClick = () => {
     startChatFromCharacter({
       name: character.name,
@@ -32,12 +21,12 @@ const CharacterCard = ({ character, isNew }: { character: Character; isNew: bool
     >
       <div className="relative w-full aspect-[2/3] overflow-hidden">
         <img
-          src={character.defaultImage}
+          src={character.imgUrl}
           alt={character.name}
           className="absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-500"
         />
         <img
-          src={character.hoverImage}
+          src={character.imgUrl}
           alt={character.name}
           className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         />
@@ -49,10 +38,10 @@ const CharacterCard = ({ character, isNew }: { character: Character; isNew: bool
         )}
         <div className="p-3 sm:p-4 absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
           <h3 className="text-white font-bold text-base md:text-[24px] mb-1 font-semibold">
-            {character.name} <span className="text-white/70 font-semibold">{character.age}</span>
+            {character.name} <span className="text-white/70 font-semibold">{character.attributes.age}</span>
           </h3>
           <p className="text-white/70 text-xs sm:text-sm leading-relaxed line-clamp-2">
-            {character.description}
+            {character.introduction}
           </p>
         </div>
       </div>
@@ -60,7 +49,7 @@ const CharacterCard = ({ character, isNew }: { character: Character; isNew: bool
   )
 }
 
-const CharacterGrid = ({ characters }: { characters: Character[] }) => (
+const CharacterGrid = ({ characters }: { characters: any[] }) => (
   <div className="space-y-8">
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
       {characters.map((character, index) => (
@@ -70,9 +59,9 @@ const CharacterGrid = ({ characters }: { characters: Character[] }) => (
   </div>
 )
 
-export const GirlsGrid = () => <CharacterGrid characters={girlsData as unknown as Character[]} />
-export const MenGrid = () => <CharacterGrid characters={menData as unknown as Character[]} />
-export const AnimeGrid = () => <CharacterGrid characters={animeData as unknown as Character[]} />
+export const GirlsGrid = ({ characters }: { characters: any[] }) => <CharacterGrid characters={characters.filter((character: any) => character.attributes.gender === 'girls' && character.attributes.style === 'realistic')} />
+export const MenGrid = ({ characters }: { characters: any[] }) => <CharacterGrid characters={characters.filter((character: any) => character.attributes.gender === 'guys' && character.attributes.style === 'realistic')} />
+export const AnimeGrid = ({ characters }: { characters: any[] }) => <CharacterGrid characters={characters.filter((character: any) => character.attributes.style === 'anime')} />
 
 export default CharacterGrid
 
