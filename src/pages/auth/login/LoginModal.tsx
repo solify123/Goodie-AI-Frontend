@@ -11,7 +11,7 @@ interface LoginModalProps {
 }
 
 const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) => {
-  const { login } = useAuth()
+  const { login, setIsAuthenticated } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -57,10 +57,13 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        // Where Google/Supabase should redirect after login.
-        redirectTo: `${window.location.origin}`
-      }
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
     })
+
     if (error) {
       console.error('OAuth error', error)
       toast.error('Google sign in failed', {
@@ -68,6 +71,10 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
       })
       localStorage.removeItem('oauth_flow')
     }
+    toast.success('Login successful!', {
+      description: 'Welcome back to Goodie AI',
+    })
+    setIsAuthenticated(true)
     // when using redirect, signInWithOAuth redirects the browser
   }
 
@@ -88,6 +95,9 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
       })
       localStorage.removeItem('oauth_flow')
     }
+    toast.success('Login successful!', {
+      description: 'Welcome back to Goodie AI',
+    })
     // when using redirect, signInWithOAuth redirects the browser
   }
 

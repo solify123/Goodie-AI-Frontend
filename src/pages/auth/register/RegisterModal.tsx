@@ -61,10 +61,13 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegistrationSuccess
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        // Where Google/Supabase should redirect after login.
-        redirectTo: `${window.location.origin}`
-      }
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
     })
+
     if (error) {
       console.error('OAuth error', error)
       toast.error('Google sign in failed', {

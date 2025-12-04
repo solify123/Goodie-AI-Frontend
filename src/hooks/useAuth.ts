@@ -58,6 +58,7 @@ export const useAuth = () => {
     user,
     loading,
     isAuthenticated,
+    setIsAuthenticated,
     login,
     register,
     logout,
