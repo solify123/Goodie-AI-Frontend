@@ -7,6 +7,11 @@ import {
 } from 'lucide-react'
 import { personalities } from './PersonalitySelection'
 import { relationships } from './RelationshipSelection'
+import { API_CONFIG } from '../../../config/api.config'
+import { useChats } from '../../../hooks/useChats'
+import { toast } from 'sonner'
+import { useGlobalContext } from '../../../contexts/GlobalContext'
+import { useNavigate } from 'react-router-dom'
 
 interface SummaryProps {
   characterData: {
@@ -18,6 +23,7 @@ interface SummaryProps {
       value: string
       image: string
     }
+    gender: string
     age: number
     eyeColor: {
       value: string
@@ -45,11 +51,40 @@ interface SummaryProps {
   characterResult?: {
     name: string
     image: string
+    chatProfile: string
+    introduction: string
+    id: string
   } | null
   onCloseModal?: () => void
 }
 
 const Summary = ({ characterData, onPrevious, onComplete, isLoading = false, characterResult = null, onCloseModal }: SummaryProps) => {
+  const navigate = useNavigate()
+  const { startChatFromCharacter } = useGlobalContext()
+  const handleStartChatting = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const { createChat } = useChats()
+    console.log(characterResult, 'characterResult')
+    console.log(characterData)
+    let response = await createChat(characterResult?.introduction || '', characterResult?.id || '')
+    if (response.success) {
+      if (response.message.includes('already exists')) {
+        toast.warning(response.message)
+      } else {
+        toast.success(response.message)
+        startChatFromCharacter({
+          name: characterResult?.name || '',
+          avatar: characterResult?.image || (characterData.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE),
+          description: characterResult?.introduction || '',
+          characterId: characterResult?.id
+        })
+        navigate('/chat')
+      }
+    } else {
+      toast.error(response.message)
+    }
+  }
+
   const getStyleImage = (style: { value: string, image: string }) => {
     return <img src={style.image} alt="Style" className="object-cover object-top rounded-xl lg:w-[120px] lg:h-[120px] w-[88px] h-[88px]" />
   }
@@ -304,12 +339,12 @@ const Summary = ({ characterData, onPrevious, onComplete, isLoading = false, cha
             </button>
 
             {/* Character Image */}
-            <div className="w-full aspect-square relative">
+            <div className="w-full aspect-[1/1] relative">
               {characterResult.image ? (
                 <img
                   src={characterResult.image}
                   alt={characterResult.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-top"
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
@@ -333,7 +368,7 @@ const Summary = ({ characterData, onPrevious, onComplete, isLoading = false, cha
               {/* Action Buttons */}
               <div className="flex flex-col gap-3">
                 <button
-                  onClick={onCloseModal}
+                  onClick={handleStartChatting}
                   className="w-full px-4 py-3 bg-[#009688] text-white rounded-lg hover:bg-[#00897b] transition-colors cursor-pointer font-medium"
                 >
                   Start Chatting

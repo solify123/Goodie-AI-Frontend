@@ -35,7 +35,6 @@ interface CharacterPayload {
 
 // ==================== Context Interface ====================
 interface GlobalContextType {
-  // Chat related
   chats: GlobalChat[]
   setChats: (chats: GlobalChat[]) => void
   activeChatId: string | null
@@ -45,21 +44,13 @@ interface GlobalContextType {
   updateMessages: (chatId: string, updater: (prev: GlobalMessage[]) => GlobalMessage[]) => void
   resetChat: (chatId: string) => void
   deleteChat: (chatId: string) => void
-  
-  // Sidebar related
   isCollapsed: boolean
   toggleSidebar: () => void
   setIsCollapsed: (isCollapsed: boolean) => void
-  
-  // Landing tab related
   activeTab: LandingTabType
   setActiveTab: (tab: LandingTabType) => void
-  
-  // Create character gender related
   gender: CreateCharacterGender
   setGender: (gender: CreateCharacterGender) => void
-  
-  // Auth related
   isAuthenticated: boolean
   setIsAuthenticated: (isAuthenticated: boolean) => void
   user: User | null
@@ -91,11 +82,8 @@ const buildChat = (character_id: string, characters: any, messages: any[], user_
 
 // ==================== Provider Component ====================
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
-  // Chat state
   const [chats, setChats] = useState<GlobalChat[]>([])
   const [activeChatId, setActiveChatId] = useState<string | null>(chats[0]?.id ?? null)
-
-  // Sidebar state
   const [isCollapsed, setIsCollapsed] = useState(() => {
     if (typeof window !== 'undefined') {
       return window.innerWidth < 1280
@@ -103,18 +91,12 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     return false
   })
 
-  // Landing tab state
   const [activeTab, setActiveTab] = useState<LandingTabType>('girls')
-
-  // Create character gender state
   const [gender, setGender] = useState<CreateCharacterGender>('guys')
-
-  // Auth state
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [showLoginModal, setShowLoginModal] = useState(false)
 
-  // Sidebar resize handler
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1280) {
@@ -128,7 +110,6 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // ==================== Chat Functions ====================
   const setActiveChat = useCallback((chatId: string) => {
     setActiveChatId(chatId)
   }, [])
@@ -136,7 +117,6 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const startChatFromCharacter = useCallback(
     ({ characterId }: CharacterPayload) => {
       setChats((prev) => {
-        // Find existing chat by characterId if provided, otherwise by name
         const existing = characterId 
           ? prev.find((chat) => (chat as any).characterId === characterId)
           : prev.find((chat) => chat.character_id === characterId)
@@ -223,7 +203,6 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   // ==================== Context Value ====================
   const value = useMemo<GlobalContextType>(
     () => ({
-      // Chat
       chats,
       setChats,
       activeChatId,
@@ -233,17 +212,13 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
       updateMessages,
       resetChat,
       deleteChat,
-      // Sidebar
       isCollapsed,
       toggleSidebar,
       setIsCollapsed,
-      // Landing tab
       activeTab,
       setActiveTab,
-      // Create character gender
       gender,
       setGender,
-      // Auth
       isAuthenticated,
       setIsAuthenticated,
       user,

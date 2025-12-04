@@ -13,7 +13,6 @@ interface ChatListProps {
 
 const ChatList = ({ chats, activeChatId, onChatSelect, onShowResetModal, onShowDeleteModal }: ChatListProps) => {
   const [searchQuery, setSearchQuery] = useState('')
-
   const filteredChats = useMemo(() => {
     if (!searchQuery.trim()) {
       return chats
@@ -73,7 +72,7 @@ const ChatList = ({ chats, activeChatId, onChatSelect, onShowResetModal, onShowD
                 <div className="flex items-center space-x-3">
                   <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
                     <img
-                      src={chat.characters.imgUrl || chat.characters.attributes?.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE}
+                      src={chat.characters.imgUrl || (chat.characters.attributes?.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE)}
                       alt={chat.characters.name}
                       className="w-full h-full object-cover object-top"
                     />

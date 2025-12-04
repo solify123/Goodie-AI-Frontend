@@ -665,7 +665,7 @@ const ChatPage = () => {
                     onBack={handleBackToChatList}
                     selectedChatId={activeChatId}
                     chatName={activeChat.characters.name}
-                    chatAvatar={activeChat.characters.imageUrl}
+                    chatAvatar={activeChat.characters.imgUrl}
                     characterId={activeChat.character_id}
                     gender={activeChat.characters.attributes.gender}
                     onToggleProfilePanel={() => setShowProfilePanel(!showProfilePanel)}

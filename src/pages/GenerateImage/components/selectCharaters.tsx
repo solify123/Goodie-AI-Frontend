@@ -1,10 +1,9 @@
 import { Sparkles, Shell, ArrowLeft, Venus, Mars, Telescope, HeartPulse, ImageDown } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import girlsData from '../../../config/girls.json' with { type: 'json' }
-import menData from '../../../config/men.json' with { type: 'json' }
-import animeData from '../../../config/anime.json' with { type: 'json' }
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import useMyAI from '../../../hooks/useMyAI'
+import { useGlobalContext } from '../../../contexts/GlobalContext'
 
 interface Character {
   id: number | string
@@ -13,50 +12,46 @@ interface Character {
 }
 
 interface SelectCharatersProps {
+  charactersList: any[]
   setSelectCharater: (value: boolean) => void
   onCharacterSelect: (character: Character) => void
   preselectedId?: number | string | null
 }
 
-const SelectCharaters = ({ setSelectCharater, onCharacterSelect, preselectedId = null }: SelectCharatersProps) => {
+const SelectCharaters = ({ charactersList, setSelectCharater, onCharacterSelect, preselectedId = null }: SelectCharatersProps) => {
+  const { getMyAI } = useMyAI()
+  const { isCollapsed } = useGlobalContext()
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<'girls' | 'anime' | 'guys'>('guys')
   const [activeDiscoveryTab, setActiveDiscoveryTab] = useState<'discovery' | 'myAI'>('discovery')
   const [selectedCharacter, setSelectedCharacter] = useState<number | string | null>(preselectedId)
+  const [myAICharacters, setMyAICharacters] = useState<any[]>([])
+  
 
-  const girlsCharacters = girlsData.map((girl, index) => ({
-    id: index + 1,
-    name: girl.name,
-    image: girl.defaultImage,
-  })) as unknown as Character[]
-  const guysCharacters = menData.map((man, index) => ({
-    id: index + 1,
-    name: man.name,
-    image: man.defaultImage,
-  })) as unknown as Character[]
-  const animeCharacters = animeData.map((anime, index) => ({
-    id: index + 1,
-    name: anime.name,
-    image: anime.defaultImage,
-  })) as unknown as Character[]
-  const myAICharacters = girlsData.map((girl, index) => ({
-    id: index + 1,
-    name: girl.name,
-    image: girl.defaultImage,
-  })) as unknown as Character[]
+
+  // Fetch my AI characters
+  useEffect(() => {
+    const fetchMyAI = async () => {
+      const response = await getMyAI()
+      if (response.success && response.data) {
+        setMyAICharacters(Array.isArray(response.data) ? response.data : [])
+      }
+    }
+    fetchMyAI()
+  }, [])
 
   const getCharactersByTab = () => {
     switch (activeDiscoveryTab) {
       case 'discovery':
         switch (activeTab) {
           case 'girls':
-            return girlsCharacters
+            return charactersList.filter((character) => character.attributes.style === 'realistic' && character.attributes.gender === 'girls')
           case 'anime':
-            return animeCharacters
+            return charactersList.filter((character) => character.attributes.style === 'anime')
           case 'guys':
-            return guysCharacters
+            return charactersList.filter((character) => character.attributes.style === 'realistic' && character.attributes.gender === 'guys')
           default:
-            return guysCharacters
+            return charactersList.filter((character) => character.attributes.style === 'realistic' && character.attributes.gender === 'guys')
         }
       case 'myAI':
         return myAICharacters
@@ -80,7 +75,7 @@ const SelectCharaters = ({ setSelectCharater, onCharacterSelect, preselectedId =
   }
 
   return (
-    <div className="generate-image-page w-full px-4 sm:px-6 lg:px-8 py-6">
+    <div className="generate-image-page w-full px-4 sm:px-6 lg:px-8 pt-6 pb-18">
       {/* Top Navigation Bar */}
       <div className="space-y-7 max-w-5xl mx-auto">
         <div className="flex items-center justify-between">
@@ -209,7 +204,7 @@ const SelectCharaters = ({ setSelectCharater, onCharacterSelect, preselectedId =
                     }`}
                 >
                   <img
-                    src={character.image}
+                    src={character.imgUrl}
                     alt={character.name}
                     className="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-75 transition-all duration-300"
                   />
@@ -228,7 +223,7 @@ const SelectCharaters = ({ setSelectCharater, onCharacterSelect, preselectedId =
               </div>
             ))}
           </div>
-          <div className='fixed bottom-0 left-0 right-0 z-10 md:static p-3 bg-[#131313]/80 border-t border-gray-800 md:border-t-0 md:bg-transparent md:p-0'>
+          <div className={`fixed bottom-0 left-0 right-0 z-10 p-3 bg-[#131313]/80 border-t border-gray-800 ${isCollapsed ? 'ml-16' : 'ml-58'}`}>
             <button
               onClick={() => {
                 if (!selectedCharacter) {

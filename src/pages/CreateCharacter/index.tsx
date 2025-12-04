@@ -23,11 +23,13 @@ import Summary from './components/Summary'
 import { toast } from 'sonner'
 import { useCreateCharacterGender } from '../../contexts/GlobalContext'
 import { useCharacter } from '../../hooks/useCharacter'
+import { useNavigate } from 'react-router-dom'
 
 const CreateCharacterPage = () => {
   const { createCharacter } = useCharacter()
+  const navigate = useNavigate()
   const [isCreatingCharacter, setIsCreatingCharacter] = useState(false)
-  const [characterResult, setCharacterResult] = useState<{ name: string; image: string } | null>(null)
+  const [characterResult, setCharacterResult] = useState<{ name: string; image: string, chatProfile: string, introduction: string, id: string } | null>(null)
   const [currentStep, setCurrentStep] = useState(1)
   const [activeTab, setActiveTab] = useState<'girls' | 'guys'>('girls')
   const { setGender, gender } = useCreateCharacterGender()
@@ -199,7 +201,10 @@ const CreateCharacterPage = () => {
       if (response.success && response.data) {
         setCharacterResult({
           name: response.data.name || 'Character',
-          image: response.data.image || ''
+          image: response.data.image || '',
+          chatProfile: response.data.chatProfile || '',
+          introduction: response.data.introduction || '',
+          id: response.data.id || ''
         })
         toast.success('Character created successfully!')
       } else {
@@ -214,6 +219,8 @@ const CreateCharacterPage = () => {
   }
 
   const handleCloseModal = () => {
+    localStorage.clear()
+    navigate('/')
     setCharacterResult(null)
   }
 

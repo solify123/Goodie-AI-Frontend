@@ -88,12 +88,22 @@ const Conversation = ({
       if (response.success && response.data) {
         // Replace temp message with real user message
         const userMsg = mapDbMessageToGlobal(response.data.userMessage)
-        const aiMsg = mapDbMessageToGlobal(response.data.aiMessage)
+        let aiMsg = null
+        if (response.data.aiMessage) {
+          aiMsg = mapDbMessageToGlobal(response.data.aiMessage)
+        }
+        
+        // Handle image message if it exists
+        const messagesToAdd = [userMsg, aiMsg]
+        if (response.data.imageMessage) {
+          const imageMsg = mapDbMessageToGlobal(response.data.imageMessage)
+          messagesToAdd.push(imageMsg)
+        }
 
         setMessages((prev) => {
           // Remove temp message and add real messages
           const filtered = prev.filter((msg) => msg.id !== tempUserMessageId)
-          return [...filtered, userMsg, aiMsg]
+          return [...filtered, ...messagesToAdd.filter((msg): msg is GlobalMessage => msg !== null)]
         })
       } else {
         // Remove temp message on error
@@ -217,7 +227,7 @@ const Conversation = ({
             {chatAvatar ? (
               <img src={chatAvatar} alt={chatName ?? 'Chat Avatar'} className="w-full h-full object-cover object-top" />
             ) : (
-              <img src={gender === "girls" ? API_CONFIG.DEFAULT_FEMALE_IMAGE : API_CONFIG.DEFAULT_MALE_IMAGE} alt={chatName ?? 'Chat Avatar'} className="w-full h-full object-cover object-top" />
+              <img src={(gender === "girls" ? API_CONFIG.DEFAULT_FEMALE_IMAGE : API_CONFIG.DEFAULT_MALE_IMAGE)} alt={chatName ?? 'Chat Avatar'} className="w-full h-full object-cover object-top" />
             )}
           </div>
           <h3 className="text-white font-medium text-base sm:text-base truncate">{chatName ?? 'AI Companion'}</h3>
@@ -281,8 +291,11 @@ const Conversation = ({
             <div
               className={`max-w-[85%] sm:max-w-xs md:max-w-md lg:max-w-lg px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg`}
             >
-              {msg.isImage ? (
+              {msg.isImage && msg.imageUrl ? (
                 <div className="space-y-2">
+                  {msg.content && (
+                    <p className={`text-sm sm:text-sm leading-relaxed bg-[#252525] p-3 rounded-tl-3xl rounded-tr-3xl rounded-br-3xl rounded-bl-[4px] mb-2`}>{msg.content}</p>
+                  )}
                   <img
                     src={msg.imageUrl}
                     alt="Character"

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Layout from '../../components/layout'
 import { Wand2, RefreshCw, Plus, Camera, Dices, NotebookPen, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -14,20 +14,13 @@ import dot4_2 from '../../assets/images/dots/4-2.svg'
 import dot5_1 from '../../assets/images/dots/5-1.svg'
 import dot5_2 from '../../assets/images/dots/5-2.svg'
 import SelectCharaters from './components/selectCharaters'
-
-
-interface CharacterPayload {
-  id: number | string
-  name: string
-  image: string
-}
+import { useCharacter } from '../../hooks/useCharacter'
+import useGenerateImage from '../../hooks/useGenerateImage'
 
 const GenerateImagePage = () => {
-    const [selectedCharacter, setSelectedCharacter] = useState<CharacterPayload>({
-        id: 1,
-        name: 'Charles Weston',
-        image: 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90'
-    })
+    const { getCharacters } = useCharacter()
+    const { generateImage, getImages } = useGenerateImage()
+    const [selectedCharacter, setSelectedCharacter] = useState<any | null>(null)
     const [prompt, setPrompt] = useState('Standing against a graffiti-covered wall, wearing a leather jacket and ripped jeans, with a rebellious look.')
     const [activeTab, setActiveTab] = useState('Action')
     const [selectedCount, setSelectedCount] = useState(1)
@@ -36,6 +29,47 @@ const GenerateImagePage = () => {
     const [isGenerating, setIsGenerating] = useState(false)
     const [showImageModal, setShowImageModal] = useState(false)
     const [modalImageUrl, setModalImageUrl] = useState<string | null>(null)
+    const [charactersList, setCharactersList] = useState<any[]>([])
+    const [generatedImages, setGeneratedImages] = useState<any[]>([])
+    const [isLoadingImages, setIsLoadingImages] = useState(false)
+
+    // Fetch all characters
+    useEffect(() => {
+        const fetchCharacters = async () => {
+            try {
+                const response = await getCharacters()
+                if (response.success && response.data) {
+                    setSelectedCharacter(response.data[0])
+                    setCharactersList(Array.isArray(response.data) ? response.data : [])
+                }
+            } catch (error) {
+                console.error('Error fetching characters:', error)
+            }
+        }
+        fetchCharacters()
+    }, [])
+
+    // Fetch generated images
+    const fetchGeneratedImages = useCallback(async (characterId?: string) => {
+        setIsLoadingImages(true)
+        try {
+            const response = await getImages(characterId)
+            if (response.success && response.images) {
+                setGeneratedImages(Array.isArray(response.images) ? response.images : [])
+            }
+        } catch (error) {
+            console.error('Error fetching images:', error)
+        } finally {
+            setIsLoadingImages(false)
+        }
+    }, [])
+
+    // Fetch images on mount and when character changes
+    useEffect(() => {
+        if (selectedCharacter?.id) {
+            fetchGeneratedImages(selectedCharacter?.id)
+        }
+    }, [selectedCharacter?.id])
 
     const suggestions = {
         Action: ['Working out', 'Dining', 'Jogging', 'Tanning', 'Sleeping', 'Walking'],
@@ -157,14 +191,29 @@ const GenerateImagePage = () => {
         }
     }
 
-    const handleGenerateImage = () => {
+    const handleGenerateImage = async () => {
         if (isGenerating) return
         setIsGenerating(true)
         // Simulate request
-        setTimeout(() => {
-            toast.warning('Now you are offline!')
+        try {
+            const response = await generateImage(selectedCharacter, prompt, selectedCount)
+            if (response.success) {
+                setShowImageModal(true)
+                setModalImageUrl(response.imageUrl)
+                // Refetch images to get the complete record with proper ID
+                await fetchGeneratedImages(selectedCharacter?.id)
+                setIsGenerating(false)
+                toast.success('Image generated successfully')
+            } else {
+                toast.error(response.error || 'Failed to generate image')
+                setIsGenerating(false)
+            }
+        } catch (error) {
+            console.error('Error generating image:', error)
+            toast.error('Failed to generate image')
+        } finally {
             setIsGenerating(false)
-        }, 1500)
+        }
     }
 
     const handleOpenImage = (src: string) => {
@@ -190,6 +239,7 @@ const GenerateImagePage = () => {
             {
                 selectCharater ? (
                     <SelectCharaters
+                        charactersList={charactersList}
                         setSelectCharater={setSelectCharater}
                         onCharacterSelect={(character) => {
                             setSelectedCharacter(character)
@@ -213,7 +263,7 @@ const GenerateImagePage = () => {
                                     <div className="flex-shrink-0 w-full 2xl:w-1/3">
                                         <div className="relative w-55 mx-auto 2xl:w-full">
                                             <img
-                                                src={selectedCharacter?.image}
+                                                src={selectedCharacter?.imgUrl}
                                                 alt={selectedCharacter?.name}
                                                 className="w-full aspect-[1/1] rounded-[32px] object-cover object-top"
                                             />
@@ -226,7 +276,7 @@ const GenerateImagePage = () => {
                                                 <p className="text-white font-medium">{selectedCharacter?.name}</p>
                                             </div>
                                         </div>
-                                        <div className="w-full text-center py-3 pl-3 pb-3">
+                                        <div className="w-full text-center py-3 pl-3 pb-3 md:hidden block">
                                             <p className="text-white font-medium">{selectedCharacter?.name}</p>
                                         </div>
                                     </div>
@@ -365,16 +415,28 @@ const GenerateImagePage = () => {
                                     </div>
 
                                     {/* Generated Image Display */}
-                                    <div className="space-y-4 w-full grid gap-2 sm:gap-3 md:gap-4 grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 auto-rows-fr">
-                                        <div className="aspect-[2/3] relative rounded-3xl overflow-hidden bg-[#1a1a1a]">
-                                            <img
-                                                src="https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90"
-                                                alt="Generated"
-                                                onClick={() => handleOpenImage('https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90')}
-                                                className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-all duration-300 rounded-3xl"
-                                            />
+                                    {isLoadingImages ? (
+                                        <div className="flex items-center justify-center py-12">
+                                            <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
                                         </div>
-                                    </div>
+                                    ) : generatedImages.length === 0 ? (
+                                        <div className="flex items-center justify-center py-12">
+                                            <p className="text-gray-400 text-sm">No images generated yet. Generate your first image!</p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-4 w-full grid gap-2 sm:gap-3 md:gap-4 grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 auto-rows-fr">
+                                            {generatedImages.map((image) => (
+                                                <div key={image.id || image.image_url} className="aspect-[2/3] relative rounded-3xl overflow-hidden bg-[#1a1a1a]">
+                                                    <img
+                                                        src={image.image_url}
+                                                        alt="Generated"
+                                                        onClick={() => handleOpenImage(image.image_url)}
+                                                        className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-all duration-300 rounded-3xl"
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -386,7 +448,7 @@ const GenerateImagePage = () => {
                                 onClick={handleCloseImage}
                             >
                                 <div
-                                    className="relative max-w-2xl w-[92%] sm:w-[85%] md:w-[75%] lg:w-[60%] rounded-xl overflow-hidden"
+                                    className="relative max-w-2xl w-[92%] sm:w-[85%] md:w-[75%] lg:w-[60%] rounded-xl overflow-hidden aspect-[1/1]"
                                     style={{ animation: 'fadeInScale 0.2s ease-out' }}
                                     onClick={(e) => e.stopPropagation()}
                                 >

@@ -26,6 +26,7 @@ const InfoItem = ({ icon, label, value }: { icon: React.ReactNode, label: string
 
 const ProfilePanel = ({ handleCall, activeChat }: ProfilePanelProps) => {
   const gender = activeChat.characters.attributes.gender;
+  const imgUrl = activeChat.characters.imgUrl;
   const male_images = [
     'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
     'https://cdn.candy.ai/330509-7525a5f1-0513-4179-9c19-b00259ec8868-webp90'
@@ -38,11 +39,11 @@ const ProfilePanel = ({ handleCall, activeChat }: ProfilePanelProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % (gender === "girls" ? female_images : male_images).length)
+    setCurrentImageIndex((prev) => (prev + 1) % (imgUrl ? 1 : (gender === "girls" ? female_images : male_images).length))
   }
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + (gender === "girls" ? female_images : male_images).length) % (gender === "girls" ? female_images : male_images).length)
+    setCurrentImageIndex((prev) => (prev - 1 + (imgUrl ? 1 : (gender === "girls" ? female_images : male_images).length)) % (imgUrl ? 1 : (gender === "girls" ? female_images : male_images).length))
   }
 
   const navigate = useNavigate()
@@ -58,7 +59,7 @@ const ProfilePanel = ({ handleCall, activeChat }: ProfilePanelProps) => {
         {/* Character Image Carousel */}
         <div className="relative group">
           <img
-            src={(gender === "girls" ? female_images : male_images)[currentImageIndex]}
+            src={(imgUrl ? imgUrl : (gender === "girls" ? female_images : male_images)[currentImageIndex])}
             alt="Charles Weston"
             className="w-full h-120 object-cover object-top"
           />
@@ -80,7 +81,7 @@ const ProfilePanel = ({ handleCall, activeChat }: ProfilePanelProps) => {
 
           {/* Pagination Dots */}
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-1.5">
-            {(gender === "girls" ? female_images : male_images).map((_, index) => (
+            {(imgUrl ? [imgUrl] : (gender === "girls" ? female_images : male_images)).map((_, index: number) => (
               <button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}

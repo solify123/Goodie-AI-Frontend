@@ -3,7 +3,6 @@ import { Plus, Loader2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
 import BottomNavigation from '../../components/layout/BottomNavigation'
-import { useCharacter } from '../../hooks/useCharacter'
 import { toast } from 'sonner'
 import { useGlobalContext } from '../../contexts/GlobalContext'
 import { useChats } from '../../hooks/useChats'
@@ -43,7 +42,7 @@ const CreateNewAICard = () => {
 const AICharacterCard = ({ ai }: { ai: Character }) => {
   const navigate = useNavigate()
   const { startChatFromCharacter } = useGlobalContext()
-  
+
   const handleChat = async (e: React.MouseEvent) => {
     e.stopPropagation()
     const { createChat } = useChats()
@@ -68,7 +67,7 @@ const AICharacterCard = ({ ai }: { ai: Character }) => {
 
   // Get image with fallback to default
   const characterImage = ai.imgUrl || (ai?.attributes?.gender !== "girls" ? API_CONFIG.DEFAULT_MALE_IMAGE : API_CONFIG.DEFAULT_FEMALE_IMAGE)
-  
+
   // Get age from attributes or direct property
   const characterAge = ai.age || ai.attributes?.age || null
 
@@ -118,50 +117,25 @@ const AICharacterCard = ({ ai }: { ai: Character }) => {
 }
 
 const MyAIPage = () => {
-  const { getCharacters } = useCharacter()
   const { getMyAI } = useMyAI()
   const [characters, setCharacters] = useState<Character[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchMyAI = async () => {
-      const response = await getMyAI()
-      if (response.success && response.data) {
-        console.log(response.data, "response.data")
-        setCharacters(response.data)
-      }
-    }
-    fetchMyAI()
-  }, [])
-
-  useEffect(() => {
-    const fetchCharacters = async () => {
       try {
         setIsLoading(true)
-        const response = await getCharacters()
+        const response = await getMyAI()
         if (response.success && response.data) {
-          // Transform the data to match our Character interface
-          const transformedCharacters = (Array.isArray(response.data) ? response.data : []).map((char: any) => ({
-            id: char.id || String(Date.now() + Math.random()),
-            name: char.name || 'Character',
-            age: char.attributes?.age || char.age,
-            attributes: char.attributes,
-            introduction: char.introduction || char.description,
-            description: char.description || char.introduction,
-            imgUrl: char.imgUrl || char.image,
-            isOnline: char.isOnline || false
-          }))
-          setCharacters(transformedCharacters)
+          setCharacters(response.data)
         }
-      } catch (error: any) {
-        console.error('Error fetching characters:', error)
-        toast.error('Failed to load characters. Please try again.')
+      } catch (error) {
+        toast.error('Failed to load my AI. Please try again.')
       } finally {
         setIsLoading(false)
       }
     }
-
-    fetchCharacters()
+    fetchMyAI()
   }, [])
 
   return (
@@ -184,14 +158,10 @@ const MyAIPage = () => {
           /* Cards - Horizontal layout */
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 items-start">
             <CreateNewAICard />
-            {characters.length > 0 ? (
+            {characters.length > 0 && (
               characters.map((ai) => (
                 <AICharacterCard key={ai.id} ai={ai} />
               ))
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <p className="text-gray-400 text-lg">No characters yet. Create your first AI character!</p>
-              </div>
             )}
           </div>
         )}

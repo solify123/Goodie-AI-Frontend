@@ -27,6 +27,15 @@ export const useChats = () => {
             throw new Error(response.error)
         }
     }
+
+    const getUserCollection = async () => {
+        const response = await chatsService.getUserCollection()
+        if (response.success) {
+            return response
+        } else {
+            throw new Error(response.error)
+        }
+    }
     
-    return { createChat, getChats, deleteChat }
+    return { createChat, getChats, deleteChat, getUserCollection }
 }

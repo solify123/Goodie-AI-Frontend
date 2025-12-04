@@ -1,44 +1,68 @@
-import { ArrowDownWideNarrow, Image as ImageIcon, ChevronRight, X, ChevronLeft } from 'lucide-react'
+import { ArrowDownWideNarrow, Image as ImageIcon, ChevronRight, X, ChevronLeft, Loader2 } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import Layout from '../../components/layout'
 import BottomNavigation from '../../components/layout/BottomNavigation'
+import { useChats } from '../../hooks/useChats'
+import { toast } from 'sonner'
 
 interface Character {
-  id: number
+  id: number | string
   name: string
   avatar: string
   images: string[]
 }
 
 const CollectionPage = () => {
+  const { getUserCollection } = useChats()
   const [showSortDropdown, setShowSortDropdown] = useState(false)
   const [selectedSort, setSelectedSort] = useState('Newest first')
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null)
   const [showImageModal, setShowImageModal] = useState(false)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [modalCharacter, setModalCharacter] = useState<Character | null>(null)
+  const [characters, setCharacters] = useState<Character[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const sortDropdownRef = useRef<HTMLDivElement>(null)
 
-  // Sample character data
-  const characters: Character[] = [
-    {
-      id: 1,
-      name: 'Charles Weston',
-      avatar: 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
-      images: [
-        'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
-        'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90'
-      ]
-    },
-    {
-      id: 2,
-      name: 'Arthur Murphy',
-      avatar: 'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90',
-      images: [
-        'https://cdn.candy.ai/330509-658c2639-38fc-4af6-8ca2-a5b395b1f228-webp90'
-      ]
+  // Fetch user collection on mount and when sort changes
+  useEffect(() => {
+    const fetchCollection = async () => {
+      setIsLoading(true)
+      try {
+        const response = await getUserCollection()
+        if (response.success && response.data) {
+          // Sort characters based on selected sort option
+          let sortedCharacters = [...response.data]
+          if (selectedSort === 'Newest first') {
+            // Sort by most recent image (assuming images are already sorted by created_at desc)
+            sortedCharacters = sortedCharacters.sort((a, b) => {
+              // Characters with more images are considered "newer"
+              return b.images.length - a.images.length
+            })
+          } else if (selectedSort === 'Oldest first') {
+            sortedCharacters = sortedCharacters.sort((a, b) => {
+              return a.images.length - b.images.length
+            })
+          } else if (selectedSort === 'A-Z by name') {
+            sortedCharacters = sortedCharacters.sort((a, b) => {
+              return a.name.localeCompare(b.name)
+            })
+          }
+          setCharacters(sortedCharacters)
+        } else {
+          setCharacters([])
+        }
+      } catch (error: any) {
+        console.error('Error fetching collection:', error)
+        toast.error('Failed to load collection')
+        setCharacters([])
+      } finally {
+        setIsLoading(false)
+      }
     }
-  ]
+    fetchCollection()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedSort])
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -171,7 +195,6 @@ const CollectionPage = () => {
                         onClick={() => {
                           setSelectedSort(option)
                           setShowSortDropdown(false)
-                          console.log('Sort by:', option)
                         }}
                         className="w-full text-left px-4 py-2 text-sm text-white hover:bg-[#2a2a2a] transition-colors flex items-center space-x-3 cursor-pointer"
                       >
@@ -291,12 +314,10 @@ const CollectionPage = () => {
                     <button
                       key={option}
                       type="button"
-                      onClick={() => {
-                        setSelectedSort(option)
-                        setShowSortDropdown(false)
-                        // Handle sort logic
-                        console.log('Sort by:', option)
-                      }}
+                        onClick={() => {
+                          setSelectedSort(option)
+                          setShowSortDropdown(false)
+                        }}
                       className="w-full text-left px-4 py-2 text-sm text-white hover:bg-[#2a2a2a] transition-colors flex items-center space-x-3 cursor-pointer"
                     >
                       {selectedSort === option && (
@@ -316,7 +337,16 @@ const CollectionPage = () => {
 
         {/* Collection Grid */}
         <div className="pb-24 md:pb-8 px-8 2xl:px-0 grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4 xl:grid-cols-5 md:grid-cols-3 lg:gap-7 lg:max-w-7xl w-full mx-auto" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 6rem)' }}>
-          {characters.map((character) => (
+          {isLoading ? (
+            <div className="col-span-full flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+            </div>
+          ) : characters.length === 0 ? (
+            <div className="col-span-full flex items-center justify-center py-12">
+              <p className="text-gray-400 text-sm">No characters with images in your collection yet. Start chatting and generating images!</p>
+            </div>
+          ) : (
+            characters.map((character) => (
             <div
               key={character.id}
               onClick={() => setSelectedCharacter(character)}
@@ -358,7 +388,8 @@ const CollectionPage = () => {
                 </div>
               </div>
             </div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* Image Modal */}

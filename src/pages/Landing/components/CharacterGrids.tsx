@@ -1,17 +1,27 @@
 import { useNavigate } from 'react-router-dom'
 import { useGlobalContext } from '../../../contexts/GlobalContext'
+import { useChats } from '../../../hooks/useChats'
+import { toast } from 'sonner';
 
 const CharacterCard = ({ character, isNew }: { character: any; isNew: boolean }) => {
   const navigate = useNavigate()
   const { startChatFromCharacter } = useGlobalContext()
-  
-  const handleClick = () => {
-    startChatFromCharacter({
-      name: character.name,
-      avatar: character.defaultImage,
-      description: character.description,
-    })
-    navigate('/chat')
+  const { createChat } = useChats()
+
+  const handleClick = async () => {
+    let response = await createChat(character.introduction || character.description || '', character.id)
+    if (response.success) {
+      toast.success(response.message)
+      startChatFromCharacter({
+        name: character.name,
+        avatar: character.imgUrl,
+        description: character.introduction || character.description,
+        characterId: character.id
+      })
+      navigate('/chat')
+    } else {
+      toast.error(response.message)
+    }
   }
 
   return (
