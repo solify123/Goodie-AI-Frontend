@@ -78,7 +78,7 @@ export const authApi = {
    * Verify token with backend
    */
   verifyToken: async (token: string) => {
-    const response = await publicAxios.get('/auth/oauth/verify-token', {
+    const response = await publicAxios.get('/v1/auth/oauth/verify-token', {
       headers: {
         Authorization: `Bearer ${token}`
       }
