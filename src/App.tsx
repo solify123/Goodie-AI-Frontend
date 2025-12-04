@@ -11,6 +11,7 @@ import MyAIPage from './pages/MyAI'
 import ProfilePage from './pages/auth/profile'
 import SubscriptionsPage from './pages/subscriptions'
 import PrivateRoute from './components/private/PrivateRoute'
+import AuthCallback from './pages/auth/callback'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/discover" element={<PrivateRoute><DiscoverPage /></PrivateRoute>} />
           <Route path="/chat" element={<PrivateRoute><ChatPage /></PrivateRoute>} />
           <Route path="/collection" element={<PrivateRoute><CollectionPage /></PrivateRoute>} />

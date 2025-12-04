@@ -48,6 +48,7 @@ export default function AuthCallback() {
 
         // User is signed in — you can fetch access token if needed:
         const { data: { session } } = await supabase.auth.getSession()
+        console.log(session, 'session')
         const accessToken = session?.access_token
         
         if (!session || !accessToken) {
