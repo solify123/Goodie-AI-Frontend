@@ -39,6 +39,7 @@ export interface ApiResponse<T = any> {
 
 // Helper functions for token management
 const saveAuthData = (authData: AuthResponse) => {
+  console.log(authData, 'authData')
   const { session } = authData
   
   if (session) {
@@ -79,7 +80,6 @@ export const authService = {
   login: async (credentials: LoginCredentials) => {
     try {
       const response = await authApi.login(credentials)
-      
       if (response.success && response.data?.session) {
         saveAuthData(response.data)
       }

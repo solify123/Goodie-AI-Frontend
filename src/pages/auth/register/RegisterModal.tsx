@@ -3,6 +3,7 @@ import { X, Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react'
 import authService from '../../../services/auth.service'
 import { supabase } from '../../../config/supabase.config'
 import { toast } from 'sonner'
+import { useAuth } from '../../../hooks/useAuth'
 
 interface RegisterModalProps {
   isOpen: boolean
@@ -12,6 +13,7 @@ interface RegisterModalProps {
 }
 
 const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegistrationSuccess }: RegisterModalProps) => {
+  const { setIsAuthenticated } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -75,6 +77,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegistrationSuccess
       })
       localStorage.removeItem('oauth_flow')
     }
+    setIsAuthenticated(true)
     // when using redirect, signInWithOAuth redirects the browser
   }
 
@@ -95,6 +98,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegistrationSuccess
       })
       localStorage.removeItem('oauth_flow')
     }
+    setIsAuthenticated(true)
     // when using redirect, signInWithOAuth redirects the browser
   }
 

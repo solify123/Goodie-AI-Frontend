@@ -71,9 +71,6 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
       })
       localStorage.removeItem('oauth_flow')
     }
-    toast.success('Login successful!', {
-      description: 'Welcome back to Goodie AI',
-    })
     setIsAuthenticated(true)
     // when using redirect, signInWithOAuth redirects the browser
   }
