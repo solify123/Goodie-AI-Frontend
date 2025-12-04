@@ -58,7 +58,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
       provider: 'google',
       options: {
         // Where Google/Supabase should redirect after login.
-        redirectTo: `${window.location.origin}`
+        redirectTo: `${window.location.origin}/auth/callback?flow=login`
       }
     })
     if (error) {
@@ -78,7 +78,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) =>
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'discord',
       options: {
-        redirectTo: `${window.location.origin}`
+        redirectTo: `${window.location.origin}/auth/callback?flow=login`
       }
     })
     if (error) {

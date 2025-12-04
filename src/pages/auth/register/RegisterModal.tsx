@@ -62,7 +62,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegistrationSuccess
       provider: 'google',
       options: {
         // Where Google/Supabase should redirect after login.
-        redirectTo: `${window.location.origin}`
+        redirectTo: `${window.location.origin}/auth/callback?flow=register`
       }
     })
     if (error) {
@@ -82,7 +82,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin, onRegistrationSuccess
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'discord',
       options: {
-        redirectTo: `${window.location.origin}`
+        redirectTo: `${window.location.origin}/auth/callback?flow=register`
       }
     })
     if (error) {
