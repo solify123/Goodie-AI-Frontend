@@ -2,8 +2,6 @@ import { useEffect } from 'react'
 import { supabase } from '../../../config/supabase.config'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { authApi } from '../../../api/auth.api'
-import { authService } from '../../../services/auth.service'
-import { useGlobalContext } from '../../../contexts/GlobalContext'
 import axios from 'axios'
 import API_CONFIG from '../../../config/api.config'
 import { toast } from 'sonner'
@@ -11,7 +9,6 @@ import { toast } from 'sonner'
 export default function AuthCallback() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const { setIsAuthenticated, setUser } = useGlobalContext()
 
   useEffect(() => {
     // Two common options: use onAuthStateChange OR exchange the redirect result
@@ -135,41 +132,6 @@ export default function AuthCallback() {
           // Continue even if backend sync fails - user is still authenticated via Supabase
         }
 
-        // Get user data from backend (like email login does)
-        try {
-          const userResponse = await authService.getCurrentUser()
-          if (userResponse.success && userResponse.data) {
-            // Update GlobalContext with user data (same as email login)
-            setUser(userResponse.data)
-            setIsAuthenticated(true)
-            console.log('User authenticated via Google OAuth:', userResponse.data)
-          } else {
-            console.error('Failed to get user from backend:', userResponse)
-            // Still set authenticated if we have Supabase session
-            setIsAuthenticated(true)
-            setUser({
-              id: user.id,
-              email: user.email || '',
-              email_confirmed_at: user.email_confirmed_at || undefined,
-              created_at: user.created_at,
-              updated_at: user.updated_at,
-              user_metadata: user.user_metadata || {}
-            })
-          }
-        } catch (userError) {
-          console.error('Error getting user from backend:', userError)
-          // Still set authenticated if we have Supabase session
-          setIsAuthenticated(true)
-          setUser({
-            id: user.id,
-            email: user.email || '',
-            email_confirmed_at: user.email_confirmed_at || undefined,
-            created_at: user.created_at,
-            updated_at: user.updated_at,
-            user_metadata: user.user_metadata || {}
-          })
-        }
-
         // Clear OAuth flow flag
         localStorage.removeItem('oauth_flow')
 
@@ -181,8 +143,6 @@ export default function AuthCallback() {
           localStorage.removeItem('refresh_token')
           localStorage.removeItem('token_expires_in')
           localStorage.removeItem('user')
-          setIsAuthenticated(false)
-          setUser(null)
           
           // Sign out from Supabase
           await supabase.auth.signOut()
@@ -193,12 +153,18 @@ export default function AuthCallback() {
           // Set flag to show login modal
           localStorage.setItem('show_login_modal', 'true')
           navigate('/')
+          setTimeout(() => {
+            window.location.reload()
+          }, 100)
         } else {
           // After login, go to dashboard (my-ai page)
           toast.success('Login successful!', {
             description: 'Welcome to Goodie AI',
           })
           navigate('/my-ai')
+          setTimeout(() => {
+            window.location.reload()
+          }, 100)
         }
       } catch (err) {
         console.error(err)
